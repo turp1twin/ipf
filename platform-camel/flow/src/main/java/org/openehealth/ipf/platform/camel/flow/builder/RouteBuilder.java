@@ -32,6 +32,7 @@ import org.openehealth.ipf.platform.camel.flow.process.Splitter;
  *
  * @author Martin Krasser
  */
+@Deprecated
 public class RouteBuilder extends org.openehealth.ipf.platform.camel.core.builder.RouteBuilder {
 
     private final RouteHelper routeHelper;
@@ -41,8 +42,8 @@ public class RouteBuilder extends org.openehealth.ipf.platform.camel.core.builde
         routeHelper = new RouteHelper(this);
     }
     
-    public FlowBeginProcessor flowBegin(String identifier) {
-        return routeHelper.flowBegin(identifier);
+    public FlowBeginProcessor flowBegin(String identifier, String replayUri) {
+        return routeHelper.flowBegin(identifier, replayUri);
     }
     
     public FlowEndProcessor flowEnd() {

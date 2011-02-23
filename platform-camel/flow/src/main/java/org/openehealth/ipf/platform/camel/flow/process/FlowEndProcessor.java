@@ -56,7 +56,7 @@ public class FlowEndProcessor extends FlowProcessor {
             LOG.warn("acknowledge flow operation failed", e);
         } catch (Exception e) {
             // keep processing exchange (only log error)
-            LOG.error(e);
+            LOG.error("Unknown exception", e);
         }
         
     }

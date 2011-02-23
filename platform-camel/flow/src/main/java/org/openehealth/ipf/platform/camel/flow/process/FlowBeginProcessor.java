@@ -52,6 +52,8 @@ public class FlowBeginProcessor extends FlowProcessor implements ReplayStrategy 
     
     private String application;
     
+    private String replayEndpoint;
+    
     private int expectedAckCount = FlowInfo.ACK_COUNT_EXPECTED_UNDEFINED;
 
     /**
@@ -103,6 +105,11 @@ public class FlowBeginProcessor extends FlowProcessor implements ReplayStrategy 
         return this;
     }
 
+    public FlowBeginProcessor replayEndpoint(String uri) {
+        this.replayEndpoint = uri;
+        return this;
+    }
+    
     /**
      * Set the application name for the flow.
      * 
@@ -186,12 +193,20 @@ public class FlowBeginProcessor extends FlowProcessor implements ReplayStrategy 
     @Override
     public PlatformPacket replay(PlatformPacket packet) throws Exception {
         Exchange exchange = createExchange(packet);
-        getProcessor().process(exchange);
+        if (getProcessor() != null){
+            //Groovy DSL -> Process the exchange as usual. 
+        	getProcessor().process(exchange);
+        } else {
+            //Java DSL -> In this case getProcessor() return null 
+        	Endpoint endpoint = getCamelContext().getEndpoint(replayEndpoint);
+        	endpoint.createProducer().process(exchange);
+        }
         if (exchange.isFailed()) {
             setFailureHandled(exchange);
             replayErrorProcessor.process(exchange);
         }
         return packet;
+        
     }
 
     /**
@@ -203,12 +218,15 @@ public class FlowBeginProcessor extends FlowProcessor implements ReplayStrategy 
     @Override
     protected void processMessage(PlatformMessage message) {
         try {
-            flowManager.beginFlow(message, application, expectedAckCount);
+        	Long flowId = message.getFlowId(); 
+        	if (flowId == null){
+        		flowManager.beginFlow(message, application, expectedAckCount);
+        	}
         } catch (Exception e) {
             // apply conversions defined in route 
             message.createPacket();
             // keep processing exchange (only log error)
-            LOG.error(e);
+            LOG.error("Flow init failed", e);
         }
         
     }

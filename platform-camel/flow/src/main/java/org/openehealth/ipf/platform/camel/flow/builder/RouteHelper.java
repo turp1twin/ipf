@@ -16,6 +16,7 @@
 package org.openehealth.ipf.platform.camel.flow.builder;
 
 import org.apache.camel.Expression;
+import org.apache.camel.model.ProcessorDefinition;
 import org.apache.camel.spring.SpringRouteBuilder;
 import org.openehealth.ipf.platform.camel.flow.dedupe.Dedupe;
 import org.openehealth.ipf.platform.camel.flow.process.FlowBeginProcessor;
@@ -27,6 +28,7 @@ import org.openehealth.ipf.platform.camel.flow.process.Splitter;
  * Helper class for creating IPF extensions in Java-based route definitions.
  * 
  * @author Martin Krasser
+ * @author Mitko Kolev
  */
 public class RouteHelper {
 
@@ -40,43 +42,104 @@ public class RouteHelper {
         this.routeBuilder = routeBuilder;
     }
     
+    
     /**
+     * Method to initialize flows from the Java DSL.</br>
      * Returns a new {@link FlowBeginProcessor} after assigning the
      * <code>identifier</code>. The returned processor is registered at the
      * {@link org.openehealth.ipf.platform.camel.flow.ReplayStrategyRegistry}.
      * 
      * @param identifier
      *            the identifier to set on the {@link FlowBeginProcessor}.
+     * @param replayUri
+     *            a direct endpoint URI (starting with <code>direct:</code>) from which to
+     *            replay the flows. This is required only for the Java DSL.
      * @return a new {@link FlowBeginProcessor}.
      */
-    public FlowBeginProcessor flowBegin(String identifier) {
-        FlowBeginProcessor processor = routeBuilder.lookup(FlowBeginProcessor.class);
-        processor.identifier(identifier).register();
-        return processor;
+     public FlowBeginProcessor initFlow(String identifier, String replayUri) {
+        if (replayUri == null){
+            throw new IllegalArgumentException("If you use the Java DSL, you must specify a direct endpoint to be used" + 
+            " for replaying flows with id " + identifier);
+        }
+        if (!replayUri.startsWith("direct:")){
+            throw new IllegalArgumentException("Only direct endpoints can be used for replaying flows!");
+        }
+        FlowBeginProcessor result = routeBuilder.lookup(FlowBeginProcessor.class);
+        result.identifier(identifier).replayEndpoint(replayUri);
+        result.register();
+        return result;
     }
     
     /**
+     * Use this processor in a route to acknowledge a flow, started with
+     * {@link #initFlow(String, String)}
+     * 
+     * @return a new {@link FlowEndProcessor} instance
+     */
+    public FlowEndProcessor ackFlow() {
+        return routeBuilder.lookup(FlowEndProcessor.class);
+    }
+    
+    /**
+     * Use this processor in a route to denote a flow, started with
+     * {@link #initFlow(String, String)} as error flow.
+     * 
+     * @see #ackFlow()
+     * @return a new {@link FlowErrorProcessor} instance
+     */
+    public FlowErrorProcessor nakFlow() {
+        return routeBuilder.lookup(FlowErrorProcessor.class);
+    }
+
+    /**
+     * Deprecated, use {@link #initFlow(String, String)}</br>
+     * 
+	 * Returns a new {@link FlowBeginProcessor} after assigning the
+	 * <code>identifier</code>. The returned processor is registered at the
+	 * {@link org.openehealth.ipf.platform.camel.flow.ReplayStrategyRegistry}.
+	 * 
+	 * @param identifier
+	 *            the identifier to set on the {@link FlowBeginProcessor}.
+	 * @return a new {@link FlowBeginProcessor}.
+	 */
+    @Deprecated
+    public FlowBeginProcessor flowBegin(String identifier, String replayUri) {
+    	FlowBeginProcessor result = routeBuilder.lookup(FlowBeginProcessor.class);
+    	result.identifier(identifier).replayEndpoint(replayUri);
+    	result.register();
+    	return result;
+    }
+       
+    /**
+     * Deprecated, use {@link #ackFlow()} instead.</br>
+     * 
      * Returns a new {@link FlowEndProcessor}.
      * 
      * @return a new {@link FlowEndProcessor}.
      */
+    @Deprecated
     public FlowEndProcessor flowEnd() {
         return routeBuilder.lookup(FlowEndProcessor.class);
     }
-
+    
     /**
+     * Deprecated, use {@link #nakFlow()} instead.</br>
+     * 
      * Returns a new {@link FlowErrorProcessor}.
      * 
      * @return a new {@link FlowErrorProcessor}.
      */
+    @Deprecated
     public FlowErrorProcessor flowError() {
         return routeBuilder.lookup(FlowErrorProcessor.class);
     }
 
     /**
-     * Returns a new {@link Dedupe}.
+     * Returns a {@link Dedupe} predicate. You can use the predicate 
+     * in {@link ProcessorDefinition#filter(org.apache.camel.Predicate)} to filter 
+     * flows.
      * 
-     * @return a new {@link Dedupe}.
+     * @return a {@link Dedupe} instance.
      */
     public Dedupe dedupe() {
         return routeBuilder.lookup(Dedupe.class);
