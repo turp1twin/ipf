@@ -16,13 +16,20 @@
 package org.openehealth.ipf.platform.camel.flow.extend;
 
 import org.openehealth.ipf.platform.camel.flow.process.AbstractSplitTest;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
 
 /**
  * @author Jens Riemschneider
  */
 @ContextConfiguration(locations = { "/context-split-route-groovy.xml" })
+@DirtiesContext(classMode=ClassMode.AFTER_CLASS)
+@TestExecutionListeners({DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class})
 public class GroovySplitTest extends AbstractSplitTest {
 
 }

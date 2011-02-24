@@ -16,6 +16,8 @@
 package org.openehealth.ipf.platform.camel.flow.extend;
 
 import org.openehealth.ipf.platform.camel.flow.process.AbstractFlowReplayTest;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ContextConfiguration;
 
 
@@ -23,6 +25,7 @@ import org.springframework.test.context.ContextConfiguration;
  * @author Martin Krasser
  */
 @ContextConfiguration(locations = { "/context-flow-route-groovy.xml" })
+@DirtiesContext(classMode=ClassMode.AFTER_CLASS)
 public class GroovyFlowReplayNoFlowProcessorTest extends AbstractFlowReplayTest {
 
 }

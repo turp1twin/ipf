@@ -13,27 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openehealth.ipf.platform.camel.flow.extend;
-
-import org.apache.camel.EndpointInject;
-import org.apache.camel.component.mock.MockEndpoint;
-import org.junit.After;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.openehealth.ipf.commons.flow.FlowManager;
-import org.openehealth.ipf.commons.flow.transfer.FlowInfo;
-import org.openehealth.ipf.platform.camel.flow.process.AbstractFlowTest;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
+package org.openehealth.ipf.platform.camel.flow.process;
 
 import static org.junit.Assert.assertEquals;
 import static org.openehealth.ipf.platform.camel.flow.PlatformMessage.FLOW_ID_KEY;
 
+import org.apache.camel.EndpointInject;
+import org.apache.camel.component.mock.MockEndpoint;
+import org.junit.After;
+import org.junit.Test;
+import org.openehealth.ipf.commons.flow.FlowManager;
+import org.openehealth.ipf.commons.flow.transfer.FlowInfo;
+import org.springframework.beans.factory.annotation.Autowired;
+
 /**
  * @author Martin Krasser
  */
-@ContextConfiguration(locations = { "/context-flow-route-groovy.xml" })
-public class GroovyFlowTest extends AbstractFlowTest {
+public abstract class AbstractFlowRecepientListTest extends AbstractFlowTest {
 
     @Autowired
     private FlowManager flowManager;

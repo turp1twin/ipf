@@ -31,9 +31,7 @@ import org.openehealth.ipf.commons.flow.history.SplitHistory;
 import org.openehealth.ipf.platform.camel.flow.PlatformMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
 
 /**
@@ -45,7 +43,6 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
         "/context-flow-processor.xml",
         "/context-flow-support.xml"
 })
-@TestExecutionListeners({DependencyInjectionTestExecutionListener.class})
 public abstract class AbstractSplitTest {
 
     @Autowired

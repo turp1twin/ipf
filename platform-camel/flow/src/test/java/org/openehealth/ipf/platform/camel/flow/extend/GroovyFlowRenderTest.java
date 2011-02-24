@@ -29,6 +29,8 @@ import org.junit.runner.RunWith;
 import org.openehealth.ipf.commons.flow.FlowManager;
 import org.openehealth.ipf.commons.flow.transfer.FlowInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -45,6 +47,7 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
         "/context-render-route-groovy.xml"
 })
 @TestExecutionListeners({DependencyInjectionTestExecutionListener.class})
+@DirtiesContext(classMode=ClassMode.AFTER_CLASS)
 public class GroovyFlowRenderTest {
 
     @Autowired

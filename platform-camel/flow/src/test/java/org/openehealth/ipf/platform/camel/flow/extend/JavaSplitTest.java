@@ -15,20 +15,23 @@
  */
 package org.openehealth.ipf.platform.camel.flow.extend;
 
-import org.openehealth.ipf.platform.camel.flow.process.AbstractFlowReplayTest;
+import org.junit.Ignore;
+import org.openehealth.ipf.platform.camel.flow.process.AbstractSplitTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
 
 /**
- * @author Martin Krasser
+ * @author Mitko Kolev
  */
-@ContextConfiguration(locations = { 
-        "/context-flow-processor.xml", 
-        "/context-flow-route-groovy.xml" 
-})
+@ContextConfiguration(locations = { "/context-split-route-java.xml" })
+@Ignore
 @DirtiesContext(classMode=ClassMode.AFTER_CLASS)
-public class GroovyFlowReplayTest extends AbstractFlowReplayTest {
+@TestExecutionListeners({DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class})
+public class JavaSplitTest extends AbstractSplitTest {
 
 }

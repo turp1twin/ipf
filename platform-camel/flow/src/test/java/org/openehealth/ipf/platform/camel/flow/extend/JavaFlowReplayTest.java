@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 the original author or authors.
+ * Copyright 2011 the original author or authors.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,13 +22,13 @@ import org.springframework.test.context.ContextConfiguration;
 
 
 /**
- * @author Martin Krasser
+ * @author Mitko Kolev
  */
 @ContextConfiguration(locations = { 
         "/context-flow-processor.xml", 
-        "/context-flow-route-groovy.xml" 
+        "/context-flow-route-java.xml" 
 })
 @DirtiesContext(classMode=ClassMode.AFTER_CLASS)
-public class GroovyFlowReplayTest extends AbstractFlowReplayTest {
+public class JavaFlowReplayTest extends AbstractFlowReplayTest {
 
 }

@@ -20,9 +20,9 @@ import org.springframework.test.context.ContextConfiguration;
 
 
 /**
- * @author Martin Krasser
+ * @author Mitko Kolev
  */
-@ContextConfiguration(locations = { "/context-flow-route-groovy.xml" })
-public class GroovyFlowSplitTest extends AbstractFlowSplitTest {
+@ContextConfiguration(locations = { "/context-flow-route-java.xml" })
+public class JavaFlowSplitTest extends AbstractFlowSplitTest {
 
 }
