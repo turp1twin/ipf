@@ -15,6 +15,8 @@
  */
 package org.openehealth.ipf.platform.camel.flow.builder;
 
+import javax.naming.OperationNotSupportedException;
+
 import org.apache.camel.Expression;
 import org.apache.camel.model.ProcessorDefinition;
 import org.apache.camel.spring.SpringRouteBuilder;
@@ -33,43 +35,46 @@ import org.openehealth.ipf.platform.camel.flow.process.Splitter;
 public class RouteHelper {
 
     private SpringRouteBuilder routeBuilder;
-    
+
     public RouteHelper(SpringRouteBuilder routeBuilder) {
         this.routeBuilder = routeBuilder;
     }
-    
+
     public void setRouteBuilder(SpringRouteBuilder routeBuilder) {
         this.routeBuilder = routeBuilder;
     }
-    
-    
+
     /**
-     * Method to initialize flows from the Java DSL.</br>
-     * Returns a new {@link FlowBeginProcessor} after assigning the
-     * <code>identifier</code>. The returned processor is registered at the
+     * Method to initialize flows from the Java DSL.</br> Returns a new
+     * {@link FlowBeginProcessor} after assigning the <code>identifier</code>.
+     * The returned processor is registered at the
      * {@link org.openehealth.ipf.platform.camel.flow.ReplayStrategyRegistry}.
      * 
      * @param identifier
      *            the identifier to set on the {@link FlowBeginProcessor}.
      * @param replayUri
-     *            a direct endpoint URI (starting with <code>direct:</code>) from which to
-     *            replay the flows. This is required only for the Java DSL.
+     *            a direct endpoint URI (starting with <code>direct:</code>)
+     *            from which to replay the flows. This is required only for the
+     *            Java DSL.
      * @return a new {@link FlowBeginProcessor}.
      */
-     public FlowBeginProcessor initFlow(String identifier, String replayUri) {
-        if (replayUri == null){
-            throw new IllegalArgumentException("If you use the Java DSL, you must specify a direct endpoint to be used" + 
-            " for replaying flows with id " + identifier);
+    public FlowBeginProcessor initFlow(String identifier, String replayUri) {
+        if (replayUri == null) {
+            throw new IllegalArgumentException(
+                    "If you use the Java DSL, you must specify a direct endpoint to be used"
+                            + " for replaying flows with id " + identifier);
         }
-        if (!replayUri.startsWith("direct:")){
-            throw new IllegalArgumentException("Only direct endpoints can be used for replaying flows!");
+        if (!replayUri.startsWith("direct:")) {
+            throw new IllegalArgumentException(
+                    "Only direct endpoints can be used for replaying flows!");
         }
-        FlowBeginProcessor result = routeBuilder.lookup(FlowBeginProcessor.class);
+        FlowBeginProcessor result = routeBuilder
+                .lookup(FlowBeginProcessor.class);
         result.identifier(identifier).replayEndpoint(replayUri);
         result.register();
         return result;
     }
-    
+
     /**
      * Use this processor in a route to acknowledge a flow, started with
      * {@link #initFlow(String, String)}
@@ -79,7 +84,7 @@ public class RouteHelper {
     public FlowEndProcessor ackFlow() {
         return routeBuilder.lookup(FlowEndProcessor.class);
     }
-    
+
     /**
      * Use this processor in a route to denote a flow, started with
      * {@link #initFlow(String, String)} as error flow.
@@ -94,22 +99,23 @@ public class RouteHelper {
     /**
      * Deprecated, use {@link #initFlow(String, String)}</br>
      * 
-	 * Returns a new {@link FlowBeginProcessor} after assigning the
-	 * <code>identifier</code>. The returned processor is registered at the
-	 * {@link org.openehealth.ipf.platform.camel.flow.ReplayStrategyRegistry}.
-	 * 
-	 * @param identifier
-	 *            the identifier to set on the {@link FlowBeginProcessor}.
-	 * @return a new {@link FlowBeginProcessor}.
-	 */
+     * Returns a new {@link FlowBeginProcessor} after assigning the
+     * <code>identifier</code>. The returned processor is registered at the
+     * {@link org.openehealth.ipf.platform.camel.flow.ReplayStrategyRegistry}.
+     * 
+     * @param identifier
+     *            the identifier to set on the {@link FlowBeginProcessor}.
+     * @return a new {@link FlowBeginProcessor}.
+     */
     @Deprecated
     public FlowBeginProcessor flowBegin(String identifier, String replayUri) {
-    	FlowBeginProcessor result = routeBuilder.lookup(FlowBeginProcessor.class);
-    	result.identifier(identifier).replayEndpoint(replayUri);
-    	result.register();
-    	return result;
+        FlowBeginProcessor result = routeBuilder
+                .lookup(FlowBeginProcessor.class);
+        result.identifier(identifier).replayEndpoint(replayUri);
+        result.register();
+        return result;
     }
-       
+
     /**
      * Deprecated, use {@link #ackFlow()} instead.</br>
      * 
@@ -121,7 +127,7 @@ public class RouteHelper {
     public FlowEndProcessor flowEnd() {
         return routeBuilder.lookup(FlowEndProcessor.class);
     }
-    
+
     /**
      * Deprecated, use {@link #nakFlow()} instead.</br>
      * 
@@ -135,8 +141,8 @@ public class RouteHelper {
     }
 
     /**
-     * Returns a {@link Dedupe} predicate. You can use the predicate 
-     * in {@link ProcessorDefinition#filter(org.apache.camel.Predicate)} to filter 
+     * Returns a {@link Dedupe} predicate. You can use the predicate in
+     * {@link ProcessorDefinition#filter(org.apache.camel.Predicate)} to filter
      * flows.
      * 
      * @return a {@link Dedupe} instance.
@@ -144,20 +150,26 @@ public class RouteHelper {
     public Dedupe dedupe() {
         return routeBuilder.lookup(Dedupe.class);
     }
-    
+
     // ----------------------------------------------------------------
-    //  Flow management-specific message processors
+    // Flow management-specific message processors
     // ----------------------------------------------------------------
-    
+
     /**
+     * Deprecated. The Splitter is not supported in the Java DSL.
+     * 
      * Returns a new {@link Splitter}
      * 
      * @param splitRule
-     *          expression that performs the splitting of the original exchange
+     *            expression that performs the splitting of the original
+     *            exchange
      * @return the new {@link Splitter}
      */
+    @Deprecated
     public Splitter split(Expression splitRule) {
-        return new Splitter(splitRule, null);
+        throw new RuntimeException(new OperationNotSupportedException(
+                "The IPF Splitter is not supported in Java!"));
+        // return new Splitter(splitRule, null);
     }
 
 }
