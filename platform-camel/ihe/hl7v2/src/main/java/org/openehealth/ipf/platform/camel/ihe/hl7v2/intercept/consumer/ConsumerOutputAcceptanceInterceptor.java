@@ -17,7 +17,7 @@ package org.openehealth.ipf.platform.camel.ihe.hl7v2.intercept.consumer;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.openehealth.ipf.platform.camel.ihe.hl7v2.Hl7v2ConfigurationHolder;
+import org.openehealth.ipf.commons.ihe.hl7v2.Hl7v2ConfigurationHolder;
 import org.openehealth.ipf.platform.camel.ihe.hl7v2.intercept.AbstractHl7v2Interceptor;
 import org.openehealth.ipf.platform.camel.ihe.hl7v2.intercept.AcceptanceInterceptor;
 import org.openehealth.ipf.platform.camel.ihe.hl7v2.intercept.AcceptanceInterceptorUtils;

@@ -26,6 +26,7 @@ import org.openehealth.ipf.commons.ihe.ws.ItiClientFactory;
 import org.openehealth.ipf.commons.ihe.ws.ItiServiceFactory;
 import org.openehealth.ipf.commons.ihe.ws.server.JettyServer;
 import org.openehealth.ipf.commons.ihe.ws.server.ServletServer;
+import org.openehealth.ipf.commons.ihe.xds.XdsTransactionConfigurations;
 import org.openehealth.ipf.commons.ihe.xds.core.SampleData;
 import org.openehealth.ipf.commons.ihe.xds.core.XdsClientFactory;
 import org.openehealth.ipf.commons.ihe.xds.core.XdsServiceFactory;
@@ -84,7 +85,7 @@ public class CxfEndpointTest {
         runRequestAndExpectFailure();
 
         ItiServiceFactory serviceFactory = new XdsServiceFactory(
-                Iti42Component.WS_CONFIG, null, "/iti-42", null);
+                XdsTransactionConfigurations.ITI_42_CONFIG, null, "/iti-42", null);
         ServerFactoryBean factory = serviceFactory.createServerFactory(MyIti42.class);
         Server serviceServer = factory.create();
 
@@ -113,7 +114,7 @@ public class CxfEndpointTest {
 
     private Response runRequest() {
         ItiClientFactory clientFactory = new XdsClientFactory(
-                Iti42Component.WS_CONFIG, null, "http://localhost:" + port + "/iti-42", null);
+                XdsTransactionConfigurations.ITI_42_CONFIG, null, "http://localhost:" + port + "/iti-42", null);
 
         Iti42PortType client = (Iti42PortType) clientFactory.getClient();
         RegisterDocumentSet request = SampleData.createRegisterDocumentSet();

@@ -16,7 +16,6 @@
 package org.openehealth.ipf.platform.camel.ihe.pixpdq.iti8
 
 import org.openehealth.ipf.platform.camel.ihe.mllp.core.MllpAuditDataset;
-import org.openehealth.ipf.platform.camel.ihe.mllp.core.AuditUtils;
 import org.openehealth.ipf.commons.ihe.atna.AuditorManager;
 
 /**

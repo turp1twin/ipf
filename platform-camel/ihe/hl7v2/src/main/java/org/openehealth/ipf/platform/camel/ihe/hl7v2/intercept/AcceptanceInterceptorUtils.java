@@ -16,10 +16,9 @@
 package org.openehealth.ipf.platform.camel.ihe.hl7v2.intercept;
 
 import org.apache.camel.Exchange;
+import org.openehealth.ipf.commons.ihe.hl7v2.AcceptanceCheckUtils;
 import org.openehealth.ipf.modules.hl7dsl.MessageAdapter;
 import org.openehealth.ipf.platform.camel.core.util.Exchanges;
-import org.openehealth.ipf.platform.camel.ihe.hl7v2.AcceptanceCheckUtils;
-
 
 /**
  * Generic functionality for HL7v2 acceptance checking

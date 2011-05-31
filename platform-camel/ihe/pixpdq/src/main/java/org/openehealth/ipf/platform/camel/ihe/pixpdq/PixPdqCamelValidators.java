@@ -15,18 +15,13 @@
  */
 package org.openehealth.ipf.platform.camel.ihe.pixpdq;
 
+import ca.uhn.hl7v2.parser.Parser;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.openehealth.ipf.commons.ihe.hl7v2.Hl7v2TransactionConfigurations;
 import org.openehealth.ipf.commons.ihe.pixpdq.MessageAdapterValidator;
 import org.openehealth.ipf.modules.hl7dsl.MessageAdapter;
 import org.openehealth.ipf.platform.camel.ihe.hl7v2.Hl7v2MarshalUtils;
-import org.openehealth.ipf.platform.camel.ihe.pixpdq.iti10.Iti10Component;
-import org.openehealth.ipf.platform.camel.ihe.pixpdq.iti21.Iti21Component;
-import org.openehealth.ipf.platform.camel.ihe.pixpdq.iti22.Iti22Component;
-import org.openehealth.ipf.platform.camel.ihe.pixpdq.iti8.Iti8Component;
-import org.openehealth.ipf.platform.camel.ihe.pixpdq.iti9.Iti9Component;
-
-import ca.uhn.hl7v2.parser.Parser;
 
 /**
  * Validating processors for MLLP-based IPF IHE components.
@@ -35,11 +30,11 @@ import ca.uhn.hl7v2.parser.Parser;
 abstract public class PixPdqCamelValidators {
     private static final MessageAdapterValidator VALIDATOR = new MessageAdapterValidator(); 
 
-    private static final Parser ITI_8_PARSER  = Iti8Component.CONFIGURATION.getParser();
-    private static final Parser ITI_9_PARSER  = Iti9Component.CONFIGURATION.getParser();
-    private static final Parser ITI_10_PARSER = Iti10Component.CONFIGURATION.getParser();
-    private static final Parser ITI_21_PARSER = Iti21Component.CONFIGURATION.getParser();
-    private static final Parser ITI_22_PARSER = Iti22Component.CONFIGURATION.getParser();
+    private static final Parser ITI_8_PARSER  = Hl7v2TransactionConfigurations.ITI_8_CONFIG.getParser();
+    private static final Parser ITI_9_PARSER  = Hl7v2TransactionConfigurations.ITI_9_CONFIG.getParser();
+    private static final Parser ITI_10_PARSER = Hl7v2TransactionConfigurations.ITI_10_CONFIG.getParser();
+    private static final Parser ITI_21_PARSER = Hl7v2TransactionConfigurations.ITI_21_CONFIG.getParser();
+    private static final Parser ITI_22_PARSER = Hl7v2TransactionConfigurations.ITI_22_CONFIG.getParser();
     
     private static final Processor ITI_8_VALIDATOR  = validatingProcessor(ITI_8_PARSER);
     private static final Processor ITI_9_VALIDATOR  = validatingProcessor(ITI_9_PARSER);

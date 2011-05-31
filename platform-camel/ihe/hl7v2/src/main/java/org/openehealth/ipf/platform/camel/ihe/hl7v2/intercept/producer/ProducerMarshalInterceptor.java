@@ -18,11 +18,10 @@ package org.openehealth.ipf.platform.camel.ihe.hl7v2.intercept.producer;
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;
 import org.apache.camel.Producer;
+import org.openehealth.ipf.commons.ihe.hl7v2.Hl7v2ConfigurationHolder;
 import org.openehealth.ipf.modules.hl7dsl.MessageAdapter;
 import org.openehealth.ipf.modules.hl7dsl.MessageAdapters;
 import org.openehealth.ipf.platform.camel.core.util.Exchanges;
-import org.openehealth.ipf.platform.camel.ihe.hl7v2.Hl7v2ConfigurationHolder;
-
 
 /**
  * Producer-side Hl7 marshalling/unmarshalling interceptor.

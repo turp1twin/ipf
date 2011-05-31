@@ -20,11 +20,12 @@ import org.junit.Test;
 import org.openehealth.ipf.modules.hl7dsl.MessageAdapter;
 import org.openehealth.ipf.modules.hl7dsl.MessageAdapters
 import org.openehealth.ipf.commons.ihe.hl7v3.Hl7v3Validator
-import org.openehealth.ipf.commons.ihe.hl7v3.Hl7v3ValidationProfiles;
+import org.openehealth.ipf.commons.ihe.pixpdqv3.Hl7v3TransactionConfigurations
+import org.openehealth.ipf.commons.ihe.core.IpfInteractionId;
 
 /**
  * Test for PIX Query translator.
- * @author Marek Václavík, Dmytro Rud
+ * @author Marek Vï¿½clavï¿½k, Dmytro Rud
  */
 class PixQueryTranslatorTest extends Hl7TranslationTestContainer {
  
@@ -53,6 +54,7 @@ class PixQueryTranslatorTest extends Hl7TranslationTestContainer {
 	    String v2response = getFileContent('ok-4', false, false)
 		MessageAdapter abrakadapter = MessageAdapters.make(v2response)
 		String v3response = v2tov3Translator.translateV2toV3(abrakadapter, v3request)
-        new Hl7v3Validator().validate(v3response, Hl7v3ValidationProfiles.RESPONSE_TYPES['iti-45'])
+        new Hl7v3Validator().validate(v3response,
+                Hl7v3TransactionConfigurations.getResponseValidationProfiles(IpfInteractionId.ITI_45))
 	}
 }

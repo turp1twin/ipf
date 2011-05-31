@@ -19,11 +19,10 @@ import org.apache.camel.Exchange;
 import org.apache.camel.ExchangePattern;
 import org.apache.camel.Producer;
 import org.apache.commons.lang.Validate;
+import org.openehealth.ipf.commons.ihe.hl7v2.Hl7v2ConfigurationHolder;
 import org.openehealth.ipf.modules.hl7dsl.MessageAdapter;
-import org.openehealth.ipf.platform.camel.ihe.hl7v2.Hl7v2AdaptingException;
-import org.openehealth.ipf.platform.camel.ihe.hl7v2.Hl7v2ConfigurationHolder;
+import org.openehealth.ipf.commons.ihe.hl7v2.Hl7v2AdaptingException;
 import org.openehealth.ipf.platform.camel.ihe.hl7v2.Hl7v2MarshalUtils;
-
 
 /**
  * Producer-side Camel interceptor which creates a {@link MessageAdapter} 

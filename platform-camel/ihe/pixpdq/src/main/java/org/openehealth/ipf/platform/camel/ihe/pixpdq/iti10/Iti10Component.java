@@ -16,9 +16,9 @@
 package org.openehealth.ipf.platform.camel.ihe.pixpdq.iti10;
 
 import org.apache.camel.CamelContext;
-import org.openehealth.ipf.modules.hl7.parser.PipeParser;
-import org.openehealth.ipf.platform.camel.ihe.hl7v2.Hl7v2TransactionConfiguration;
-import org.openehealth.ipf.platform.camel.ihe.hl7v2.NakFactory;
+import org.openehealth.ipf.commons.ihe.hl7v2.Hl7v2TransactionConfiguration;
+import org.openehealth.ipf.commons.ihe.hl7v2.Hl7v2TransactionConfigurations;
+import org.openehealth.ipf.commons.ihe.hl7v2.NakFactory;
 import org.openehealth.ipf.platform.camel.ihe.mllp.core.MllpAuditStrategy;
 import org.openehealth.ipf.platform.camel.ihe.mllp.core.MllpComponent;
 
@@ -27,26 +27,10 @@ import org.openehealth.ipf.platform.camel.ihe.mllp.core.MllpComponent;
  * @author Dmytro Rud
  */
 public class Iti10Component extends MllpComponent {
-    public static final Hl7v2TransactionConfiguration CONFIGURATION =
-        new Hl7v2TransactionConfiguration(
-                "2.5", 
-                "PIX adapter", 
-                "IPF", 
-                207, 
-                207,
-                new String[] {"ADT"},
-                new String[] {"A31"},
-                new String[] {"ACK"},
-                new String[] {"*"}, 
-                new boolean[] {true},
-                new boolean[] {false},
-                new PipeParser());
-  
-    private static final MllpAuditStrategy CLIENT_AUDIT_STRATEGY = 
+    private static final MllpAuditStrategy CLIENT_AUDIT_STRATEGY =
         new Iti10ClientAuditStrategy();
     private static final MllpAuditStrategy SERVER_AUDIT_STRATEGY = 
         new Iti10ServerAuditStrategy();
-    private static final NakFactory NAK_FACTORY = new NakFactory(CONFIGURATION);
 
 
     public Iti10Component() {
@@ -69,11 +53,11 @@ public class Iti10Component extends MllpComponent {
     
     @Override
     public Hl7v2TransactionConfiguration getTransactionConfiguration() {
-        return CONFIGURATION;
+        return Hl7v2TransactionConfigurations.ITI_10_CONFIG;
     }
 
     @Override
     public NakFactory getNakFactory() {
-        return NAK_FACTORY;
+        return Hl7v2TransactionConfigurations.ITI_10_NAK_FACTORY;
     }
 }

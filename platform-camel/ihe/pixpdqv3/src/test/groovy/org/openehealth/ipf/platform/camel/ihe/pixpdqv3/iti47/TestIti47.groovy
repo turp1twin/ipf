@@ -27,6 +27,7 @@ import org.openehealth.ipf.platform.camel.ihe.pixpdqv3.EhcacheHl7v3ContinuationS
 import org.openehealth.ipf.platform.camel.ihe.ws.StandardTestContainer
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertTrue
+import static org.openehealth.ipf.commons.ihe.pixpdqv3.Hl7v3TransactionConfigurations.ITI_47_CONFIG
 
 /**
  * Tests for ITI-47.
@@ -100,7 +101,7 @@ class TestIti47 extends StandardTestContainer {
     @Test
     void testCustomNakGeneration() {
         String responseString = send(SERVICE_NAK_1, REQUEST, String.class)
-        VALIDATOR.validate(responseString, [['PRPA_IN201306UV02', 'iti47/PRPA_IN201306UV02']] as String[][])
+        VALIDATOR.validate(responseString, ITI_47_CONFIG.responseValidationProfiles)
         def response = Hl7v3Utils.slurp(responseString)
         assert response.interactionId.@root == '2.16.840.1.113883.1.6'
         assert response.interactionId.@extension == 'PRPA_IN201306UV02'
@@ -117,7 +118,7 @@ class TestIti47 extends StandardTestContainer {
     @Test
     void testCustomNakGenerationWithoutIssueManagement() {
         String responseString = send(SERVICE_NAK_2, REQUEST, String.class)
-        VALIDATOR.validate(responseString, [['PRPA_IN201306UV02', 'iti47/PRPA_IN201306UV02']] as String[][])
+        VALIDATOR.validate(responseString, ITI_47_CONFIG.responseValidationProfiles)
         def response = Hl7v3Utils.slurp(responseString)
         assert response.interactionId.@root == '2.16.840.1.113883.1.6'
         assert response.interactionId.@extension == 'PRPA_IN201306UV02'
@@ -134,7 +135,7 @@ class TestIti47 extends StandardTestContainer {
     @Test
     void testValidationNakGeneration() {
         String responseString = send(SERVICE_NAK_VALIDATE, REQUEST, String.class)
-        VALIDATOR.validate(responseString, [['PRPA_IN201306UV02', 'iti47/PRPA_IN201306UV02']] as String[][])
+        VALIDATOR.validate(responseString, ITI_47_CONFIG.responseValidationProfiles)
         def response = Hl7v3Utils.slurp(responseString)
         assert response.acknowledgement.typeCode.@code == 'AE'
         assert response.acknowledgement.acknowledgementDetail.code.@code == 'SYN113'

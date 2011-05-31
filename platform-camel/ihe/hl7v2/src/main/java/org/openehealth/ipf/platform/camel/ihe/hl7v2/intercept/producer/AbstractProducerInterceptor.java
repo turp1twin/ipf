@@ -17,8 +17,7 @@ package org.openehealth.ipf.platform.camel.ihe.hl7v2.intercept.producer;
 
 import org.apache.camel.*;
 import org.openehealth.ipf.platform.camel.ihe.hl7v2.intercept.AbstractHl7v2Interceptor;
-import org.openehealth.ipf.platform.camel.ihe.hl7v2.Hl7v2ConfigurationHolder;
-
+import org.openehealth.ipf.commons.ihe.hl7v2.Hl7v2ConfigurationHolder;
 
 /**
  * Abstract producer-side Camel interceptor for HL7v2 transactions.

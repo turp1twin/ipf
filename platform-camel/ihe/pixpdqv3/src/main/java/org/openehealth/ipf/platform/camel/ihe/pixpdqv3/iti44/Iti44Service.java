@@ -15,6 +15,7 @@
  */
 package org.openehealth.ipf.platform.camel.ihe.pixpdqv3.iti44;
 
+import org.openehealth.ipf.commons.ihe.pixpdqv3.Hl7v3TransactionConfigurations;
 import org.openehealth.ipf.commons.ihe.pixpdqv3.iti44.Iti44PixPortType;
 import org.openehealth.ipf.commons.ihe.pixpdqv3.iti44.Iti44XdsPortType;
 import org.openehealth.ipf.platform.camel.ihe.pixpdqv3.DefaultHl7v3WebService;
@@ -26,7 +27,7 @@ import org.openehealth.ipf.platform.camel.ihe.pixpdqv3.DefaultHl7v3WebService;
 public class Iti44Service extends DefaultHl7v3WebService implements Iti44XdsPortType, Iti44PixPortType {
 
     public Iti44Service() {
-        super(Iti44PixComponent.WS_CONFIG);
+        super(Hl7v3TransactionConfigurations.ITI_44_PIX_CONFIG);
     }
 
     @Override

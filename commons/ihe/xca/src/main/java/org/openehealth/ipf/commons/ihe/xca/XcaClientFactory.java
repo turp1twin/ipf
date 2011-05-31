@@ -24,8 +24,6 @@ import org.openehealth.ipf.commons.ihe.ws.cxf.async.InPartialResponseHackInterce
 import org.openehealth.ipf.commons.ihe.ws.cxf.asyncaudit.AsyncAuditOutRequestInterceptor;
 import org.openehealth.ipf.commons.ihe.ws.cxf.asyncaudit.AsyncAuditResponseInterceptor;
 import org.openehealth.ipf.commons.ihe.ws.cxf.audit.WsAuditStrategy;
-import org.openehealth.ipf.commons.ihe.ws.cxf.payload.OutPayloadExtractorInterceptor;
-import org.openehealth.ipf.commons.ihe.ws.cxf.payload.OutStreamSubstituteInterceptor;
 
 /**
  * Client factory for XCA transactions.

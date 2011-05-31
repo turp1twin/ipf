@@ -1,0 +1,85 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation=" http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.openehealth.ipf.commons</groupId>
+    <artifactId>commons-ihe-hl7v2</artifactId>
+    <name>commons-ihe-hl7v2</name>
+
+    <parent>
+        <groupId>org.openehealth.ipf.commons</groupId>
+        <artifactId>commons-ihe</artifactId>
+        <version>2.3-SNAPSHOT</version>
+    </parent>
+
+    <properties>
+        <!--osgi.import.pkg>
+            groovy.util,
+            org.joda.time,
+            *
+        </osgi.import.pkg>
+        <osgi.export.pkg>
+            org.openehealth.ipf.commons.ihe.hl7v3.*,
+            '=schema.HL7V3.NE2008.coreschemas',
+            '=schema.HL7V3.NE2008.multicacheschemas'
+        </osgi.export.pkg-->
+    </properties>
+    
+    <dependencies>
+        <!-- Dependencies for main -->
+        <dependency>
+            <groupId>org.openehealth.ipf.commons</groupId>
+            <artifactId>commons-ihe-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openehealth.ipf.modules</groupId>
+            <artifactId>modules-hl7dsl</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openehealth.ipf.modules</groupId>
+            <artifactId>modules-hl7</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>ca.uhn.hapi</groupId>
+            <artifactId>hapi-structures-v25</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.gmaven</groupId>
+                <artifactId>gmaven-plugin</artifactId>  
+                <executions>
+                    <execution>
+                        <id>generateStubs</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>generateStubs</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>generateTestStubs</id>
+                        <phase>process-test-resources</phase>
+                        <goals>
+                            <goal>generateTestStubs</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>test-jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

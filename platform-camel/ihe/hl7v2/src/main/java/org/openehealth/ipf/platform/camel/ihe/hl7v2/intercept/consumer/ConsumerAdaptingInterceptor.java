@@ -21,12 +21,12 @@ import org.apache.camel.Processor;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openehealth.ipf.commons.ihe.hl7v2.Hl7v2ConfigurationHolder;
 import org.openehealth.ipf.modules.hl7.AckTypeCode;
 import org.openehealth.ipf.modules.hl7.HL7v2Exception;
 import org.openehealth.ipf.modules.hl7dsl.MessageAdapter;
 import org.openehealth.ipf.platform.camel.core.util.Exchanges;
-import org.openehealth.ipf.platform.camel.ihe.hl7v2.Hl7v2AdaptingException;
-import org.openehealth.ipf.platform.camel.ihe.hl7v2.Hl7v2ConfigurationHolder;
+import org.openehealth.ipf.commons.ihe.hl7v2.Hl7v2AdaptingException;
 import org.openehealth.ipf.platform.camel.ihe.hl7v2.Hl7v2MarshalUtils;
 import org.openehealth.ipf.platform.camel.ihe.hl7v2.intercept.AbstractHl7v2Interceptor;
 
@@ -90,7 +90,7 @@ public class ConsumerAdaptingInterceptor extends AbstractHl7v2Interceptor {
     
     /**
      * Converts response to a {@link MessageAdapter}, throws 
-     * a {@link org.openehealth.ipf.platform.camel.ihe.hl7v2.Hl7v2AdaptingException} on failure.
+     * a {@link org.openehealth.ipf.commons.ihe.hl7v2.Hl7v2AdaptingException} on failure.
      */
     @Override
     public void process(Exchange exchange) throws Exception {

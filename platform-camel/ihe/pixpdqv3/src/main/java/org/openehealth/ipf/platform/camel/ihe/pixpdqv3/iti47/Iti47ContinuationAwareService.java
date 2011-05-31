@@ -15,6 +15,7 @@
  */
 package org.openehealth.ipf.platform.camel.ihe.pixpdqv3.iti47;
 
+import org.openehealth.ipf.commons.ihe.pixpdqv3.Hl7v3TransactionConfigurations;
 import org.openehealth.ipf.commons.ihe.pixpdqv3.iti47.Iti47PortType;
 import org.openehealth.ipf.platform.camel.ihe.pixpdqv3.Hl7v3ContinuationStorage;
 import org.openehealth.ipf.platform.camel.ihe.pixpdqv3.Hl7v3ContinuationAwareWebService;
@@ -35,6 +36,6 @@ public class Iti47ContinuationAwareService
             int defaultThreshold,
             boolean validationOnContinuation)
     {
-        super(Iti47Component.WS_CONFIG, storage, defaultThreshold, validationOnContinuation);
+        super(Hl7v3TransactionConfigurations.ITI_47_CONFIG, storage, defaultThreshold, validationOnContinuation);
     }
 }

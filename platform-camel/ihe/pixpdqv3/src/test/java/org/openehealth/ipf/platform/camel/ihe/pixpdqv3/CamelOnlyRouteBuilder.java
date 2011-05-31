@@ -20,11 +20,11 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.spring.SpringRouteBuilder;
 import org.apache.commons.lang.Validate;
+import org.openehealth.ipf.commons.ihe.hl7v2.Hl7v2TransactionConfigurations;
 import org.openehealth.ipf.commons.ihe.pixpdqv3.translation.PdqRequest3to2Translator;
 import org.openehealth.ipf.commons.ihe.pixpdqv3.translation.PdqResponse2to3Translator;
 import org.openehealth.ipf.modules.hl7dsl.MessageAdapter;
 import org.openehealth.ipf.modules.hl7dsl.MessageAdapters;
-import org.openehealth.ipf.platform.camel.ihe.pixpdq.iti21.Iti21Component;
 
 import static org.openehealth.ipf.platform.camel.ihe.pixpdq.PixPdqCamelValidators.iti21RequestValidator;
 import static org.openehealth.ipf.platform.camel.ihe.pixpdq.PixPdqCamelValidators.iti21ResponseValidator;
@@ -40,7 +40,7 @@ import static org.openehealth.ipf.platform.camel.ihe.pixpdqv3.PixPdqV3CamelValid
  */
 public class CamelOnlyRouteBuilder extends SpringRouteBuilder {
 
-    private static final Parser PARSER = Iti21Component.CONFIGURATION.getParser();
+    private static final Parser PARSER = Hl7v2TransactionConfigurations.ITI_21_CONFIG.getParser();
     private static final PdqRequest3to2Translator REQUEST_TRANSLATOR = new PdqRequest3to2Translator();
     private static final PdqResponse2to3Translator RESPONSE_TRANSLATOR = new PdqResponse2to3Translator();
 

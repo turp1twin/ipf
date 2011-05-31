@@ -25,11 +25,11 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Producer;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openehealth.ipf.commons.ihe.hl7v2.Hl7v2TransactionConfiguration;
 import org.openehealth.ipf.modules.hl7.message.MessageUtils;
 import org.openehealth.ipf.modules.hl7dsl.MessageAdapter;
 import org.openehealth.ipf.modules.hl7dsl.MessageAdapters;
 import org.openehealth.ipf.platform.camel.core.util.Exchanges;
-import org.openehealth.ipf.platform.camel.ihe.hl7v2.Hl7v2TransactionConfiguration;
 import org.openehealth.ipf.platform.camel.ihe.mllp.core.MllpEndpoint;
 
 import java.util.List;

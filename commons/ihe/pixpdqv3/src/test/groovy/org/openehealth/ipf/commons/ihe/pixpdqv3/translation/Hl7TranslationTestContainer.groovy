@@ -20,7 +20,6 @@ import org.openehealth.ipf.modules.hl7dsl.MessageAdapters
 
 import org.openehealth.ipf.modules.hl7.extend.HapiModelExtension
 
-import org.openehealth.ipf.commons.ihe.hl7v3.Hl7v3ValidationProfiles;
 import org.openehealth.ipf.commons.ihe.hl7v3.Hl7v3Validator;
 import org.openehealth.ipf.commons.map.BidiMappingService
 import org.openehealth.ipf.commons.map.extend.MappingExtension
@@ -30,12 +29,13 @@ import org.openehealth.ipf.commons.ihe.pixpdq.MessageAdapterValidator
 import org.custommonkey.xmlunit.XMLUnit
 import org.custommonkey.xmlunit.Diff
 import org.custommonkey.xmlunit.DetailedDiff
-import org.custommonkey.xmlunit.Difference
 
 import org.springframework.core.io.ClassPathResource
 import org.apache.commons.io.IOUtils
 
 import ca.uhn.hl7v2.parser.Parser;
+import org.openehealth.ipf.commons.ihe.pixpdqv3.Hl7v3TransactionConfigurations
+import org.openehealth.ipf.commons.ihe.core.IpfInteractionId
 
 /**
  * Test container for HL7 v3-v2 transformation routines.
@@ -110,10 +110,11 @@ class Hl7TranslationTestContainer {
     }
 
 
-    void doTestV3toV2RequestTranslation(String fn, int v2index, int v3index) {
+    void doTestV3toV2RequestTranslation(String fn, IpfInteractionId v3InteractionId) {
         String v3request = getFileContent(fn, V3, REQUEST)
-        V3_VALIDATOR.validate(v3request, Hl7v3ValidationProfiles.REQUEST_TYPES["iti-${v3index}"])
-        
+        V3_VALIDATOR.validate(v3request,
+                Hl7v3TransactionConfigurations.getRequestValidationProfiles(v3InteractionId))
+
         String expectedV2request = getFileContent(fn, V2, REQUEST)
         MessageAdapter translatedV2request = v3tov2Translator.translateV3toV2(v3request)
         V2_VALIDATOR.validate(translatedV2request, null)
@@ -121,7 +122,7 @@ class Hl7TranslationTestContainer {
     }
 
 
-    void doTestV2toV3ResponseTranslation(String fn, int v2index, int v3index, Parser parser) {
+    void doTestV2toV3ResponseTranslation(String fn, IpfInteractionId v3InteractionId, Parser parser) {
         String v3request = getFileContent(fn, V3, REQUEST)
         String v2response = getFileContent(fn, V2, RESPONSE)
         MessageAdapter msg = MessageAdapters.make(parser, v2response)
@@ -129,7 +130,8 @@ class Hl7TranslationTestContainer {
 
         String expectedV3response = getFileContent(fn, V3, RESPONSE)
         String translatedV3response = v2tov3Translator.translateV2toV3(msg, v3request)
-        V3_VALIDATOR.validate(translatedV3response, Hl7v3ValidationProfiles.RESPONSE_TYPES["iti-${v3index}"])
+        V3_VALIDATOR.validate(translatedV3response,
+                Hl7v3TransactionConfigurations.getResponseValidationProfiles(v3InteractionId))
 
         Diff diff = new Diff(expectedV3response, translatedV3response)
         DetailedDiff detDiff = new DetailedDiff(diff)
@@ -138,14 +140,15 @@ class Hl7TranslationTestContainer {
         assert differences[0].toString().contains('creationTime')
     }
     
-    void doTestV2toV3RequestTranslation(String fn, int v2index, int v3index, Parser parser) {
+    void doTestV2toV3RequestTranslation(String fn, IpfInteractionId v3InteractionId, Parser parser) {
         String v2request = getFileContent(fn, V2, REQUEST)
         MessageAdapter msg = MessageAdapters.make(parser, v2request)
         V2_VALIDATOR.validate(msg, null)
 
         String expectedV3response = getFileContent(fn, V3, RESPONSE)
         String translatedV3response = v2tov3Translator.translateV2toV3(msg)
-        V3_VALIDATOR.validate(translatedV3response, Hl7v3ValidationProfiles.REQUEST_TYPES["iti-${v3index}"])
+        V3_VALIDATOR.validate(translatedV3response,
+                Hl7v3TransactionConfigurations.getRequestValidationProfiles(v3InteractionId))
 
         Diff diff = new Diff(expectedV3response, translatedV3response)
         DetailedDiff detDiff = new DetailedDiff(diff)

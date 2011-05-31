@@ -17,29 +17,15 @@ package org.openehealth.ipf.platform.camel.ihe.xcpd.iti56.asyncresponse;
 
 import org.apache.camel.Endpoint;
 import org.openehealth.ipf.commons.ihe.hl7v3.Hl7v3ServiceInfo;
-import org.openehealth.ipf.commons.ihe.xcpd.iti56.asyncresponse.Iti56AsyncResponsePortType;
+import org.openehealth.ipf.commons.ihe.xcpd.XcpdTransactionConfigurations;
 import org.openehealth.ipf.platform.camel.ihe.ws.AbstractWsComponent;
 
-import javax.xml.namespace.QName;
 import java.util.Map;
 
 /**
  * The Camel component for the ITI-56 (XCPD) async response.
  */
 public class Iti56AsyncResponseComponent extends AbstractWsComponent<Hl7v3ServiceInfo> {
-    private final static String NS_URI = "urn:ihe:iti:xcpd:2009";
-    private final static Hl7v3ServiceInfo WS_CONFIG = new Hl7v3ServiceInfo(
-            new QName(NS_URI, "RespondingGateway_Response_Service", "xcpd"),
-            Iti56AsyncResponsePortType.class,
-            new QName(NS_URI, "RespondingGateway_Response_Binding_Soap12", "xcpd"),
-            false,
-            "wsdl/iti56/iti56-asyncresponse-raw.wsdl",
-            null,
-            null,
-            null,
-            false,
-            false);
-
 
     @SuppressWarnings("unchecked") // Required because of base class
     @Override
@@ -49,6 +35,6 @@ public class Iti56AsyncResponseComponent extends AbstractWsComponent<Hl7v3Servic
 
     @Override
     public Hl7v3ServiceInfo getWebServiceConfiguration() {
-        return WS_CONFIG;
+        return XcpdTransactionConfigurations.ITI_56_ASYNC_RESPONSE_CONFIG;
     }
 }

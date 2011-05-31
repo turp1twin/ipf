@@ -15,9 +15,6 @@
  */
 package org.openehealth.ipf.commons.ihe.pixpdq
 
-import java.util.Collection
-import java.util.Map
-
 import org.openehealth.ipf.modules.hl7.validation.DefaultValidationContext
 import org.openehealth.ipf.modules.hl7dsl.SelectorClosure
 

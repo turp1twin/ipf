@@ -17,9 +17,11 @@
     </properties>
     
     <modules>
+        <module>core</module>
         <module>atna</module> 
         <module>ws</module> 
         <module>xds</module>
+        <module>hl7v2</module>
         <module>pixpdq</module>
         <module>hl7v3</module>
         <module>pixpdqv3</module>

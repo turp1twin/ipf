@@ -19,11 +19,8 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.openehealth.ipf.commons.ihe.hl7v3.Hl7v3ServiceInfo;
 import org.openehealth.ipf.commons.ihe.hl7v3.Hl7v3Validator;
-import org.openehealth.ipf.platform.camel.ihe.pixpdqv3.iti44.Iti44PixComponent;
-import org.openehealth.ipf.platform.camel.ihe.pixpdqv3.iti45.Iti45Component;
-import org.openehealth.ipf.platform.camel.ihe.pixpdqv3.iti46.Iti46Component;
-import org.openehealth.ipf.platform.camel.ihe.pixpdqv3.iti47.Iti47Component;
-import org.openehealth.ipf.platform.camel.ihe.pixpdqv3.pcc1.Pcc1Component;
+
+import static org.openehealth.ipf.commons.ihe.pixpdqv3.Hl7v3TransactionConfigurations.*;
 
 /**
  * Validating processors for HL7v3-based IPF components.
@@ -32,27 +29,27 @@ import org.openehealth.ipf.platform.camel.ihe.pixpdqv3.pcc1.Pcc1Component;
 abstract public class PixPdqV3CamelValidators {
     private static final Hl7v3Validator VALIDATOR = new Hl7v3Validator();
 
-    private static final Processor ITI_44_REQUEST_VALIDATOR = 
-            validatingProcessor(Iti44PixComponent.WS_CONFIG, true);
+    private static final Processor ITI_44_REQUEST_VALIDATOR =
+            validatingProcessor(ITI_44_PIX_CONFIG, true);
     private static final Processor ITI_44_RESPONSE_VALIDATOR = 
-            validatingProcessor(Iti44PixComponent.WS_CONFIG, false);
+            validatingProcessor(ITI_44_PIX_CONFIG, false);
     private static final Processor ITI_45_REQUEST_VALIDATOR = 
-            validatingProcessor(Iti45Component.WS_CONFIG, true);
+            validatingProcessor(ITI_45_CONFIG, true);
     private static final Processor ITI_45_RESPONSE_VALIDATOR = 
-            validatingProcessor(Iti45Component.WS_CONFIG, false);
+            validatingProcessor(ITI_45_CONFIG, false);
     private static final Processor ITI_46_REQUEST_VALIDATOR = 
-            validatingProcessor(Iti46Component.WS_CONFIG, true);
+            validatingProcessor(ITI_46_CONFIG, true);
     private static final Processor ITI_46_RESPONSE_VALIDATOR = 
-            validatingProcessor(Iti46Component.WS_CONFIG, false);
+            validatingProcessor(ITI_46_CONFIG, false);
     private static final Processor ITI_47_REQUEST_VALIDATOR = 
-            validatingProcessor(Iti47Component.WS_CONFIG, true);
+            validatingProcessor(ITI_47_CONFIG, true);
     private static final Processor ITI_47_RESPONSE_VALIDATOR = 
-            validatingProcessor(Iti47Component.WS_CONFIG, false);
+            validatingProcessor(ITI_47_CONFIG, false);
 
     private static final Processor PCC_1_REQUEST_VALIDATOR =
-            validatingProcessor(Pcc1Component.WS_CONFIG, true);
+            validatingProcessor(PCC_1_CONFIG, true);
     private static final Processor PCC_1_RESPONSE_VALIDATOR =
-            validatingProcessor(Pcc1Component.WS_CONFIG, false);
+            validatingProcessor(PCC_1_CONFIG, false);
 
     
     /**

@@ -18,13 +18,13 @@ package org.openehealth.ipf.commons.ihe.pixpdqv3.translation
 import org.openehealth.ipf.modules.hl7dsl.MessageAdapter
 import org.openehealth.ipf.modules.hl7.message.MessageUtils
 import org.openehealth.ipf.modules.hl7.parser.CustomModelClassFactory
-import org.openehealth.ipf.commons.ihe.pixpdq.definitions.CustomModelClassUtils;
+import org.openehealth.ipf.commons.ihe.hl7v2.definitions.CustomModelClassUtils;
 import static org.openehealth.ipf.commons.ihe.pixpdqv3.translation.Utils.*
 import static org.openehealth.ipf.commons.ihe.hl7v3.Hl7v3Utils.*
 
 /**
  * PIX Query Requests translator v3 to v2.
- * @author Marek Václavík, Dmytro Rud
+ * @author Marek Vï¿½clavï¿½k, Dmytro Rud
  */
 class PixQueryRequest3to2Translator implements Hl7TranslatorV3toV2 {
     

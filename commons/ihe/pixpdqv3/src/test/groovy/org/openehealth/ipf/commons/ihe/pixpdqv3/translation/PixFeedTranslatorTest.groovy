@@ -16,11 +16,12 @@
 package org.openehealth.ipf.commons.ihe.pixpdqv3.translation
 
 import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.Test
+import org.openehealth.ipf.commons.ihe.core.IpfInteractionId;
 
 /**
  * Test for PIX Feed translator.
- * @author Marek Václavík, Dmytro Rud
+ * @author Marek Vï¿½clavï¿½k, Dmytro Rud
  */
 class PixFeedTranslatorTest extends Hl7TranslationTestContainer {
  
@@ -33,17 +34,17 @@ class PixFeedTranslatorTest extends Hl7TranslationTestContainer {
   
     @Test
     void testMaximalMergeRequest() {
-        doTestV3toV2RequestTranslation('PIX_FEED_MERGE_Maximal_Request', 8, 44)
+        doTestV3toV2RequestTranslation('PIX_FEED_MERGE_Maximal_Request', IpfInteractionId.ITI_44_PIX)
     }
   
     @Test
     void testMaximalRegistrationRequest() {
-        doTestV3toV2RequestTranslation('PIX_FEED_REG_Maximal_Request', 8, 44)
+        doTestV3toV2RequestTranslation('PIX_FEED_REG_Maximal_Request', IpfInteractionId.ITI_44_PIX)
     }
   
     @Test
     void testMaximalRevRequest() {
-        doTestV3toV2RequestTranslation('PIX_FEED_REV_Maximal_Request', 8, 44)
+        doTestV3toV2RequestTranslation('PIX_FEED_REV_Maximal_Request', IpfInteractionId.ITI_44_PIX)
     }
   
 }

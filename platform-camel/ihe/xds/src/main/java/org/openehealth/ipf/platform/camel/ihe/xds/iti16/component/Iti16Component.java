@@ -19,25 +19,13 @@ import java.util.Map;
 
 import org.apache.camel.Endpoint;
 import org.openehealth.ipf.commons.ihe.ws.ItiServiceInfo;
-import org.openehealth.ipf.commons.ihe.xds.iti16.Iti16PortType;
+import org.openehealth.ipf.commons.ihe.xds.XdsTransactionConfigurations;
 import org.openehealth.ipf.platform.camel.ihe.ws.AbstractWsComponent;
-
-import javax.jws.WebService;
-import javax.xml.namespace.QName;
 
 /**
  * The Camel component for the ITI-16 transaction.
  */
 public class Iti16Component extends AbstractWsComponent<ItiServiceInfo> {
-    private final static ItiServiceInfo WS_CONFIG = new ItiServiceInfo(
-            new QName("urn:ihe:iti:xds:2007", "DocumentRegistry_Service", "ihe"),
-            Iti16PortType.class,
-            new QName("urn:ihe:iti:xds:2007", "DocumentRegistry_Binding_Soap11", "ihe"),
-            false,
-            "wsdl/iti16.wsdl",
-            false,
-            false,
-            true);
 
     @Override
     @SuppressWarnings("unchecked") // Required because of base class
@@ -47,6 +35,6 @@ public class Iti16Component extends AbstractWsComponent<ItiServiceInfo> {
 
     @Override
     public ItiServiceInfo getWebServiceConfiguration() {
-        return WS_CONFIG;
+        return XdsTransactionConfigurations.ITI_16_CONFIG;
     }
 }

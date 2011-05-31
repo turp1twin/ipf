@@ -17,15 +17,10 @@ package org.openehealth.ipf.commons.ihe.pixpdqv3.translation
 
 import org.junit.BeforeClass
 import org.junit.Test
-import org.openehealth.ipf.commons.ihe.pixpdq.definitions.CustomModelClassUtils
-import org.openehealth.ipf.commons.ihe.pixpdqv3.translation.Hl7TranslationTestContainer
-import org.openehealth.ipf.commons.ihe.hl7v3.Hl7v3Validator
-import ca.uhn.hl7v2.parser.Parser
+import org.openehealth.ipf.commons.ihe.core.IpfInteractionId
+import org.openehealth.ipf.commons.ihe.hl7v2.definitions.CustomModelClassUtils
 import org.openehealth.ipf.modules.hl7dsl.MessageAdapter
 import org.openehealth.ipf.modules.hl7dsl.MessageAdapters
-import org.custommonkey.xmlunit.Diff
-import org.openehealth.ipf.commons.ihe.hl7v3.Hl7v3ValidationProfiles
-import org.openehealth.ipf.commons.ihe.pixpdq.MessageAdapterValidator
 import static junit.framework.Assert.assertTrue
 
 /**
@@ -48,19 +43,19 @@ class PixFeedSourceTranslatorTest extends Hl7TranslationTestContainer {
 
 	@Test
 	void testCreateMessage() {
-		doTestV2toV3RequestTranslation('A01', 8, 44, parser)
-        doTestV2toV3RequestTranslation('A04', 8, 44, parser)
-        doTestV2toV3RequestTranslation('A01_with_BR', 8, 44, parser)
+		doTestV2toV3RequestTranslation('A01', IpfInteractionId.ITI_44_PIX, parser)
+        doTestV2toV3RequestTranslation('A04', IpfInteractionId.ITI_44_PIX, parser)
+        doTestV2toV3RequestTranslation('A01_with_BR', IpfInteractionId.ITI_44_PIX, parser)
 	}
 
 	@Test
 	void testUpdateMessage() {
-		doTestV2toV3RequestTranslation('A08', 8, 44, parser)
+		doTestV2toV3RequestTranslation('A08', IpfInteractionId.ITI_44_PIX, parser)
 	}
 
 	@Test
 	void testMergeMessage() {
-		doTestV2toV3RequestTranslation('A40', 8, 44, parser)
+		doTestV2toV3RequestTranslation('A40', IpfInteractionId.ITI_44_PIX, parser)
 	}
 
     @Test

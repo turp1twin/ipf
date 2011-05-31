@@ -18,11 +18,11 @@ package org.openehealth.ipf.platform.camel.ihe.hl7v2ws;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.openehealth.ipf.commons.core.modules.api.Validator;
+import org.openehealth.ipf.commons.ihe.hl7v2.Hl7v2TransactionConfigurations;
 import org.openehealth.ipf.commons.ihe.hl7v2ws.pcd01.Pcd01Validator;
 import org.openehealth.ipf.commons.ihe.hl7v2ws.wan.ContinuaWanValidator;
 import org.openehealth.ipf.modules.hl7dsl.MessageAdapter;
 import org.openehealth.ipf.platform.camel.ihe.hl7v2.Hl7v2MarshalUtils;
-import org.openehealth.ipf.platform.camel.ihe.hl7v2ws.pcd01.Pcd01Component;
 
 import ca.uhn.hl7v2.parser.Parser;
 
@@ -31,16 +31,16 @@ import ca.uhn.hl7v2.parser.Parser;
  *
  */
 public class Hl7v2WsCamelValidators {
-    
     private static final Validator<Object, Object> PCD01_VALIDATOR = new Pcd01Validator();
     private static final Validator<Object, Object> CONTINUA_WAN_VALIDATOR = new ContinuaWanValidator();
+    private static final Parser PARSER = Hl7v2TransactionConfigurations.PCD_01_CONFIG.getParser();
 
     /**
      * Returns a validating processor for PCD-01 request messages
      * (Communicate Patient Care Device (PCD) data).
      */
     public static Processor pcd01RequestValidator() {
-        return newValidatingProcessor(PCD01_VALIDATOR, Pcd01Component.HL7V2_CONFIG.getParser());
+        return newValidatingProcessor(PCD01_VALIDATOR, PARSER);
     }
 
     /**
@@ -48,21 +48,21 @@ public class Hl7v2WsCamelValidators {
      * (Communicate Patient Care Device (PCD) data).
      */
     public static Processor pcd01ResponseValidator() {
-        return newValidatingProcessor(PCD01_VALIDATOR, Pcd01Component.HL7V2_CONFIG.getParser());
+        return newValidatingProcessor(PCD01_VALIDATOR, PARSER);
     }
 
     /**
      * Returns a validating processor for Continua WAN - conform request messages.
      */
     public static Processor continuaWanRequestValidator() {
-        return newValidatingProcessor(CONTINUA_WAN_VALIDATOR, Pcd01Component.HL7V2_CONFIG.getParser());
+        return newValidatingProcessor(CONTINUA_WAN_VALIDATOR, PARSER);
     }
 
     /**
      * Returns a validating processor for Continua WAN - conform response messages.
      */
     public static Processor continuaWanResponseValidator() {
-        return newValidatingProcessor(CONTINUA_WAN_VALIDATOR, Pcd01Component.HL7V2_CONFIG.getParser());
+        return newValidatingProcessor(CONTINUA_WAN_VALIDATOR, PARSER);
     }
     
     private static Processor newValidatingProcessor(final Validator<Object,Object> validator , final Parser parser) {

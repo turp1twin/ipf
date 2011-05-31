@@ -25,15 +25,6 @@ import java.util.Map;
  * @author Dmytro Rud
  */
 abstract public class AbstractIti44Component extends AbstractWsComponent<Hl7v3ServiceInfo> {
-    protected static final String[][] REQUEST_VALIDATION_PROFILES = new String[][] {
-            new String[] {"PRPA_IN201301UV02", null},
-            new String[] {"PRPA_IN201302UV02", null},
-            new String[] {"PRPA_IN201304UV02", null}
-    };
-
-    protected static final String[][] RESPONSE_VALIDATION_PROFILES = new String[][] {
-            new String[] {"MCCI_IN000002UV01", null}
-    };
 
     @SuppressWarnings("unchecked") // Required because of base class
     @Override

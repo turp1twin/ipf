@@ -17,10 +17,9 @@ package org.openehealth.ipf.platform.camel.ihe.hl7v2.intercept.producer;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Producer;
-import org.openehealth.ipf.platform.camel.ihe.hl7v2.Hl7v2ConfigurationHolder;
+import org.openehealth.ipf.commons.ihe.hl7v2.Hl7v2ConfigurationHolder;
 import org.openehealth.ipf.platform.camel.ihe.hl7v2.intercept.AcceptanceInterceptor;
 import org.openehealth.ipf.platform.camel.ihe.hl7v2.intercept.AcceptanceInterceptorUtils;
-
 
 /**
  * Producer-side interceptor for output message acceptance checking.

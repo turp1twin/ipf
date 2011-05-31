@@ -16,42 +16,21 @@
 package org.openehealth.ipf.platform.camel.ihe.pixpdq.iti22;
 
 import org.apache.camel.CamelContext;
-import org.openehealth.ipf.commons.ihe.pixpdq.definitions.CustomModelClassUtils;
-import org.openehealth.ipf.platform.camel.ihe.hl7v2.Hl7v2TransactionConfiguration;
-import org.openehealth.ipf.platform.camel.ihe.hl7v2.NakFactory;
+import org.openehealth.ipf.commons.ihe.hl7v2.*;
 import org.openehealth.ipf.platform.camel.ihe.mllp.core.MllpAuditStrategy;
 import org.openehealth.ipf.platform.camel.ihe.mllp.core.MllpComponent;
-import org.openehealth.ipf.platform.camel.ihe.pixpdq.QpdAwareNakFactory;
 import org.openehealth.ipf.platform.camel.ihe.pixpdq.pdqcore.PdqClientAuditStrategy;
 import org.openehealth.ipf.platform.camel.ihe.pixpdq.pdqcore.PdqServerAuditStrategy;
-import org.openehealth.ipf.platform.camel.ihe.pixpdq.pdqcore.PdqTransactionConfiguration;
 
 /**
  * Camel component for ITI-22 (PDQ).
  * @author Dmytro Rud
  */
 public class Iti22Component extends MllpComponent {
-    public static final Hl7v2TransactionConfiguration CONFIGURATION =
-        new PdqTransactionConfiguration(
-                "2.5", 
-                "PDQ adapter", 
-                "IPF",
-                207, 
-                207, 
-                new String[] {"QBP", "QCN"},
-                new String[] {"ZV1", "J01"},
-                new String[] {"RSP", "ACK"},
-                new String[] {"ZV2", "*"}, 
-                new boolean[] {true, false},                
-                new boolean[] {true, false},
-                CustomModelClassUtils.createParser("pdq", "2.5"));
-  
-    private static final MllpAuditStrategy CLIENT_AUDIT_STRATEGY = 
+    private static final MllpAuditStrategy CLIENT_AUDIT_STRATEGY =
         new PdqClientAuditStrategy("PDVQ");
     private static final MllpAuditStrategy SERVER_AUDIT_STRATEGY = 
         new PdqServerAuditStrategy("PDVQ");
-    private static final NakFactory NAK_FACTORY =
-        new QpdAwareNakFactory(CONFIGURATION, "RSP", "ZV2");
 
 
     public Iti22Component() {
@@ -74,11 +53,11 @@ public class Iti22Component extends MllpComponent {
     
     @Override
     public Hl7v2TransactionConfiguration getTransactionConfiguration() {
-        return CONFIGURATION;
+        return Hl7v2TransactionConfigurations.ITI_22_CONFIG;
     }
 
     @Override
     public NakFactory getNakFactory() {
-        return NAK_FACTORY;
+        return Hl7v2TransactionConfigurations.ITI_22_NAK_FACTORY;
     }
 }

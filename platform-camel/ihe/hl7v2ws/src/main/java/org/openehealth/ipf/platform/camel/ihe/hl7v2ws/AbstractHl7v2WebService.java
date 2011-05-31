@@ -18,18 +18,18 @@ package org.openehealth.ipf.platform.camel.ihe.hl7v2ws;
 import org.apache.camel.Exchange;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openehealth.ipf.commons.ihe.hl7v2.Hl7v2ConfigurationHolder;
+import org.openehealth.ipf.commons.ihe.hl7v2.Hl7v2TransactionConfiguration;
+import org.openehealth.ipf.commons.ihe.hl7v2.NakFactory;
 import org.openehealth.ipf.modules.hl7dsl.MessageAdapter;
 import org.openehealth.ipf.modules.hl7dsl.MessageAdapters;
-import org.openehealth.ipf.platform.camel.ihe.hl7v2.Hl7v2ConfigurationHolder;
 import org.openehealth.ipf.platform.camel.ihe.hl7v2.Hl7v2MarshalUtils;
-import org.openehealth.ipf.platform.camel.ihe.hl7v2.Hl7v2TransactionConfiguration;
-import org.openehealth.ipf.platform.camel.ihe.hl7v2.NakFactory;
 import org.openehealth.ipf.platform.camel.ihe.ws.DefaultItiWebService;
 
+import static org.openehealth.ipf.commons.ihe.hl7v2.AcceptanceCheckUtils.checkRequestAcceptance;
+import static org.openehealth.ipf.commons.ihe.hl7v2.AcceptanceCheckUtils.checkResponseAcceptance;
 import static org.openehealth.ipf.commons.ihe.hl7v2ws.Utils.render;
 import static org.openehealth.ipf.platform.camel.core.util.Exchanges.resultMessage;
-import static org.openehealth.ipf.platform.camel.ihe.hl7v2.AcceptanceCheckUtils.checkRequestAcceptance;
-import static org.openehealth.ipf.platform.camel.ihe.hl7v2.AcceptanceCheckUtils.checkResponseAcceptance;
 
 /**
  * Generic implementation of an HL7v2-based Web Service.
