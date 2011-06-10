@@ -15,7 +15,9 @@
  */
 package org.openehealth.ipf.commons.ihe.xca;
 
+import org.openehealth.ipf.commons.ihe.core.IheConfigurator;
 import org.openehealth.ipf.commons.ihe.ws.ItiServiceInfo;
+import org.openehealth.ipf.commons.ihe.ws.WebServiceTransactionConfigurationRegistry;
 import org.openehealth.ipf.commons.ihe.xca.iti38.Iti38PortType;
 import org.openehealth.ipf.commons.ihe.xca.iti38.asyncresponse.Iti38AsyncResponsePortType;
 import org.openehealth.ipf.commons.ihe.xca.iti39.Iti39PortType;
@@ -23,49 +25,59 @@ import org.openehealth.ipf.commons.ihe.xca.iti39.asyncresponse.Iti39AsyncRespons
 
 import javax.xml.namespace.QName;
 
+import static org.openehealth.ipf.commons.ihe.core.IpfInteractionId.*;
+
 /**
  * @author Dmytro Rud
  */
-public class XcaTransactionConfigurations {
+public class XcaTransactionConfigurations implements IheConfigurator {
 
-    public static final ItiServiceInfo ITI_38_CONFIG = new ItiServiceInfo(
-            new QName("urn:ihe:iti:xds-b:2007", "RespondingGateway_Service", "ihe"),
-            Iti38PortType.class,
-            new QName("urn:ihe:iti:xds-b:2007", "RespondingGateway_Binding_Soap12", "ihe"),
-            false,
-            "wsdl/iti38.wsdl",
-            true,
-            false,
-            true);
+    @Override
+    public void configure() {
+        String NS_URI = "urn:ihe:iti:xds-b:2007";
 
-    public static final ItiServiceInfo ITI_38_ASYNC_RESPONSE_CONFIG = new ItiServiceInfo(
-            new QName("urn:ihe:iti:xds-b:2007", "RespondingGateway_Response_Service", "ihe"),
-            Iti38AsyncResponsePortType.class,
-            new QName("urn:ihe:iti:xds-b:2007", "RespondingGateway_Response_Binding_Soap12", "ihe"),
-            false,
-            "wsdl/iti38-asyncresponse.wsdl",
-            true,
-            false,
-            false);
+        WebServiceTransactionConfigurationRegistry registry =
+                WebServiceTransactionConfigurationRegistry.instance();
 
-    public static final ItiServiceInfo ITI_39_CONFIG = new ItiServiceInfo(
-            new QName("urn:ihe:iti:xds-b:2007", "RespondingGateway_Service", "ihe"),
-            Iti39PortType.class,
-            new QName("urn:ihe:iti:xds-b:2007", "RespondingGateway_Binding_Soap12", "ihe"),
-            true,
-            "wsdl/iti39.wsdl",
-            true,
-            false,
-            false);
+        registry.registerConfiguration(ITI_38, new ItiServiceInfo(
+                new QName(NS_URI, "RespondingGateway_Service", "ihe"),
+                Iti38PortType.class,
+                new QName(NS_URI, "RespondingGateway_Binding_Soap12", "ihe"),
+                false,
+                "wsdl/iti38.wsdl",
+                true,
+                false,
+                true));
 
-    public static final ItiServiceInfo ITI_39_ASYNC_RESPONSE_CONFIG = new ItiServiceInfo(
-            new QName("urn:ihe:iti:xds-b:2007", "RespondingGateway_Response_Service", "ihe"),
-            Iti39AsyncResponsePortType.class,
-            new QName("urn:ihe:iti:xds-b:2007", "RespondingGateway_Response_Binding_Soap12", "ihe"),
-            false,
-            "wsdl/iti39-asyncresponse.wsdl",
-            true,
-            false,
-            false);
+        registry.registerConfiguration(ITI_38_ASYNC_RESPONSE, new ItiServiceInfo(
+                new QName(NS_URI, "RespondingGateway_Response_Service", "ihe"),
+                Iti38AsyncResponsePortType.class,
+                new QName(NS_URI, "RespondingGateway_Response_Binding_Soap12", "ihe"),
+                false,
+                "wsdl/iti38-asyncresponse.wsdl",
+                true,
+                false,
+                false));
+
+        registry.registerConfiguration(ITI_39, new ItiServiceInfo(
+                new QName(NS_URI, "RespondingGateway_Service", "ihe"),
+                Iti39PortType.class,
+                new QName(NS_URI, "RespondingGateway_Binding_Soap12", "ihe"),
+                true,
+                "wsdl/iti39.wsdl",
+                true,
+                false,
+                false));
+
+        registry.registerConfiguration(ITI_39_ASYNC_RESPONSE, new ItiServiceInfo(
+                new QName(NS_URI, "RespondingGateway_Response_Service", "ihe"),
+                Iti39AsyncResponsePortType.class,
+                new QName(NS_URI, "RespondingGateway_Response_Binding_Soap12", "ihe"),
+                false,
+                "wsdl/iti39-asyncresponse.wsdl",
+                true,
+                false,
+                false));
+    }
 
 }

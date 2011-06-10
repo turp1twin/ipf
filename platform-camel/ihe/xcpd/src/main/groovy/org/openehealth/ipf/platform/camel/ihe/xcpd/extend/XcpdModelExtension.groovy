@@ -16,11 +16,12 @@
 package org.openehealth.ipf.platform.camel.ihe.xcpd.extend;
 
 import org.openehealth.ipf.platform.camel.core.model.ValidatorAdapterDefinition
-import org.apache.camel.model.ProcessorDefinition
+
 /**
  * DSL extensions for XCPD components.
  * @author Dmytro Rud
  */
+@Deprecated
 class XcpdModelExtension {
     static extensions = {
         ValidatorAdapterDefinition.metaClass.iti55Request  = { -> XcpdExtension.iti55Request(delegate) }        

@@ -18,7 +18,7 @@ package org.openehealth.ipf.platform.camel.ihe.pixpdqv3.iti44
 import org.junit.Test
 import org.apache.commons.io.IOUtils
 import org.openehealth.ipf.commons.ihe.hl7v3.Hl7v3Validator
-import org.openehealth.ipf.commons.ihe.pixpdqv3.Hl7v3TransactionConfigurations
+import org.openehealth.ipf.commons.ihe.pixpdqv3.PixPdqV3TransactionConfigurations
 
 /**
  * @author Dmytro Rud
@@ -34,7 +34,7 @@ class TestIti44Validation {
     @Test
     void testIti44Validation() {
         Hl7v3Validator validator = new Hl7v3Validator()
-        String[][] validationProfiles = Hl7v3TransactionConfigurations.ITI_44_PIX_CONFIG.requestValidationProfiles
+        String[][] validationProfiles = PixPdqV3TransactionConfigurations.ITI_44_PIX_CONFIG.requestValidationProfiles
         String message
 
         // 301

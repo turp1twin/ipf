@@ -17,7 +17,7 @@ package org.openehealth.ipf.platform.camel.ihe.xcpd.extend;
 
 import org.openehealth.ipf.platform.camel.core.model.ValidatorAdapterDefinition;
 
-import static org.openehealth.ipf.platform.camel.ihe.xcpd.XcpdCamelValidators.*;
+import static org.openehealth.ipf.platform.camel.ihe.hl7v3.Hl7v3CamelValidators.*;
 import static org.openehealth.ipf.platform.camel.core.process.ProcessorBasedExchangeValidator.definition;
 
 /**
@@ -28,6 +28,7 @@ import static org.openehealth.ipf.platform.camel.core.process.ProcessorBasedExch
  *
  * @author Dmytro Rud
  */
+@Deprecated
 class XcpdExtension {
      
      /**

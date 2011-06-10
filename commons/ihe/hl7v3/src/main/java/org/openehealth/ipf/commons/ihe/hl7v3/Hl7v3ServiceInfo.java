@@ -23,8 +23,6 @@ import javax.xml.namespace.QName;
  */
 public class Hl7v3ServiceInfo extends ItiServiceInfo {
 
-    private final String[][] requestValidationProfiles;
-    private final String[][] responseValidationProfiles;
     private final String nakRootElementName;
     private final boolean nakNeedControlActProcess;
 
@@ -41,10 +39,6 @@ public class Hl7v3ServiceInfo extends ItiServiceInfo {
      *      {@code true} if this service requires MTOM.
      * @param wsdlLocation
      *      the location of the WSDL of this webservice.
-     * @param requestValidationProfiles
-     *      validation profiles for request messages.
-     * @param responseValidationProfiles
-     *      validation profiles for response messages.
      * @param nakRootElementName
      *      root element name of automatically generated NAKs.
      * @param nakNeedControlActProcess
@@ -59,26 +53,14 @@ public class Hl7v3ServiceInfo extends ItiServiceInfo {
             QName bindingName,
             boolean mtom,
             String wsdlLocation,
-            String[][] requestValidationProfiles,
-            String[][] responseValidationProfiles,
             String nakRootElementName,
             boolean nakNeedControlActProcess,
             boolean auditRequestPayload)
     {
         super(serviceName, serviceClass, bindingName, mtom, wsdlLocation, true, false, auditRequestPayload);
 
-        this.requestValidationProfiles = requestValidationProfiles;
-        this.responseValidationProfiles = responseValidationProfiles;
         this.nakRootElementName = nakRootElementName;
         this.nakNeedControlActProcess = nakNeedControlActProcess;
-    }
-
-    public String[][] getRequestValidationProfiles() {
-        return requestValidationProfiles;
-    }
-
-    public String[][] getResponseValidationProfiles() {
-        return responseValidationProfiles;
     }
 
     public boolean isNakNeedControlActProcess() {

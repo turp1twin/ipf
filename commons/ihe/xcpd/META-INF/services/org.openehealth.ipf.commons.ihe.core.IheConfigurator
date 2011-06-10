@@ -1,0 +1,3 @@
+# Transaction configuration for XCPD IPF components.
+
+org.openehealth.ipf.commons.ihe.xcpd.XcpdTransactionConfigurations

@@ -22,7 +22,7 @@ import org.openehealth.ipf.platform.camel.core.model.ValidatorAdapterDefinition;
 import static org.openehealth.ipf.platform.camel.core.process.ProcessorBasedExchangeValidator.definition;
 import static org.openehealth.ipf.platform.camel.ihe.pixpdqv3.PixPdqV3CamelTranslators.translatorHL7v2toHL7v3;
 import static org.openehealth.ipf.platform.camel.ihe.pixpdqv3.PixPdqV3CamelTranslators.translatorHL7v3toHL7v2;
-import static org.openehealth.ipf.platform.camel.ihe.pixpdqv3.PixPdqV3CamelValidators.*;
+import static org.openehealth.ipf.platform.camel.ihe.hl7v3.Hl7v3CamelValidators.*;
 
 /**
  * HL7 v3 DSL extensions for usage in a {@link org.apache.camel.builder.RouteBuilder} 

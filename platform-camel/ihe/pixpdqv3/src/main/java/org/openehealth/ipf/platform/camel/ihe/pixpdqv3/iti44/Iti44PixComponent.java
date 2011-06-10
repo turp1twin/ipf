@@ -15,8 +15,9 @@
  */
 package org.openehealth.ipf.platform.camel.ihe.pixpdqv3.iti44;
 
+import org.openehealth.ipf.commons.ihe.core.IpfInteractionId;
 import org.openehealth.ipf.commons.ihe.hl7v3.Hl7v3ServiceInfo;
-import org.openehealth.ipf.commons.ihe.pixpdqv3.Hl7v3TransactionConfigurations;
+import org.openehealth.ipf.commons.ihe.ws.WebServiceTransactionConfigurationRegistry;
 
 /**
  * The Camel component for the ITI-44 transaction (PIX Feed v3).
@@ -25,6 +26,6 @@ public class Iti44PixComponent extends AbstractIti44Component {
 
     @Override
     public Hl7v3ServiceInfo getWebServiceConfiguration() {
-        return Hl7v3TransactionConfigurations.ITI_44_PIX_CONFIG;
+        return WebServiceTransactionConfigurationRegistry.instance().get(IpfInteractionId.ITI_44_PIX);
     }
 }

@@ -30,8 +30,8 @@ import static org.openehealth.ipf.platform.camel.ihe.pixpdq.PixPdqCamelValidator
 import static org.openehealth.ipf.platform.camel.ihe.pixpdq.PixPdqCamelValidators.iti21ResponseValidator;
 import static org.openehealth.ipf.platform.camel.ihe.pixpdqv3.PixPdqV3CamelTranslators.translatorHL7v2toHL7v3;
 import static org.openehealth.ipf.platform.camel.ihe.pixpdqv3.PixPdqV3CamelTranslators.translatorHL7v3toHL7v2;
-import static org.openehealth.ipf.platform.camel.ihe.pixpdqv3.PixPdqV3CamelValidators.iti47RequestValidator;
-import static org.openehealth.ipf.platform.camel.ihe.pixpdqv3.PixPdqV3CamelValidators.iti47ResponseValidator;
+import static org.openehealth.ipf.platform.camel.ihe.hl7v3.Hl7v3CamelValidators.iti47RequestValidator;
+import static org.openehealth.ipf.platform.camel.ihe.hl7v3.Hl7v3CamelValidators.iti47ResponseValidator;
 
 
 /**

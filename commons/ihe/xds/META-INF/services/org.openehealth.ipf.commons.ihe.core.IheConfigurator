@@ -1,0 +1,3 @@
+# Transaction configuration for XDS.a and XDS.b IPF components.
+
+org.openehealth.ipf.commons.ihe.xds.XdsTransactionConfigurations

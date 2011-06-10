@@ -16,8 +16,9 @@
 package org.openehealth.ipf.platform.camel.ihe.pixpdqv3.iti46;
 
 import org.apache.camel.Endpoint;
+import org.openehealth.ipf.commons.ihe.core.IpfInteractionId;
 import org.openehealth.ipf.commons.ihe.hl7v3.Hl7v3ServiceInfo;
-import org.openehealth.ipf.commons.ihe.pixpdqv3.Hl7v3TransactionConfigurations;
+import org.openehealth.ipf.commons.ihe.ws.WebServiceTransactionConfigurationRegistry;
 import org.openehealth.ipf.platform.camel.ihe.ws.AbstractWsComponent;
 
 import java.util.Map;
@@ -35,6 +36,6 @@ public class Iti46Component extends AbstractWsComponent<Hl7v3ServiceInfo> {
 
     @Override
     public Hl7v3ServiceInfo getWebServiceConfiguration() {
-        return Hl7v3TransactionConfigurations.ITI_46_CONFIG;
+        return WebServiceTransactionConfigurationRegistry.instance().get(IpfInteractionId.ITI_46);
     }
 }

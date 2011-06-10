@@ -15,16 +15,12 @@
  */
 package org.openehealth.ipf.platform.camel.ihe.xcpd;
 
-import groovy.util.XmlSlurper;
-import groovy.util.slurpersupport.GPathResult;
-
-import javax.xml.datatype.Duration;
-import javax.xml.datatype.DatatypeFactory;
-import org.apache.camel.Message;
-import org.apache.commons.io.IOUtils;
-import org.openehealth.ipf.platform.camel.core.util.Exchanges;
-import org.openehealth.ipf.platform.camel.ihe.xcpd.iti55.Iti55Component;
-import org.openehealth.ipf.platform.camel.ihe.xcpd.iti55.TtlHeaderUtils;
+import groovy.util.slurpersupport.GPathResult
+import javax.xml.datatype.DatatypeFactory
+import javax.xml.datatype.Duration
+import org.apache.camel.Message
+import org.apache.commons.io.IOUtils
+import org.openehealth.ipf.platform.camel.ihe.xcpd.iti55.TtlHeaderUtils
 
 /**
  * Helper functions for XCPD tests.

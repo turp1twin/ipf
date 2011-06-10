@@ -1,0 +1,3 @@
+# Transaction configuration for XCA IPF components.
+
+org.openehealth.ipf.commons.ihe.xca.XcaTransactionConfigurations

@@ -27,7 +27,7 @@ import org.openehealth.ipf.platform.camel.ihe.pixpdqv3.EhcacheHl7v3ContinuationS
 import org.openehealth.ipf.platform.camel.ihe.ws.StandardTestContainer
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertTrue
-import static org.openehealth.ipf.commons.ihe.pixpdqv3.Hl7v3TransactionConfigurations.ITI_47_CONFIG
+import static org.openehealth.ipf.commons.ihe.pixpdqv3.PixPdqV3TransactionConfigurations.ITI_47_CONFIG
 
 /**
  * Tests for ITI-47.

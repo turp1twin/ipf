@@ -1,0 +1,3 @@
+# Transaction configuration for HL7v3-based IPF eHealth components.
+
+org.openehealth.ipf.commons.ihe.pixpdqv3.PixPdqV3TransactionConfigurations

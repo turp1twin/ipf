@@ -16,8 +16,9 @@
 package org.openehealth.ipf.platform.camel.ihe.pixpdqv3.pcc1;
 
 import org.apache.camel.Endpoint;
+import org.openehealth.ipf.commons.ihe.core.IpfInteractionId;
 import org.openehealth.ipf.commons.ihe.hl7v3.Hl7v3ContinuationAwareServiceInfo;
-import org.openehealth.ipf.commons.ihe.pixpdqv3.Hl7v3TransactionConfigurations;
+import org.openehealth.ipf.commons.ihe.ws.WebServiceTransactionConfigurationRegistry;
 import org.openehealth.ipf.platform.camel.ihe.ws.AbstractWsComponent;
 
 import java.util.Map;
@@ -35,6 +36,6 @@ public class Pcc1Component extends AbstractWsComponent<Hl7v3ContinuationAwareSer
 
     @Override
     public Hl7v3ContinuationAwareServiceInfo getWebServiceConfiguration() {
-        return Hl7v3TransactionConfigurations.PCC_1_CONFIG;
+        return WebServiceTransactionConfigurationRegistry.instance().get(IpfInteractionId.PCC_1);
     }
 }

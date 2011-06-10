@@ -15,12 +15,13 @@
  */
 package org.openehealth.ipf.platform.camel.ihe.xcpd.iti55.asyncresponse;
 
-import java.util.Map;
-
 import org.apache.camel.Endpoint;
+import org.openehealth.ipf.commons.ihe.core.IpfInteractionId;
 import org.openehealth.ipf.commons.ihe.hl7v3.Hl7v3ServiceInfo;
-import org.openehealth.ipf.commons.ihe.xcpd.XcpdTransactionConfigurations;
+import org.openehealth.ipf.commons.ihe.ws.WebServiceTransactionConfigurationRegistry;
 import org.openehealth.ipf.platform.camel.ihe.ws.AbstractWsComponent;
+
+import java.util.Map;
 
 /**
  * The Camel component for the ITI-55 (XCPD) async response.
@@ -35,6 +36,6 @@ public class Iti55AsyncResponseComponent extends AbstractWsComponent<Hl7v3Servic
 
     @Override
     public Hl7v3ServiceInfo getWebServiceConfiguration() {
-        return XcpdTransactionConfigurations.ITI_55_ASYNC_RESPONSE_CONFIG;
+        return WebServiceTransactionConfigurationRegistry.get(IpfInteractionId.ITI_55_ASYNC_RESPONSE);
     }
 }
