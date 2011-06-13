@@ -16,9 +16,8 @@
 package org.openehealth.ipf.platform.camel.ihe.xcpd.iti55;
 
 import org.apache.camel.Endpoint;
+import org.openehealth.ipf.commons.ihe.core.InteractionId;
 import org.openehealth.ipf.commons.ihe.core.IpfInteractionId;
-import org.openehealth.ipf.commons.ihe.hl7v3.Hl7v3ServiceInfo;
-import org.openehealth.ipf.commons.ihe.ws.WebServiceTransactionConfigurationRegistry;
 import org.openehealth.ipf.platform.camel.ihe.ws.AbstractWsComponent;
 
 import java.util.Map;
@@ -26,7 +25,7 @@ import java.util.Map;
 /**
  * The Camel component for the ITI-55 transaction (XCPD).
  */
-public class Iti55Component extends AbstractWsComponent<Hl7v3ServiceInfo> {
+public class Iti55Component extends AbstractWsComponent {
 
     /**
      * Name of Camel header where the contents of the incoming CorrelationTimeToLive
@@ -48,7 +47,7 @@ public class Iti55Component extends AbstractWsComponent<Hl7v3ServiceInfo> {
     }
 
     @Override
-    public Hl7v3ServiceInfo getWebServiceConfiguration() {
-        return WebServiceTransactionConfigurationRegistry.get(IpfInteractionId.ITI_55);
+    public InteractionId getInteractionId() {
+        return IpfInteractionId.ITI_55;
     }
 }

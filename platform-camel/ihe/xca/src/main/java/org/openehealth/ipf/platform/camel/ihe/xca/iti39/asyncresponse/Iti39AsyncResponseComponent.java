@@ -16,8 +16,8 @@
 package org.openehealth.ipf.platform.camel.ihe.xca.iti39.asyncresponse;
 
 import org.apache.camel.Endpoint;
-import org.openehealth.ipf.commons.ihe.ws.ItiServiceInfo;
-import org.openehealth.ipf.commons.ihe.xca.XcaTransactionConfigurations;
+import org.openehealth.ipf.commons.ihe.core.InteractionId;
+import org.openehealth.ipf.commons.ihe.core.IpfInteractionId;
 import org.openehealth.ipf.platform.camel.ihe.ws.AbstractWsComponent;
 
 import java.util.Map;
@@ -25,7 +25,7 @@ import java.util.Map;
 /**
  * The Camel component for the ITI-39 (XCA) async response.
  */
-public class Iti39AsyncResponseComponent extends AbstractWsComponent<ItiServiceInfo> {
+public class Iti39AsyncResponseComponent extends AbstractWsComponent {
 
     @SuppressWarnings("unchecked") // Required because of base class
     @Override
@@ -34,7 +34,7 @@ public class Iti39AsyncResponseComponent extends AbstractWsComponent<ItiServiceI
     }
 
     @Override
-    public ItiServiceInfo getWebServiceConfiguration() {
-        return XcaTransactionConfigurations.ITI_39_ASYNC_RESPONSE_CONFIG;
+    public InteractionId getInteractionId() {
+        return IpfInteractionId.ITI_39_ASYNC_RESPONSE;
     }
 }

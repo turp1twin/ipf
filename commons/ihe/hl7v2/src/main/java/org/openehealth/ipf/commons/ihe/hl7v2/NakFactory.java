@@ -17,6 +17,8 @@ package org.openehealth.ipf.commons.ihe.hl7v2;
 
 import ca.uhn.hl7v2.model.Message;
 import org.apache.commons.lang.Validate;
+import org.openehealth.ipf.commons.ihe.core.IheRegistry;
+import org.openehealth.ipf.commons.ihe.core.InteractionId;
 import org.openehealth.ipf.modules.hl7.AbstractHL7v2Exception;
 import org.openehealth.ipf.modules.hl7.AckTypeCode;
 import org.openehealth.ipf.modules.hl7.HL7v2Exception;
@@ -36,8 +38,8 @@ public class NakFactory {
 
     /**
      * Generic constructor.
-     * @param config
-     *      Configuration of the transaction served by this factory.
+     * @param interactionId
+     *      ID of the interaction served by this factory.
      * @param useCAckTypeCodes
      *      if <code>true</code>, HL7v2 acknowledgement codes
      *      <tt>CA</tt>, <tt>CE</tt>, <tt>CR</tt> will be used instead of the default
@@ -45,11 +47,12 @@ public class NakFactory {
      * @param defaultNakMsh9
      *      desired contents of MSH-9 in this transaction's default NAKs.
      */
-    public NakFactory(Hl7v2TransactionConfiguration config, boolean useCAckTypeCodes, String defaultNakMsh9) {
-        Validate.notNull(config);
+    public NakFactory(InteractionId interactionId, boolean useCAckTypeCodes, String defaultNakMsh9) {
         Validate.notEmpty(defaultNakMsh9);
 
-        this.config = config;
+        this.config = IheRegistry.get(interactionId, Hl7v2TransactionConfiguration.class);
+        Validate.notNull(this.config);
+
         this.useCAckTypeCodes = useCAckTypeCodes;
         this.defaultNakMsh9 = defaultNakMsh9;
     }
@@ -57,11 +60,11 @@ public class NakFactory {
 
     /**
      * Short constructor which corresponds to <code>NakFactory(config, false, "ACK")</code>.
-     * @param config
-     *      Configuration of the transaction served by this factory.
+     * @param interactionId
+     *      ID of the interaction served by this factory.
      */
-    public NakFactory(Hl7v2TransactionConfiguration config) {
-        this(config, false, "ACK");
+    public NakFactory(InteractionId interactionId) {
+        this(interactionId, false, "ACK");
     }
 
 

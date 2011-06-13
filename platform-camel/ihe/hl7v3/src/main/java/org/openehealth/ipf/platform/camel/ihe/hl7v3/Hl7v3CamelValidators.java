@@ -17,8 +17,9 @@ package org.openehealth.ipf.platform.camel.ihe.hl7v3;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.openehealth.ipf.commons.ihe.core.IheRegistry;
 import org.openehealth.ipf.commons.ihe.core.InteractionId;
-import org.openehealth.ipf.commons.ihe.core.XmlValidationProfileRegistry;
+import org.openehealth.ipf.commons.ihe.hl7v3.Hl7v3ValidationProfile;
 import org.openehealth.ipf.commons.ihe.hl7v3.Hl7v3Validator;
 
 import static org.openehealth.ipf.commons.ihe.core.IpfInteractionId.*;
@@ -30,34 +31,12 @@ import static org.openehealth.ipf.commons.ihe.core.IpfInteractionId.*;
 abstract public class Hl7v3CamelValidators {
     private static final Hl7v3Validator VALIDATOR = new Hl7v3Validator();
 
-    private static final Processor ITI_44_REQUEST_VALIDATOR  = validatingProcessor(ITI_44_PIX, true);
-    private static final Processor ITI_44_RESPONSE_VALIDATOR = validatingProcessor(ITI_44_PIX, false);
-
-    private static final Processor ITI_45_REQUEST_VALIDATOR  = validatingProcessor(ITI_45, true);
-    private static final Processor ITI_45_RESPONSE_VALIDATOR = validatingProcessor(ITI_45, false);
-
-    private static final Processor ITI_46_REQUEST_VALIDATOR  = validatingProcessor(ITI_46, true);
-    private static final Processor ITI_46_RESPONSE_VALIDATOR = validatingProcessor(ITI_46, false);
-
-    private static final Processor ITI_47_REQUEST_VALIDATOR  = validatingProcessor(ITI_47, true);
-    private static final Processor ITI_47_RESPONSE_VALIDATOR = validatingProcessor(ITI_47, false);
-
-    private static final Processor ITI_55_REQUEST_VALIDATOR  = validatingProcessor(ITI_55, true);
-    private static final Processor ITI_55_RESPONSE_VALIDATOR = validatingProcessor(ITI_55, false);
-
-    private static final Processor ITI_56_REQUEST_VALIDATOR  = validatingProcessor(ITI_56, true);
-    private static final Processor ITI_56_RESPONSE_VALIDATOR = validatingProcessor(ITI_56, false);
-
-    private static final Processor PCC_1_REQUEST_VALIDATOR   = validatingProcessor(PCC_1, true);
-    private static final Processor PCC_1_RESPONSE_VALIDATOR  = validatingProcessor(PCC_1, false);
-
-    
     /**
      * Returns a validating processor for ITI-44 request messages
      * (Patient Identity Feed v3).
      */
     public static Processor iti44RequestValidator() {
-        return ITI_44_REQUEST_VALIDATOR;
+        return validatingProcessor(ITI_44_PIX, true);
     }
     
     /**
@@ -65,7 +44,7 @@ abstract public class Hl7v3CamelValidators {
      * (Patient Identity Feed v3).
      */
     public static Processor iti44ResponseValidator() {
-        return ITI_44_RESPONSE_VALIDATOR;
+        return validatingProcessor(ITI_44_PIX, false);
     }
 
     /**
@@ -73,7 +52,7 @@ abstract public class Hl7v3CamelValidators {
      * (Patient Identity Query v3).
      */
     public static Processor iti45RequestValidator() {
-        return ITI_45_REQUEST_VALIDATOR;
+        return validatingProcessor(ITI_45, true);
     }
     
     /**
@@ -81,7 +60,7 @@ abstract public class Hl7v3CamelValidators {
      * (Patient Identity Query v3).
      */
     public static Processor iti45ResponseValidator() {
-        return ITI_45_RESPONSE_VALIDATOR;
+        return validatingProcessor(ITI_45, false);
     }
 
     /**
@@ -89,7 +68,7 @@ abstract public class Hl7v3CamelValidators {
      * (Patient Identity Update Notification v3).
      */
     public static Processor iti46RequestValidator() {
-        return ITI_46_REQUEST_VALIDATOR;
+        return validatingProcessor(ITI_46, true);
     }
     
     /**
@@ -97,7 +76,7 @@ abstract public class Hl7v3CamelValidators {
      * (Patient Identity Update Notification v3).
      */
     public static Processor iti46ResponseValidator() {
-        return ITI_46_RESPONSE_VALIDATOR;
+        return validatingProcessor(ITI_46, false);
     }
 
     /**
@@ -105,7 +84,7 @@ abstract public class Hl7v3CamelValidators {
      * (Patient Demographics Query v3).
      */
     public static Processor iti47RequestValidator() {
-        return ITI_47_REQUEST_VALIDATOR;
+        return validatingProcessor(ITI_47, true);
     }
     
     /**
@@ -113,7 +92,7 @@ abstract public class Hl7v3CamelValidators {
      * (Patient Demographics Query v3).
      */
     public static Processor iti47ResponseValidator() {
-        return ITI_47_RESPONSE_VALIDATOR;
+        return validatingProcessor(ITI_47, false);
     }
     
     /**
@@ -121,7 +100,7 @@ abstract public class Hl7v3CamelValidators {
      * (Cross-Gateway Patient Discovery).
      */
     public static Processor iti55RequestValidator() {
-        return ITI_55_REQUEST_VALIDATOR;
+        return validatingProcessor(ITI_55, true);
     }
 
     /**
@@ -129,7 +108,7 @@ abstract public class Hl7v3CamelValidators {
      * (Cross-Gateway Patient Discovery).
      */
     public static Processor iti55ResponseValidator() {
-        return ITI_55_RESPONSE_VALIDATOR;
+        return validatingProcessor(ITI_55, false);
     }
 
     /**
@@ -137,7 +116,7 @@ abstract public class Hl7v3CamelValidators {
      * (Patient Location Query).
      */
     public static Processor iti56RequestValidator() {
-        return ITI_56_REQUEST_VALIDATOR;
+        return validatingProcessor(ITI_56, true);
     }
 
     /**
@@ -145,7 +124,7 @@ abstract public class Hl7v3CamelValidators {
      * (Patient Location Query).
      */
     public static Processor iti56ResponseValidator() {
-        return ITI_56_RESPONSE_VALIDATOR;
+        return validatingProcessor(ITI_56, false);
     }
 
     /**
@@ -153,7 +132,7 @@ abstract public class Hl7v3CamelValidators {
      * (Query for Existing Data).
      */
     public static Processor pcc1RequestValidator() {
-        return PCC_1_REQUEST_VALIDATOR;
+        return validatingProcessor(PCC_1, true);
     }
 
     /**
@@ -161,32 +140,25 @@ abstract public class Hl7v3CamelValidators {
      * (Query for Existing Data).
      */
     public static Processor pcc1ResponseValidator() {
-        return PCC_1_RESPONSE_VALIDATOR;
+        return validatingProcessor(PCC_1, false);
     }
 
 
-    private static Processor validatingProcessor(
-            final InteractionId interactionId,
-            final boolean request)
-    {
+    private static Processor validatingProcessor(InteractionId interactionId, boolean request) {
+        Hl7v3ValidationProfile profile = IheRegistry.get(interactionId, Hl7v3ValidationProfile.class);
+        final String[][] profiles = request ?
+                profile.getRequestValidationProfile() :
+                profile.getResponseValidationProfile();
         return new Processor() {
             @Override
             public void process(Exchange exchange) throws Exception {
-                doValidation(exchange, interactionId, request);
+                doValidation(exchange, profiles);
             }
         };
     }
 
-    private static void doValidation(
-            Exchange exchange,
-            InteractionId interactionId,
-            boolean request)
-    {
+    private static void doValidation(Exchange exchange, String[][] profiles) {
         String message = exchange.getIn().getBody(String.class);
-        XmlValidationProfileRegistry registry = XmlValidationProfileRegistry.instance();
-        String[][] profiles = request ?
-                registry.getRequestValidationProfiles(interactionId) :
-                registry.getResponseValidationProfiles(interactionId);
         VALIDATOR.validate(message, profiles);
     }
 }

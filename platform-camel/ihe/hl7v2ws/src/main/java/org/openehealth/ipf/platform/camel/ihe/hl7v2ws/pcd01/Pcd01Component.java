@@ -15,11 +15,8 @@
  */
 package org.openehealth.ipf.platform.camel.ihe.hl7v2ws.pcd01;
 
-import org.openehealth.ipf.commons.ihe.hl7v2.Hl7v2TransactionConfiguration;
-import org.openehealth.ipf.commons.ihe.hl7v2.Hl7v2TransactionConfigurations;
-import org.openehealth.ipf.commons.ihe.hl7v2.NakFactory;
-import org.openehealth.ipf.commons.ihe.hl7v2ws.Hl7v2WsTransactionConfigurations;
-import org.openehealth.ipf.commons.ihe.ws.ItiServiceInfo;
+import org.openehealth.ipf.commons.ihe.core.InteractionId;
+import org.openehealth.ipf.commons.ihe.core.IpfInteractionId;
 import org.openehealth.ipf.platform.camel.ihe.hl7v2ws.AbstractHl7v2WebService;
 import org.openehealth.ipf.platform.camel.ihe.hl7v2ws.AbstractHl7v2WsComponent;
 
@@ -29,22 +26,12 @@ import org.openehealth.ipf.platform.camel.ihe.hl7v2ws.AbstractHl7v2WsComponent;
 public class Pcd01Component extends AbstractHl7v2WsComponent {
 
     @Override
-    public Hl7v2TransactionConfiguration getTransactionConfiguration() {
-        return Hl7v2TransactionConfigurations.PCD_01_CONFIG;
-    }
-
-    @Override
-    public NakFactory getNakFactory() {
-        return Hl7v2TransactionConfigurations.PCD_01_NAK_FACTORY;
-    }
-
-    @Override
-    public ItiServiceInfo getWebServiceConfiguration() {
-        return Hl7v2WsTransactionConfigurations.PCD_01_WS_CONFIG;
-    }
-
-    @Override
     protected Class<? extends AbstractHl7v2WebService> getServiceClass() {
         return Pcd01Service.class;
+    }
+
+    @Override
+    public InteractionId getInteractionId() {
+        return IpfInteractionId.PCD_01;
     }
 }

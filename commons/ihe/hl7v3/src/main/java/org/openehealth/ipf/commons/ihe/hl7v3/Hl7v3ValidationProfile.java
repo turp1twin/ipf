@@ -13,12 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openehealth.ipf.commons.ihe.core;
+package org.openehealth.ipf.commons.ihe.hl7v3;
 
 /**
- * An entity which provides some configuration for eHealth components.
  * @author Dmytro Rud
  */
-public interface IheConfigurator {
-    void configure(IheRegistry registry);
+public class Hl7v3ValidationProfile {
+    String[][] requestValidationProfile;
+    String[][] responseValidationProfile;
+
+    public Hl7v3ValidationProfile(String[][] requestValidationProfile, String[][] responseValidationProfile) {
+        this.requestValidationProfile = requestValidationProfile;
+        this.responseValidationProfile = responseValidationProfile;
+    }
+
+    public String[][] getResponseValidationProfile() {
+        return responseValidationProfile;
+    }
+
+    public String[][] getRequestValidationProfile() {
+        return requestValidationProfile;
+    }
 }

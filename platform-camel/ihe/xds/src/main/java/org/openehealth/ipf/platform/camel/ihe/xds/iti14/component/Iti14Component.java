@@ -15,17 +15,17 @@
  */
 package org.openehealth.ipf.platform.camel.ihe.xds.iti14.component;
 
-import java.util.Map;
-
 import org.apache.camel.Endpoint;
-import org.openehealth.ipf.commons.ihe.ws.ItiServiceInfo;
-import org.openehealth.ipf.commons.ihe.xds.XdsTransactionConfigurations;
+import org.openehealth.ipf.commons.ihe.core.InteractionId;
+import org.openehealth.ipf.commons.ihe.core.IpfInteractionId;
 import org.openehealth.ipf.platform.camel.ihe.ws.AbstractWsComponent;
+
+import java.util.Map;
 
 /**
  * The Camel component for the ITI-14 transaction.
  */
-public class Iti14Component extends AbstractWsComponent<ItiServiceInfo> {
+public class Iti14Component extends AbstractWsComponent {
 
     @SuppressWarnings("unchecked") // Required because of base class
     @Override
@@ -34,7 +34,7 @@ public class Iti14Component extends AbstractWsComponent<ItiServiceInfo> {
     }
 
     @Override
-    public ItiServiceInfo getWebServiceConfiguration() {
-        return XdsTransactionConfigurations.ITI_14_CONFIG;
+    public InteractionId getInteractionId() {
+        return IpfInteractionId.ITI_14;
     }
 }

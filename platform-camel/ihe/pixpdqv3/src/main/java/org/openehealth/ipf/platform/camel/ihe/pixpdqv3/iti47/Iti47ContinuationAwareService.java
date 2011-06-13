@@ -16,11 +16,9 @@
 package org.openehealth.ipf.platform.camel.ihe.pixpdqv3.iti47;
 
 import org.openehealth.ipf.commons.ihe.core.IpfInteractionId;
-import org.openehealth.ipf.commons.ihe.hl7v3.Hl7v3ContinuationAwareServiceInfo;
 import org.openehealth.ipf.commons.ihe.pixpdqv3.iti47.Iti47PortType;
-import org.openehealth.ipf.commons.ihe.ws.WebServiceTransactionConfigurationRegistry;
-import org.openehealth.ipf.platform.camel.ihe.pixpdqv3.Hl7v3ContinuationStorage;
 import org.openehealth.ipf.platform.camel.ihe.pixpdqv3.Hl7v3ContinuationAwareWebService;
+import org.openehealth.ipf.platform.camel.ihe.pixpdqv3.Hl7v3ContinuationStorage;
 
 // The main purpose of this class is to add "implements Iti47PortType"
 // to the class Hl7v3ContinuationAwareWebService, as required by CXF.
@@ -38,7 +36,6 @@ public class Iti47ContinuationAwareService
             int defaultThreshold,
             boolean validationOnContinuation)
     {
-        super(WebServiceTransactionConfigurationRegistry.instance().<Hl7v3ContinuationAwareServiceInfo>get(IpfInteractionId.ITI_47),
-                storage, defaultThreshold, validationOnContinuation);
+        super(IpfInteractionId.ITI_47, storage, defaultThreshold, validationOnContinuation);
     }
 }

@@ -21,7 +21,9 @@ import org.openehealth.ipf.modules.hl7dsl.MessageAdapter;
 import org.openehealth.ipf.modules.hl7dsl.MessageAdapters
 import org.openehealth.ipf.commons.ihe.hl7v3.Hl7v3Validator
 import org.openehealth.ipf.commons.ihe.pixpdqv3.PixPdqV3TransactionConfigurations
-import org.openehealth.ipf.commons.ihe.core.IpfInteractionId;
+import org.openehealth.ipf.commons.ihe.core.IpfInteractionId
+import org.openehealth.ipf.commons.ihe.core.IheRegistry
+import org.openehealth.ipf.commons.ihe.hl7v3.Hl7v3ValidationProfile;
 
 /**
  * Test for PIX Query translator.
@@ -55,6 +57,6 @@ class PixQueryTranslatorTest extends Hl7TranslationTestContainer {
 		MessageAdapter abrakadapter = MessageAdapters.make(v2response)
 		String v3response = v2tov3Translator.translateV2toV3(abrakadapter, v3request)
         new Hl7v3Validator().validate(v3response,
-                PixPdqV3TransactionConfigurations.getResponseValidationProfiles(IpfInteractionId.ITI_45))
+                IheRegistry.get(IpfInteractionId.ITI_45, Hl7v3ValidationProfile.class).responseValidationProfile)
 	}
 }

@@ -15,21 +15,21 @@
  */
 package org.openehealth.ipf.platform.camel.ihe.ws;
 
-import java.util.List;
-import java.util.Map;
-
 import org.apache.camel.impl.DefaultComponent;
 import org.apache.cxf.interceptor.AbstractBasicInterceptorProvider;
 import org.apache.cxf.interceptor.Interceptor;
 import org.apache.cxf.interceptor.InterceptorProvider;
-import org.openehealth.ipf.commons.ihe.ws.ItiServiceInfo;
 import org.apache.cxf.message.Message;
+import org.openehealth.ipf.commons.ihe.core.InteractionIdAware;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Base component class for Web Service-based IHE components.
  * @author Dmytro Rud
  */
-abstract public class AbstractWsComponent<C extends ItiServiceInfo> extends DefaultComponent {
+abstract public class AbstractWsComponent extends DefaultComponent implements InteractionIdAware {
 
     protected InterceptorProvider getCustomInterceptors(Map<String, Object> parameters) {
         AbstractBasicInterceptorProvider provider = new AbstractBasicInterceptorProvider() {};
@@ -47,10 +47,8 @@ abstract public class AbstractWsComponent<C extends ItiServiceInfo> extends Defa
     }
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private List<Interceptor<? extends Message>> castList(
-			List<Interceptor> param) {
+	private List<Interceptor<? extends Message>> castList(List<Interceptor> param) {
 		return (List<Interceptor<? extends Message>>) (List<?>) param;
 	}
 
-    public abstract C getWebServiceConfiguration();
 }

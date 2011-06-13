@@ -16,9 +16,7 @@
 package org.openehealth.ipf.platform.camel.ihe.pixpdqv3.pcc1;
 
 import org.openehealth.ipf.commons.ihe.core.IpfInteractionId;
-import org.openehealth.ipf.commons.ihe.hl7v3.Hl7v3ServiceInfo;
 import org.openehealth.ipf.commons.ihe.pixpdqv3.pcc1.Pcc1PortType;
-import org.openehealth.ipf.commons.ihe.ws.WebServiceTransactionConfigurationRegistry;
 import org.openehealth.ipf.platform.camel.ihe.pixpdqv3.DefaultHl7v3WebService;
 
 /**
@@ -28,7 +26,7 @@ import org.openehealth.ipf.platform.camel.ihe.pixpdqv3.DefaultHl7v3WebService;
 public class Pcc1Service extends DefaultHl7v3WebService implements Pcc1PortType {
 
     public Pcc1Service() {
-        super(WebServiceTransactionConfigurationRegistry.instance().<Hl7v3ServiceInfo>get(IpfInteractionId.PCC_1));
+        super(IpfInteractionId.PCC_1);
     }
 
     @Override

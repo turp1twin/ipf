@@ -16,6 +16,8 @@
 package org.openehealth.ipf.platform.camel.ihe.pixpdq.iti9;
 
 import org.apache.camel.CamelContext;
+import org.openehealth.ipf.commons.ihe.core.InteractionId;
+import org.openehealth.ipf.commons.ihe.core.IpfInteractionId;
 import org.openehealth.ipf.commons.ihe.hl7v2.Hl7v2TransactionConfiguration;
 import org.openehealth.ipf.commons.ihe.hl7v2.Hl7v2TransactionConfigurations;
 import org.openehealth.ipf.commons.ihe.hl7v2.NakFactory;
@@ -52,12 +54,7 @@ public class Iti9Component extends MllpComponent {
     }
     
     @Override
-    public Hl7v2TransactionConfiguration getTransactionConfiguration() {
-        return Hl7v2TransactionConfigurations.ITI_9_CONFIG;
-    }
-
-    @Override
-    public NakFactory getNakFactory() {
-        return Hl7v2TransactionConfigurations.ITI_9_NAK_FACTORY;
+    public InteractionId getInteractionId() {
+        return IpfInteractionId.ITI_9;
     }
 }

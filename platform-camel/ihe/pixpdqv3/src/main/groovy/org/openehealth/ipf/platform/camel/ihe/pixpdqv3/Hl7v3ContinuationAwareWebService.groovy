@@ -22,7 +22,7 @@ import org.apache.commons.lang.Validate
 import org.apache.commons.logging.Log
 import org.apache.commons.logging.LogFactory
 import org.openehealth.ipf.commons.core.modules.api.ValidationException
-import org.openehealth.ipf.commons.ihe.hl7v3.Hl7v3ContinuationAwareServiceInfo
+import org.openehealth.ipf.commons.ihe.core.InteractionId
 import org.openehealth.ipf.commons.ihe.hl7v3.Hl7v3Validator
 import org.openehealth.ipf.commons.ihe.pixpdqv3.Hl7v3ContinuationsPortType
 import org.openehealth.ipf.commons.ihe.ws.utils.SoapUtils
@@ -52,12 +52,12 @@ public class Hl7v3ContinuationAwareWebService
 
     
     public Hl7v3ContinuationAwareWebService(
-            Hl7v3ContinuationAwareServiceInfo serviceInfo,
+            InteractionId interactionId,
             Hl7v3ContinuationStorage storage,
             int defaultThreshold,
             boolean validation)
     {
-        super(serviceInfo);
+        super(interactionId);
 
         Validate.notNull(storage)
         this.storage = storage

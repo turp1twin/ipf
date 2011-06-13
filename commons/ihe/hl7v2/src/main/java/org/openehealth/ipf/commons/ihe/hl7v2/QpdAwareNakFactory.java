@@ -20,6 +20,7 @@ import ca.uhn.hl7v2.model.*;
 import ca.uhn.hl7v2.model.v25.datatype.ST;
 import ca.uhn.hl7v2.util.Terser;
 import org.apache.commons.lang.Validate;
+import org.openehealth.ipf.commons.ihe.core.InteractionId;
 import org.openehealth.ipf.modules.hl7.AckTypeCode;
 import org.openehealth.ipf.modules.hl7.message.MessageUtils;
 
@@ -35,8 +36,8 @@ public class QpdAwareNakFactory extends NakFactory {
     private final String messageType, triggerEvent;
 
 
-    public QpdAwareNakFactory(Hl7v2TransactionConfiguration config, String messageType, String triggerEvent) {
-        super(config);
+    public QpdAwareNakFactory(InteractionId interactionId, String messageType, String triggerEvent) {
+        super(interactionId);
 
         Validate.notEmpty(messageType);
         Validate.notEmpty(triggerEvent);

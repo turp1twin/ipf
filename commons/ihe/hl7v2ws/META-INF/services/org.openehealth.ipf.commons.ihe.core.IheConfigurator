@@ -1,0 +1,3 @@
+# Transaction configuration for HL7v2-based IPF Web Service components.
+
+org.openehealth.ipf.commons.ihe.hl7v2ws.Hl7v2WsTransactionConfigurations

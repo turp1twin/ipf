@@ -15,17 +15,18 @@
  */
 package org.openehealth.ipf.commons.ihe.pixpdqv3.translation
 
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.openehealth.ipf.modules.hl7dsl.MessageAdapter;
-import org.openehealth.ipf.modules.hl7dsl.MessageAdapters
+import org.junit.BeforeClass
+import org.junit.Test
+import org.openehealth.ipf.commons.ihe.core.IheRegistry
+import org.openehealth.ipf.commons.ihe.core.IpfInteractionId
+import org.openehealth.ipf.commons.ihe.hl7v3.Hl7v3ValidationProfile
 import org.openehealth.ipf.commons.ihe.hl7v3.Hl7v3Validator
-import org.openehealth.ipf.commons.ihe.pixpdqv3.PixPdqV3TransactionConfigurations
-import org.openehealth.ipf.commons.ihe.core.IpfInteractionId;
+import org.openehealth.ipf.modules.hl7dsl.MessageAdapter
+import org.openehealth.ipf.modules.hl7dsl.MessageAdapters
 
 /**
  * Test for PIX Update Notification translator.
- * @author Marek V�clav�k, Dmytro Rud
+ * @author Marek Václavík, Dmytro Rud
  */
 class PixUpdateNotificationTranslatorTest extends Hl7TranslationTestContainer {
 
@@ -42,7 +43,7 @@ class PixUpdateNotificationTranslatorTest extends Hl7TranslationTestContainer {
         MessageAdapter msg = MessageAdapters.make(v2notification)
         String v3notification = v2tov3Translator.translateV2toV3(msg)
         new Hl7v3Validator().validate(v3notification,
-                PixPdqV3TransactionConfigurations.getRequestValidationProfiles(IpfInteractionId.ITI_46))
+            IheRegistry.get(IpfInteractionId.ITI_46, Hl7v3ValidationProfile.class).requestValidationProfile)
     }
     
 }

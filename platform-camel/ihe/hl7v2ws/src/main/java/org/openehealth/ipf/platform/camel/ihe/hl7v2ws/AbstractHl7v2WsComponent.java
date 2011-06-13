@@ -16,8 +16,11 @@
 package org.openehealth.ipf.platform.camel.ihe.hl7v2ws;
 
 import org.apache.camel.Endpoint;
+import org.openehealth.ipf.commons.ihe.core.IheRegistry;
+import org.openehealth.ipf.commons.ihe.core.InteractionIdAware;
 import org.openehealth.ipf.commons.ihe.hl7v2.Hl7v2ConfigurationHolder;
-import org.openehealth.ipf.commons.ihe.ws.ItiServiceInfo;
+import org.openehealth.ipf.commons.ihe.hl7v2.Hl7v2TransactionConfiguration;
+import org.openehealth.ipf.commons.ihe.hl7v2.NakFactory;
 import org.openehealth.ipf.platform.camel.ihe.ws.AbstractWsComponent;
 
 import java.util.Map;
@@ -26,8 +29,8 @@ import java.util.Map;
  * @author Dmytro Rud
  */
 abstract public class AbstractHl7v2WsComponent
-        extends AbstractWsComponent<ItiServiceInfo>
-        implements Hl7v2ConfigurationHolder
+        extends AbstractWsComponent
+        implements Hl7v2ConfigurationHolder, InteractionIdAware
 {
 
     @Override
@@ -41,6 +44,16 @@ abstract public class AbstractHl7v2WsComponent
                 getServiceClass());
     }
 
+
+    @Override
+    public Hl7v2TransactionConfiguration getTransactionConfiguration() {
+        return IheRegistry.get(getInteractionId(), Hl7v2TransactionConfiguration.class);
+    }
+
+    @Override
+    public NakFactory getNakFactory() {
+        return IheRegistry.get(getInteractionId(), NakFactory.class);
+    }
 
     abstract protected Class<? extends AbstractHl7v2WebService> getServiceClass();
 }

@@ -16,8 +16,8 @@
 package org.openehealth.ipf.commons.ihe.xca;
 
 import org.openehealth.ipf.commons.ihe.core.IheConfigurator;
+import org.openehealth.ipf.commons.ihe.core.IheRegistry;
 import org.openehealth.ipf.commons.ihe.ws.ItiServiceInfo;
-import org.openehealth.ipf.commons.ihe.ws.WebServiceTransactionConfigurationRegistry;
 import org.openehealth.ipf.commons.ihe.xca.iti38.Iti38PortType;
 import org.openehealth.ipf.commons.ihe.xca.iti38.asyncresponse.Iti38AsyncResponsePortType;
 import org.openehealth.ipf.commons.ihe.xca.iti39.Iti39PortType;
@@ -33,13 +33,11 @@ import static org.openehealth.ipf.commons.ihe.core.IpfInteractionId.*;
 public class XcaTransactionConfigurations implements IheConfigurator {
 
     @Override
-    public void configure() {
+    public void configure(IheRegistry registry) {
         String NS_URI = "urn:ihe:iti:xds-b:2007";
+        Class<ItiServiceInfo> clazz = ItiServiceInfo.class;
 
-        WebServiceTransactionConfigurationRegistry registry =
-                WebServiceTransactionConfigurationRegistry.instance();
-
-        registry.registerConfiguration(ITI_38, new ItiServiceInfo(
+        registry.register(ITI_38, clazz, new ItiServiceInfo(
                 new QName(NS_URI, "RespondingGateway_Service", "ihe"),
                 Iti38PortType.class,
                 new QName(NS_URI, "RespondingGateway_Binding_Soap12", "ihe"),
@@ -49,7 +47,7 @@ public class XcaTransactionConfigurations implements IheConfigurator {
                 false,
                 true));
 
-        registry.registerConfiguration(ITI_38_ASYNC_RESPONSE, new ItiServiceInfo(
+        registry.register(ITI_38_ASYNC_RESPONSE, clazz, new ItiServiceInfo(
                 new QName(NS_URI, "RespondingGateway_Response_Service", "ihe"),
                 Iti38AsyncResponsePortType.class,
                 new QName(NS_URI, "RespondingGateway_Response_Binding_Soap12", "ihe"),
@@ -59,7 +57,7 @@ public class XcaTransactionConfigurations implements IheConfigurator {
                 false,
                 false));
 
-        registry.registerConfiguration(ITI_39, new ItiServiceInfo(
+        registry.register(ITI_39, clazz, new ItiServiceInfo(
                 new QName(NS_URI, "RespondingGateway_Service", "ihe"),
                 Iti39PortType.class,
                 new QName(NS_URI, "RespondingGateway_Binding_Soap12", "ihe"),
@@ -69,7 +67,7 @@ public class XcaTransactionConfigurations implements IheConfigurator {
                 false,
                 false));
 
-        registry.registerConfiguration(ITI_39_ASYNC_RESPONSE, new ItiServiceInfo(
+        registry.register(ITI_39_ASYNC_RESPONSE, clazz, new ItiServiceInfo(
                 new QName(NS_URI, "RespondingGateway_Response_Service", "ihe"),
                 Iti39AsyncResponsePortType.class,
                 new QName(NS_URI, "RespondingGateway_Response_Binding_Soap12", "ihe"),

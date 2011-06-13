@@ -15,9 +15,8 @@
  */
 package org.openehealth.ipf.platform.camel.ihe.pixpdqv3.iti44;
 
+import org.openehealth.ipf.commons.ihe.core.InteractionId;
 import org.openehealth.ipf.commons.ihe.core.IpfInteractionId;
-import org.openehealth.ipf.commons.ihe.hl7v3.Hl7v3ServiceInfo;
-import org.openehealth.ipf.commons.ihe.ws.WebServiceTransactionConfigurationRegistry;
 
 /**
  * The Camel component for the ITI-44 transaction (XDS.b).
@@ -25,7 +24,7 @@ import org.openehealth.ipf.commons.ihe.ws.WebServiceTransactionConfigurationRegi
 public class Iti44XdsComponent extends AbstractIti44Component {
 
     @Override
-    public Hl7v3ServiceInfo getWebServiceConfiguration() {
-        return WebServiceTransactionConfigurationRegistry.instance().get(IpfInteractionId.ITI_44_XDS);
+    public InteractionId getInteractionId() {
+        return IpfInteractionId.ITI_44_XDS;
     }
 }

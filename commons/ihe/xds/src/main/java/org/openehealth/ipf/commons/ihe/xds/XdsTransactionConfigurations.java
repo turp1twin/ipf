@@ -16,8 +16,8 @@
 package org.openehealth.ipf.commons.ihe.xds;
 
 import org.openehealth.ipf.commons.ihe.core.IheConfigurator;
+import org.openehealth.ipf.commons.ihe.core.IheRegistry;
 import org.openehealth.ipf.commons.ihe.ws.ItiServiceInfo;
-import org.openehealth.ipf.commons.ihe.ws.WebServiceTransactionConfigurationRegistry;
 import org.openehealth.ipf.commons.ihe.xds.iti14.Iti14PortType;
 import org.openehealth.ipf.commons.ihe.xds.iti15.Iti15PortType;
 import org.openehealth.ipf.commons.ihe.xds.iti16.Iti16PortType;
@@ -36,13 +36,11 @@ import static org.openehealth.ipf.commons.ihe.core.IpfInteractionId.*;
 public class XdsTransactionConfigurations implements IheConfigurator {
 
     @Override
-    public void configure() {
-        String NS_URI = "urn:ihe:iti:xds:2007";
+    public void configure(IheRegistry registry) {
+        final String NS_URI = "urn:ihe:iti:xds:2007";
+        final Class<ItiServiceInfo> clazz = ItiServiceInfo.class;
 
-        WebServiceTransactionConfigurationRegistry registry =
-                WebServiceTransactionConfigurationRegistry.instance();
-
-        registry.registerConfiguration(ITI_14, new ItiServiceInfo(
+        registry.register(ITI_14, clazz, new ItiServiceInfo(
                 new QName(NS_URI, "DocumentRegistry_Service", "ihe"),
                 Iti14PortType.class,
                 new QName(NS_URI, "DocumentRegistry_Binding_Soap11", "ihe"),
@@ -52,7 +50,7 @@ public class XdsTransactionConfigurations implements IheConfigurator {
                 false,
                 false));
 
-        registry.registerConfiguration(ITI_15, new ItiServiceInfo(
+        registry.register(ITI_15, clazz, new ItiServiceInfo(
                 new QName(NS_URI, "DocumentRepository_Service", "ihe"),
                 Iti15PortType.class,
                 new QName(NS_URI, "DocumentRepository_Binding_Soap11", "ihe"),
@@ -62,7 +60,7 @@ public class XdsTransactionConfigurations implements IheConfigurator {
                 true,
                 false));
 
-        registry.registerConfiguration(ITI_16, new ItiServiceInfo(
+        registry.register(ITI_16, clazz, new ItiServiceInfo(
                 new QName(NS_URI, "DocumentRegistry_Service", "ihe"),
                 Iti16PortType.class,
                 new QName(NS_URI, "DocumentRegistry_Binding_Soap11", "ihe"),
@@ -72,7 +70,7 @@ public class XdsTransactionConfigurations implements IheConfigurator {
                 false,
                 true));
 
-        registry.registerConfiguration(ITI_18, new ItiServiceInfo(
+        registry.register(ITI_18, clazz, new ItiServiceInfo(
                 new QName("urn:ihe:iti:xds-b:2007", "DocumentRegistry_Service", "ihe"),
                 Iti18PortType.class,
                 new QName("urn:ihe:iti:xds-b:2007", "DocumentRegistry_Binding_Soap12", "ihe"),
@@ -82,7 +80,7 @@ public class XdsTransactionConfigurations implements IheConfigurator {
                 false,
                 true));
 
-        registry.registerConfiguration(ITI_41, new ItiServiceInfo(
+        registry.register(ITI_41, clazz, new ItiServiceInfo(
                 new QName("urn:ihe:iti:xds-b:2007", "DocumentRepository_Service", "ihe"),
                 Iti41PortType.class,
                 new QName("urn:ihe:iti:xds-b:2007", "DocumentRepository_Binding_Soap12", "ihe"),
@@ -92,7 +90,7 @@ public class XdsTransactionConfigurations implements IheConfigurator {
                 false,
                 false));
 
-        registry.registerConfiguration(ITI_42, new ItiServiceInfo(
+        registry.register(ITI_42, clazz, new ItiServiceInfo(
                 new QName("urn:ihe:iti:xds-b:2007", "DocumentRegistry_Service", "ihe"),
                 Iti42PortType.class,
                 new QName("urn:ihe:iti:xds-b:2007", "DocumentRegistry_Binding_Soap12", "ihe"),
@@ -102,7 +100,7 @@ public class XdsTransactionConfigurations implements IheConfigurator {
                 false,
                 false));
 
-        registry.registerConfiguration(ITI_43, new ItiServiceInfo(
+        registry.register(ITI_43, clazz, new ItiServiceInfo(
                 new QName("urn:ihe:iti:xds-b:2007", "DocumentRepository_Service", "ihe"),
                 Iti43PortType.class,
                 new QName("urn:ihe:iti:xds-b:2007", "DocumentRepository_Binding_Soap12", "ihe"),

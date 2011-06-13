@@ -16,9 +16,16 @@
 package org.openehealth.ipf.commons.ihe.core;
 
 /**
- * An entity which provides some configuration for eHealth components.
+ * Interface for objects which participate in the implementation
+ * of an eHealth interaction.
+ *
  * @author Dmytro Rud
  */
-public interface IheConfigurator {
-    void configure(IheRegistry registry);
+public interface InteractionIdAware {
+
+    /**
+     * @return
+     *      eHealth interaction ID supported by this object.
+     */
+    InteractionId getInteractionId();
 }

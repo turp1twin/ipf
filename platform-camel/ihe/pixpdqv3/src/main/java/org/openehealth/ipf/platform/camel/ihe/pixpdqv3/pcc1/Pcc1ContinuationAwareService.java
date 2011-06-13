@@ -16,9 +16,7 @@
 package org.openehealth.ipf.platform.camel.ihe.pixpdqv3.pcc1;
 
 import org.openehealth.ipf.commons.ihe.core.IpfInteractionId;
-import org.openehealth.ipf.commons.ihe.hl7v3.Hl7v3ContinuationAwareServiceInfo;
 import org.openehealth.ipf.commons.ihe.pixpdqv3.pcc1.Pcc1PortType;
-import org.openehealth.ipf.commons.ihe.ws.WebServiceTransactionConfigurationRegistry;
 import org.openehealth.ipf.platform.camel.ihe.pixpdqv3.Hl7v3ContinuationAwareWebService;
 import org.openehealth.ipf.platform.camel.ihe.pixpdqv3.Hl7v3ContinuationStorage;
 
@@ -38,7 +36,6 @@ public class Pcc1ContinuationAwareService
             int defaultThreshold,
             boolean validationOnContinuation)
     {
-        super(WebServiceTransactionConfigurationRegistry.instance().<Hl7v3ContinuationAwareServiceInfo>get(IpfInteractionId.PCC_1),
-                storage, defaultThreshold, validationOnContinuation);
+        super(IpfInteractionId.PCC_1, storage, defaultThreshold, validationOnContinuation);
     }
 }

@@ -23,7 +23,11 @@ import org.apache.camel.component.mina.MinaEndpoint;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.mina.filter.codec.ProtocolCodecFactory;
+import org.openehealth.ipf.commons.ihe.core.IheRegistry;
+import org.openehealth.ipf.commons.ihe.core.InteractionIdAware;
 import org.openehealth.ipf.commons.ihe.hl7v2.Hl7v2ConfigurationHolder;
+import org.openehealth.ipf.commons.ihe.hl7v2.Hl7v2TransactionConfiguration;
+import org.openehealth.ipf.commons.ihe.hl7v2.NakFactory;
 import org.openehealth.ipf.platform.camel.ihe.hl7v2.intercept.consumer.ConsumerAdaptingInterceptor;
 import org.openehealth.ipf.platform.camel.ihe.mllp.core.intercept.MllpCustomInterceptor;
 
@@ -37,7 +41,7 @@ import java.util.*;
  * 
  * @author Dmytro Rud
  */
-public abstract class MllpComponent extends MinaComponent implements Hl7v2ConfigurationHolder {
+public abstract class MllpComponent extends MinaComponent implements Hl7v2ConfigurationHolder, InteractionIdAware {
     private static final transient Log LOG = LogFactory.getLog(MllpComponent.class);
     
     public static final String ACK_TYPE_CODE_HEADER = ConsumerAdaptingInterceptor.ACK_TYPE_CODE_HEADER;
@@ -180,6 +184,16 @@ public abstract class MllpComponent extends MinaComponent implements Hl7v2Config
 
     private static String extractBeanName(String originalBeanName) {
         return originalBeanName.startsWith("#") ? originalBeanName.substring(1) : originalBeanName;
+    }
+
+    @Override
+    public Hl7v2TransactionConfiguration getTransactionConfiguration() {
+        return IheRegistry.get(getInteractionId(), Hl7v2TransactionConfiguration.class);
+    }
+
+    @Override
+    public NakFactory getNakFactory() {
+        return IheRegistry.get(getInteractionId(), NakFactory.class);
     }
 
 

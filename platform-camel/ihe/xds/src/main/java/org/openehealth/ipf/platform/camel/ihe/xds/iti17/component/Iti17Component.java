@@ -24,7 +24,7 @@ import java.util.Map;
 /**
  * The Camel component for the ITI-17 transaction.
  */
-public class Iti17Component extends AbstractWsComponent<ItiServiceInfo> {
+public class Iti17Component extends AbstractWsComponent {
     @Override
     @SuppressWarnings("unchecked") // Required because of base class
     protected Endpoint createEndpoint(String uri, String remaining, Map parameters) throws Exception {

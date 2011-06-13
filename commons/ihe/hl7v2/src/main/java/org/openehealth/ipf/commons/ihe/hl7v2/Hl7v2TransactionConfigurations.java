@@ -15,16 +15,29 @@
  */
 package org.openehealth.ipf.commons.ihe.hl7v2;
 
+import org.openehealth.ipf.commons.ihe.core.IheConfigurator;
+import org.openehealth.ipf.commons.ihe.core.IheRegistry;
 import org.openehealth.ipf.commons.ihe.hl7v2.definitions.CustomModelClassUtils;
 import org.openehealth.ipf.modules.hl7.parser.PipeParser;
+
+import static org.openehealth.ipf.commons.ihe.core.IpfInteractionId.*;
 
 /**
  * @author Dmytro Rud
  */
-public class Hl7v2TransactionConfigurations {
+public class Hl7v2TransactionConfigurations implements IheConfigurator {
 
-    public static final Hl7v2TransactionConfiguration ITI_8_CONFIG =
-        new Hl7v2TransactionConfiguration(
+    @Override
+    public void configure(IheRegistry registry) {
+        registerConfigurations(registry);
+        registerNakFactories(registry);
+    }
+
+
+    private static void registerConfigurations(IheRegistry registry) {
+        final Class<Hl7v2TransactionConfiguration> clazz = Hl7v2TransactionConfiguration.class;
+
+        registry.register(ITI_8, clazz, new Hl7v2TransactionConfiguration(
                 "2.3.1",
                 "PIX adapter",
                 "IPF",
@@ -36,11 +49,9 @@ public class Hl7v2TransactionConfigurations {
                 new String[] {"*"},
                 new boolean[] {true},
                 new boolean[] {false},
-                new PipeParser());
+                new PipeParser()));
 
-
-    public static final Hl7v2TransactionConfiguration ITI_9_CONFIG =
-        new Hl7v2TransactionConfiguration(
+        registry.register(ITI_9, clazz, new Hl7v2TransactionConfiguration(
                 "2.5",
                 "PIX adapter",
                 "IPF",
@@ -52,11 +63,9 @@ public class Hl7v2TransactionConfigurations {
                 new String[] {"K23"},
                 new boolean[] {true},
                 new boolean[] {false},
-                CustomModelClassUtils.createParser("pix", "2.5"));
-
-
-    public static final Hl7v2TransactionConfiguration ITI_10_CONFIG =
-        new Hl7v2TransactionConfiguration(
+                CustomModelClassUtils.createParser("pix", "2.5")));
+    
+        registry.register(ITI_10, clazz, new Hl7v2TransactionConfiguration(
                 "2.5",
                 "PIX adapter",
                 "IPF",
@@ -68,11 +77,9 @@ public class Hl7v2TransactionConfigurations {
                 new String[] {"*"},
                 new boolean[] {true},
                 new boolean[] {false},
-                new PipeParser());
-
-
-    public static final Hl7v2TransactionConfiguration ITI_21_CONFIG =
-        new PdqTransactionConfiguration(
+                new PipeParser()));
+    
+        registry.register(ITI_21, clazz, new PdqTransactionConfiguration(
                 "2.5",
                 "PDQ adapter",
                 "IPF",
@@ -84,11 +91,9 @@ public class Hl7v2TransactionConfigurations {
                 new String[] {"K22", "*"},
                 new boolean[] {true, false},
                 new boolean[] {true, false},
-                CustomModelClassUtils.createParser("pdq", "2.5"));
-
-
-    public static final Hl7v2TransactionConfiguration ITI_22_CONFIG =
-        new PdqTransactionConfiguration(
+                CustomModelClassUtils.createParser("pdq", "2.5")));
+    
+        registry.register(ITI_22, clazz, new PdqTransactionConfiguration(
                 "2.5",
                 "PDQ adapter",
                 "IPF",
@@ -100,30 +105,32 @@ public class Hl7v2TransactionConfigurations {
                 new String[] {"ZV2", "*"},
                 new boolean[] {true, false},
                 new boolean[] {true, false},
-                CustomModelClassUtils.createParser("pdq", "2.5"));
+                CustomModelClassUtils.createParser("pdq", "2.5")));
+    
+        registry.register(PCD_01, clazz, new Hl7v2TransactionConfiguration(
+                "2.6",
+                "PCD Adapter",
+                "IPF",
+                207,
+                207,
+                new String[] {"ORU"},
+                new String[] {"R01"},
+                new String[] {"ACK"},
+                new String[] {"*"},
+                null,
+                null,
+                new PipeParser()));
+    }
 
 
-    public static final Hl7v2TransactionConfiguration PCD_01_CONFIG =
-        new Hl7v2TransactionConfiguration(
-            "2.6",
-            "PCD Adapter",
-            "IPF",
-            207,
-            207,
-            new String[] {"ORU"},
-            new String[] {"R01"},
-            new String[] {"ACK"},
-            new String[] {"*"},
-            null,
-            null,
-            new PipeParser());
-
-
-    public static final NakFactory ITI_8_NAK_FACTORY  = new NakFactory(ITI_8_CONFIG);
-    public static final NakFactory ITI_9_NAK_FACTORY  = new QpdAwareNakFactory(ITI_9_CONFIG, "RSP", "K23");
-    public static final NakFactory ITI_10_NAK_FACTORY = new NakFactory(ITI_10_CONFIG);
-    public static final NakFactory ITI_21_NAK_FACTORY = new QpdAwareNakFactory(ITI_21_CONFIG, "RSP", "K22");
-    public static final NakFactory ITI_22_NAK_FACTORY = new QpdAwareNakFactory(ITI_22_CONFIG, "RSP", "ZV2");
-    public static final NakFactory PCD_01_NAK_FACTORY = new NakFactory(PCD_01_CONFIG, false, "ACK^R01^ACK");
-
+    private static void registerNakFactories(IheRegistry registry) {
+        final Class<NakFactory> clazz = NakFactory.class;
+    
+        registry.register(ITI_8,  clazz, new NakFactory(ITI_8));
+        registry.register(ITI_9,  clazz, new QpdAwareNakFactory(ITI_9, "RSP", "K23"));
+        registry.register(ITI_10, clazz, new NakFactory(ITI_10));
+        registry.register(ITI_21, clazz, new QpdAwareNakFactory(ITI_21, "RSP", "K22"));
+        registry.register(ITI_22, clazz, new QpdAwareNakFactory(ITI_22, "RSP", "ZV2"));
+        registry.register(PCD_01, clazz, new NakFactory(PCD_01, false, "ACK^R01^ACK"));
+    }
 }

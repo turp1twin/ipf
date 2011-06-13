@@ -18,10 +18,14 @@ package org.openehealth.ipf.platform.camel.ihe.pixpdq;
 import ca.uhn.hl7v2.parser.Parser;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.openehealth.ipf.commons.ihe.hl7v2.Hl7v2TransactionConfigurations;
+import org.openehealth.ipf.commons.ihe.core.IheRegistry;
+import org.openehealth.ipf.commons.ihe.core.IpfInteractionId;
+import org.openehealth.ipf.commons.ihe.hl7v2.Hl7v2TransactionConfiguration;
 import org.openehealth.ipf.commons.ihe.pixpdq.MessageAdapterValidator;
 import org.openehealth.ipf.modules.hl7dsl.MessageAdapter;
 import org.openehealth.ipf.platform.camel.ihe.hl7v2.Hl7v2MarshalUtils;
+
+import static org.openehealth.ipf.commons.ihe.core.IpfInteractionId.*;
 
 /**
  * Validating processors for MLLP-based IPF IHE components.
@@ -30,24 +34,12 @@ import org.openehealth.ipf.platform.camel.ihe.hl7v2.Hl7v2MarshalUtils;
 abstract public class PixPdqCamelValidators {
     private static final MessageAdapterValidator VALIDATOR = new MessageAdapterValidator(); 
 
-    private static final Parser ITI_8_PARSER  = Hl7v2TransactionConfigurations.ITI_8_CONFIG.getParser();
-    private static final Parser ITI_9_PARSER  = Hl7v2TransactionConfigurations.ITI_9_CONFIG.getParser();
-    private static final Parser ITI_10_PARSER = Hl7v2TransactionConfigurations.ITI_10_CONFIG.getParser();
-    private static final Parser ITI_21_PARSER = Hl7v2TransactionConfigurations.ITI_21_CONFIG.getParser();
-    private static final Parser ITI_22_PARSER = Hl7v2TransactionConfigurations.ITI_22_CONFIG.getParser();
-    
-    private static final Processor ITI_8_VALIDATOR  = validatingProcessor(ITI_8_PARSER);
-    private static final Processor ITI_9_VALIDATOR  = validatingProcessor(ITI_9_PARSER);
-    private static final Processor ITI_10_VALIDATOR = validatingProcessor(ITI_10_PARSER);
-    private static final Processor ITI_21_VALIDATOR = validatingProcessor(ITI_21_PARSER);
-    private static final Processor ITI_22_VALIDATOR = validatingProcessor(ITI_22_PARSER);
-
     /**
      * Returns a validating processor for ITI-8 request messages
      * (Patient Identity Feed).
      */
     public static Processor iti8RequestValidator() {
-        return ITI_8_VALIDATOR;
+        return validatingProcessor(ITI_8);
     }
 
     /**
@@ -55,7 +47,7 @@ abstract public class PixPdqCamelValidators {
      * (Patient Identity Feed).
      */
     public static Processor iti8ResponseValidator() {
-        return ITI_8_VALIDATOR;
+        return validatingProcessor(ITI_8);
     }
 
     /**
@@ -63,7 +55,7 @@ abstract public class PixPdqCamelValidators {
      * (Patient Identity Query).
      */
     public static Processor iti9RequestValidator() {
-        return ITI_9_VALIDATOR;
+        return validatingProcessor(ITI_9);
     }
 
     /**
@@ -71,7 +63,7 @@ abstract public class PixPdqCamelValidators {
      * (Patient Identity Query).
      */
     public static Processor iti9ResponseValidator() {
-        return ITI_9_VALIDATOR;
+        return validatingProcessor(ITI_9);
     }
 
     /**
@@ -79,7 +71,7 @@ abstract public class PixPdqCamelValidators {
      * (PIX Update Notification).
      */
     public static Processor iti10RequestValidator() {
-        return ITI_10_VALIDATOR;
+        return validatingProcessor(ITI_10);
     }
 
     /**
@@ -87,7 +79,7 @@ abstract public class PixPdqCamelValidators {
      * (PIX Update Notification).
      */
     public static Processor iti10ResponseValidator() {
-        return ITI_10_VALIDATOR;
+        return validatingProcessor(ITI_10);
     }
 
     /**
@@ -95,7 +87,7 @@ abstract public class PixPdqCamelValidators {
      * (Patient Demographics Query).
      */
     public static Processor iti21RequestValidator() {
-        return ITI_21_VALIDATOR;
+        return validatingProcessor(ITI_21);
     }
 
     /**
@@ -103,7 +95,7 @@ abstract public class PixPdqCamelValidators {
      * (Patient Demographics Query).
      */
     public static Processor iti21ResponseValidator() {
-        return ITI_21_VALIDATOR;
+        return validatingProcessor(ITI_21);
     }
 
     /**
@@ -111,7 +103,7 @@ abstract public class PixPdqCamelValidators {
      * (Patient Demographics and Visit Query).
      */
     public static Processor iti22RequestValidator() {
-        return ITI_22_VALIDATOR;
+        return validatingProcessor(ITI_22);
     }
 
     /**
@@ -119,11 +111,12 @@ abstract public class PixPdqCamelValidators {
      * (Patient Demographics and Visit Query).
      */
     public static Processor iti22ResponseValidator() {
-        return ITI_22_VALIDATOR;
+        return validatingProcessor(ITI_22);
     }    
     
     
-    private static Processor validatingProcessor(final Parser parser) {
+    private static Processor validatingProcessor(IpfInteractionId interactionId) {
+        final Parser parser = IheRegistry.get(interactionId, Hl7v2TransactionConfiguration.class).getParser();
         return new Processor() {
             @Override
             public void process(Exchange exchange) throws Exception {

@@ -25,7 +25,7 @@ import org.openehealth.ipf.platform.camel.ihe.ws.AbstractWsComponent;
 /**
  * The Camel component for the ITI-15 transaction.
  */
-public class Iti15Component extends AbstractWsComponent<ItiServiceInfo> {
+public class Iti15Component extends AbstractWsComponent {
 
     @SuppressWarnings("unchecked") // Required because of base class
     @Override

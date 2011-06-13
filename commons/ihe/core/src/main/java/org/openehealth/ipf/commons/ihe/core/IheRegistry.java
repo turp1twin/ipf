@@ -15,22 +15,93 @@
  */
 package org.openehealth.ipf.commons.ihe.core;
 
+import org.apache.commons.lang.Validate;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ServiceLoader;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
+ * Configuration registry for eHealth interactions.
  * @author Dmytro Rud
  */
-abstract public class IheRegistry {
-    private static final AtomicBoolean INITIALIZED = new AtomicBoolean(false);
+public class IheRegistry {
+    private static Map<Class, Map<InteractionId, Object>> MAP;
 
-    protected IheRegistry() {
-        if (! INITIALIZED.getAndSet(true)) {
-            ServiceLoader<IheConfigurator> loader = ServiceLoader.load(IheConfigurator.class);
-            for (IheConfigurator configurator : loader) {
-                configurator.configure();
+
+    /**
+     * Constructor.
+     * <p>
+     * Supposed to be called only once on application start.
+     * Automatically searches for available registry configurators
+     * and gathers their configuration items.
+     * To retrieve the collected configuration items, the static
+     * {@link #get(InteractionId, Class) getter} should be used.
+     */
+    public IheRegistry() {
+        synchronized (IheRegistry.class) {
+            if (MAP == null) {
+                MAP = Collections.synchronizedMap(new HashMap<Class, Map<InteractionId, Object>>());
+                ServiceLoader<IheConfigurator> loader = ServiceLoader.load(IheConfigurator.class);
+                for (IheConfigurator configurator : loader) {
+                    configurator.configure(this);
+                }
+            }
+            else {
+               //  throw new IllegalStateException("Registry already configured, use static getter");
             }
         }
+    }
+
+
+    /**
+     * Registers a configuration object.
+     * @param interactionId
+     *      ID of the interaction described by the given configuration object.
+     * @param clazz
+     *      formal type of the configuration object.
+     * @param object
+     *      configuration object.
+     * @param <T>
+     *      formal type of the configuration object.
+     * @param <R>
+     *      real type of the configuration object.
+     */
+    public synchronized <T, R extends T> void register(
+            InteractionId interactionId,
+            Class<T> clazz,
+            R object)
+    {
+        Validate.notNull(interactionId);
+        Validate.notNull(clazz);
+        Validate.notNull(object);
+
+        if (! MAP.containsKey(clazz)) {
+            MAP.put(clazz, new HashMap<InteractionId, Object>());
+        }
+        MAP.get(clazz).put(interactionId, object);
+    }
+
+
+    /**
+     * Retrieves a configuration object.
+     * @param interactionId
+     *      ID of the interaction described by the given configuration object.
+     * @param clazz
+     *      formal type of the configuration object.
+     * @param <T>
+     *      formal type of the configuration object.
+     * @param <R>
+     *      real type of the configuration object.
+     * @return
+     *      configuration object or <code>null</code> when no object of the
+     *      given formal type has been registered for the given interaction ID.
+     */
+    public static <T, R extends T> R get(InteractionId interactionId, Class<T> clazz) {
+        return MAP.containsKey(clazz)
+                ? (R) MAP.get(clazz).get(interactionId)
+                : null;
     }
 
 }

@@ -18,8 +18,11 @@ package org.openehealth.ipf.platform.camel.ihe.pixpdqv3;
 import groovy.util.slurpersupport.GPathResult;
 import org.apache.camel.Exchange;
 import org.apache.commons.lang.Validate;
+import org.openehealth.ipf.commons.ihe.core.IheRegistry;
+import org.openehealth.ipf.commons.ihe.core.InteractionId;
 import org.openehealth.ipf.commons.ihe.hl7v3.Hl7v3NakFactory;
 import org.openehealth.ipf.commons.ihe.hl7v3.Hl7v3ServiceInfo;
+import org.openehealth.ipf.commons.ihe.ws.ItiServiceInfo;
 import org.openehealth.ipf.platform.camel.core.util.Exchanges;
 import org.openehealth.ipf.platform.camel.ihe.ws.DefaultItiWebService;
 
@@ -31,9 +34,9 @@ public class DefaultHl7v3WebService extends DefaultItiWebService {
 
     private final Hl7v3ServiceInfo serviceInfo;
 
-    public DefaultHl7v3WebService(Hl7v3ServiceInfo serviceInfo) {
-        Validate.notNull(serviceInfo);
-        this.serviceInfo = serviceInfo;
+    public DefaultHl7v3WebService(InteractionId interactionId) {
+        this.serviceInfo = IheRegistry.get(interactionId, ItiServiceInfo.class);
+        Validate.notNull(this.serviceInfo);
     }
     
     /**

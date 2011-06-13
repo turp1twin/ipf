@@ -16,7 +16,8 @@
 package org.openehealth.ipf.platform.camel.ihe.pixpdq.iti22;
 
 import org.apache.camel.CamelContext;
-import org.openehealth.ipf.commons.ihe.hl7v2.*;
+import org.openehealth.ipf.commons.ihe.core.InteractionId;
+import org.openehealth.ipf.commons.ihe.core.IpfInteractionId;
 import org.openehealth.ipf.platform.camel.ihe.mllp.core.MllpAuditStrategy;
 import org.openehealth.ipf.platform.camel.ihe.mllp.core.MllpComponent;
 import org.openehealth.ipf.platform.camel.ihe.pixpdq.pdqcore.PdqClientAuditStrategy;
@@ -52,12 +53,7 @@ public class Iti22Component extends MllpComponent {
     }
     
     @Override
-    public Hl7v2TransactionConfiguration getTransactionConfiguration() {
-        return Hl7v2TransactionConfigurations.ITI_22_CONFIG;
-    }
-
-    @Override
-    public NakFactory getNakFactory() {
-        return Hl7v2TransactionConfigurations.ITI_22_NAK_FACTORY;
+    public InteractionId getInteractionId() {
+        return IpfInteractionId.ITI_22;
     }
 }

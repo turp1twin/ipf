@@ -15,6 +15,9 @@
  */
 package org.openehealth.ipf.commons.ihe.hl7v2ws;
 
+import org.openehealth.ipf.commons.ihe.core.IheConfigurator;
+import org.openehealth.ipf.commons.ihe.core.IheRegistry;
+import org.openehealth.ipf.commons.ihe.core.IpfInteractionId;
 import org.openehealth.ipf.commons.ihe.hl7v2ws.pcd01.Pcd01PortType;
 import org.openehealth.ipf.commons.ihe.ws.ItiServiceInfo;
 
@@ -23,17 +26,20 @@ import javax.xml.namespace.QName;
 /**
  * @author Dmytro Rud
  */
-public class Hl7v2WsTransactionConfigurations {
-    private static final String NS_URI = "urn:ihe:pcd:dec:2010";
+public class Hl7v2WsTransactionConfigurations implements IheConfigurator {
 
-    public static final ItiServiceInfo PCD_01_WS_CONFIG = new ItiServiceInfo(
-            new QName(NS_URI, "DeviceObservationConsumer_Service", "ihe"),
-            Pcd01PortType.class,
-            new QName(NS_URI, "DeviceObservationConsumer_Binding_Soap12", "ihe"),
-            false,
-            "wsdl/pcd01/pcd01.wsdl",
-            true,
-            false,
-            false);
+    @Override
+    public void configure(IheRegistry registry) {
+        String NS_URI = "urn:ihe:pcd:dec:2010";
 
+        registry.register(IpfInteractionId.PCD_01, ItiServiceInfo.class, new ItiServiceInfo(
+                new QName(NS_URI, "DeviceObservationConsumer_Service", "ihe"),
+                Pcd01PortType.class,
+                new QName(NS_URI, "DeviceObservationConsumer_Binding_Soap12", "ihe"),
+                false,
+                "wsdl/pcd01/pcd01.wsdl",
+                true,
+                false,
+                false));
+    }
 }

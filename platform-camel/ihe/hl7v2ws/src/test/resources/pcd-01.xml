@@ -28,7 +28,9 @@ http://camel.apache.org/schema/spring/camel-spring.xsd
         <camel:routeBuilder ref="routeBuilder"/>        
     </camel:camelContext>
 
-    <bean id="routeBuilder"
+    <bean id="routeBuilder" depends-on="iheRegistry"
         class="org.openehealth.ipf.platform.camel.ihe.hl7v2ws.pcd01.Pcd01RouteBuilder">
     </bean>
+
+    <bean id="iheRegistry" class="org.openehealth.ipf.commons.ihe.core.IheRegistry" />
 </beans>

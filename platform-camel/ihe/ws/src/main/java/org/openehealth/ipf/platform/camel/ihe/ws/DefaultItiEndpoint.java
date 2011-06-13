@@ -20,6 +20,9 @@ import javax.xml.namespace.QName;
 import org.apache.camel.impl.DefaultEndpoint;
 import org.apache.cxf.headers.Header;
 import org.apache.cxf.interceptor.InterceptorProvider;
+import org.openehealth.ipf.commons.ihe.core.IheRegistry;
+import org.openehealth.ipf.commons.ihe.core.InteractionId;
+import org.openehealth.ipf.commons.ihe.core.InteractionIdAware;
 import org.openehealth.ipf.commons.ihe.ws.ItiServiceInfo;
 import org.openehealth.ipf.commons.ihe.ws.correlation.AsynchronyCorrelator;
 
@@ -28,7 +31,10 @@ import org.openehealth.ipf.commons.ihe.ws.correlation.AsynchronyCorrelator;
  * @author Jens Riemschneider
  * @author Dmytro Rud
  */
-public abstract class DefaultItiEndpoint<C extends ItiServiceInfo> extends DefaultEndpoint {
+public abstract class DefaultItiEndpoint<C extends ItiServiceInfo>
+        extends DefaultEndpoint
+        implements InteractionIdAware
+{
     private static final String ENDPOINT_PROTOCOL = "http://";
     private static final String ENDPOINT_PROTOCOL_SECURE = "https://";
 
@@ -93,7 +99,7 @@ public abstract class DefaultItiEndpoint<C extends ItiServiceInfo> extends Defau
     protected DefaultItiEndpoint(
             String endpointUri, 
             String address, 
-            AbstractWsComponent<C> component,
+            AbstractWsComponent component,
             InterceptorProvider customInterceptors) 
     {
         super(endpointUri, component);
@@ -107,7 +113,12 @@ public abstract class DefaultItiEndpoint<C extends ItiServiceInfo> extends Defau
      *      which this endpoint belongs.
      */
     protected C getWebServiceConfiguration() {
-        return ((AbstractWsComponent<C>) getComponent()).getWebServiceConfiguration();
+        return (C) IheRegistry.get(getInteractionId(), ItiServiceInfo.class);
+    }
+
+    @Override
+    public InteractionId getInteractionId() {
+        return ((AbstractWsComponent) getComponent()).getInteractionId();
     }
 
     private void configure() {

@@ -16,9 +16,7 @@
 package org.openehealth.ipf.platform.camel.ihe.pixpdqv3.iti47;
 
 import org.openehealth.ipf.commons.ihe.core.IpfInteractionId;
-import org.openehealth.ipf.commons.ihe.hl7v3.Hl7v3ContinuationAwareServiceInfo;
 import org.openehealth.ipf.commons.ihe.pixpdqv3.iti47.Iti47PortType;
-import org.openehealth.ipf.commons.ihe.ws.WebServiceTransactionConfigurationRegistry;
 import org.openehealth.ipf.platform.camel.ihe.pixpdqv3.DefaultHl7v3WebService;
 
 /**
@@ -28,7 +26,7 @@ import org.openehealth.ipf.platform.camel.ihe.pixpdqv3.DefaultHl7v3WebService;
 public class Iti47Service extends DefaultHl7v3WebService implements Iti47PortType {
 
     public Iti47Service() {
-        super(WebServiceTransactionConfigurationRegistry.instance().<Hl7v3ContinuationAwareServiceInfo>get(IpfInteractionId.ITI_47));
+        super(IpfInteractionId.ITI_47);
     }
 
     @Override

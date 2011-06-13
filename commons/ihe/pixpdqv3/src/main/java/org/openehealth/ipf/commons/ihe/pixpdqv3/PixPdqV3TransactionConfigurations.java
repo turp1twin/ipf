@@ -16,16 +16,17 @@
 package org.openehealth.ipf.commons.ihe.pixpdqv3;
 
 import org.openehealth.ipf.commons.ihe.core.IheConfigurator;
-import org.openehealth.ipf.commons.ihe.core.XmlValidationProfileRegistry;
+import org.openehealth.ipf.commons.ihe.core.IheRegistry;
 import org.openehealth.ipf.commons.ihe.hl7v3.Hl7v3ContinuationAwareServiceInfo;
 import org.openehealth.ipf.commons.ihe.hl7v3.Hl7v3ServiceInfo;
+import org.openehealth.ipf.commons.ihe.hl7v3.Hl7v3ValidationProfile;
 import org.openehealth.ipf.commons.ihe.pixpdqv3.iti44.Iti44PixPortType;
 import org.openehealth.ipf.commons.ihe.pixpdqv3.iti44.Iti44XdsPortType;
 import org.openehealth.ipf.commons.ihe.pixpdqv3.iti45.Iti45PortType;
 import org.openehealth.ipf.commons.ihe.pixpdqv3.iti46.Iti46PortType;
 import org.openehealth.ipf.commons.ihe.pixpdqv3.iti47.Iti47PortType;
 import org.openehealth.ipf.commons.ihe.pixpdqv3.pcc1.Pcc1PortType;
-import org.openehealth.ipf.commons.ihe.ws.WebServiceTransactionConfigurationRegistry;
+import org.openehealth.ipf.commons.ihe.ws.ItiServiceInfo;
 
 import javax.xml.namespace.QName;
 
@@ -38,14 +39,14 @@ import static org.openehealth.ipf.commons.ihe.core.IpfInteractionId.*;
 public class PixPdqV3TransactionConfigurations implements IheConfigurator {
 
     @Override
-    public void configure() {
-        doRegisterValidationProfiles();
-        doRegisterTransactionConfigurations();
+    public void configure(IheRegistry registry) {
+        registerValidationProfiles(registry);
+        registerTransactionConfigurations(registry);
     }
 
 
-    private static void doRegisterValidationProfiles() {
-        XmlValidationProfileRegistry registry = XmlValidationProfileRegistry.instance();
+    private static void registerValidationProfiles(IheRegistry registry) {
+        final Class<Hl7v3ValidationProfile> clazz = Hl7v3ValidationProfile.class;
 
         String[][] ITI_44_REQUEST_VALIDATION_PROFILES = new String[][] {
                 new String[] {"PRPA_IN201301UV02", null},
@@ -57,23 +58,23 @@ public class PixPdqV3TransactionConfigurations implements IheConfigurator {
                 new String[] {"MCCI_IN000002UV01", null}
         };
 
-        registry.registerValidationProfiles(ITI_44_PIX,
+        registry.register(ITI_44_PIX, clazz, new Hl7v3ValidationProfile(
                 ITI_44_REQUEST_VALIDATION_PROFILES,
-                ITI_44_RESPONSE_VALIDATION_PROFILES);
+                ITI_44_RESPONSE_VALIDATION_PROFILES));
 
-        registry.registerValidationProfiles(ITI_44_XDS,
+        registry.register(ITI_44_XDS, clazz, new Hl7v3ValidationProfile(
                 ITI_44_REQUEST_VALIDATION_PROFILES,
-                ITI_44_RESPONSE_VALIDATION_PROFILES);
+                ITI_44_RESPONSE_VALIDATION_PROFILES));
 
-        registry.registerValidationProfiles(ITI_45,
+        registry.register(ITI_45, clazz, new Hl7v3ValidationProfile(
                 new String[][]{new String[]{"PRPA_IN201309UV02", null}},
-                new String[][]{new String[]{"PRPA_IN201310UV02", null}});
+                new String[][]{new String[]{"PRPA_IN201310UV02", null}}));
 
-        registry.registerValidationProfiles(ITI_46,
+        registry.register(ITI_46, clazz, new Hl7v3ValidationProfile(
                 new String[][]{new String[]{"PRPA_IN201302UV02", null}},
-                new String[][]{new String[]{"MCCI_IN000002UV01", null}});
+                new String[][]{new String[]{"MCCI_IN000002UV01", null}}));
 
-        registry.registerValidationProfiles(ITI_47,
+        registry.register(ITI_47, clazz, new Hl7v3ValidationProfile(
                 new String[][]{
                         new String[]{"PRPA_IN201305UV02", "iti47/PRPA_IN201305UV02"},
                         new String[]{"QUQI_IN000003UV01", null},
@@ -82,9 +83,9 @@ public class PixPdqV3TransactionConfigurations implements IheConfigurator {
                 new String[][]{
                         new String[]{"PRPA_IN201306UV02", "iti47/PRPA_IN201306UV02"},
                         new String[]{"MCCI_IN000002UV01", null}
-                });
+                }));
 
-        registry.registerValidationProfiles(PCD_01,
+        registry.register(PCD_01, clazz, new Hl7v3ValidationProfile(
                 new String[][]{
                         new String[]{"QUPC_IN043100UV01", null},
                         new String[]{"QUQI_IN000003UV01", null},
@@ -93,21 +94,19 @@ public class PixPdqV3TransactionConfigurations implements IheConfigurator {
                 new String[][]{
                         new String[]{"QUPC_IN043200UV01", null},
                         new String[]{"MCCI_IN000002UV01", null}
-                });
-
+                }));
     }
 
 
-    private static void doRegisterTransactionConfigurations() {
+    private static void registerTransactionConfigurations(IheRegistry registry) {
+        final Class<ItiServiceInfo> clazz = ItiServiceInfo.class;
+
         String PIXV3_NS_URI = "urn:ihe:iti:pixv3:2007";
         String PDQV3_NS_URI = "urn:ihe:iti:pdqv3:2007";
         String XDS_NS_URI   = "urn:ihe:iti:xds-b:2007";
         String PCC_NS_URI   = "urn:ihe:pcc:qed:2007";
 
-        WebServiceTransactionConfigurationRegistry registry =
-                WebServiceTransactionConfigurationRegistry.instance();
-
-        registry.registerConfiguration(ITI_44_PIX, new Hl7v3ServiceInfo(
+        registry.register(ITI_44_PIX, clazz, new Hl7v3ServiceInfo(
                 new QName(PIXV3_NS_URI, "PIXManager_Service", "ihe"),
                 Iti44PixPortType.class,
                 new QName(PIXV3_NS_URI, "PIXManager_Binding_Soap12", "ihe"),
@@ -117,7 +116,7 @@ public class PixPdqV3TransactionConfigurations implements IheConfigurator {
                 false,
                 false));
 
-        registry.registerConfiguration(ITI_44_XDS, new Hl7v3ServiceInfo(
+        registry.register(ITI_44_XDS, clazz, new Hl7v3ServiceInfo(
                 new QName(XDS_NS_URI, "DocumentRegistry_Service", "ihe"),
                 Iti44XdsPortType.class,
                 new QName(XDS_NS_URI, "DocumentRegistry_Binding_Soap12", "ihe"),
@@ -127,7 +126,7 @@ public class PixPdqV3TransactionConfigurations implements IheConfigurator {
                 false,
                 false));
 
-        registry.registerConfiguration(ITI_45, new Hl7v3ServiceInfo(
+        registry.register(ITI_45, clazz, new Hl7v3ServiceInfo(
                 new QName(PIXV3_NS_URI, "PIXManager_Service", "ihe"),
                 Iti45PortType.class,
                 new QName(PIXV3_NS_URI, "PIXManager_Binding_Soap12", "ihe"),
@@ -137,7 +136,7 @@ public class PixPdqV3TransactionConfigurations implements IheConfigurator {
                 true,
                 false));
 
-        registry.registerConfiguration(ITI_46, new Hl7v3ServiceInfo(
+        registry.register(ITI_46, clazz, new Hl7v3ServiceInfo(
                 new QName(PIXV3_NS_URI, "PIXConsumer_Service", "ihe"),
                 Iti46PortType.class,
                 new QName(PIXV3_NS_URI, "PIXConsumer_Binding_Soap12", "ihe"),
@@ -147,7 +146,7 @@ public class PixPdqV3TransactionConfigurations implements IheConfigurator {
                 false,
                 false));
 
-        registry.registerConfiguration(ITI_47, new Hl7v3ContinuationAwareServiceInfo(
+        registry.register(ITI_47, clazz, new Hl7v3ContinuationAwareServiceInfo(
                 new QName(PDQV3_NS_URI, "PDSupplier_Service", "ihe"),
                 Iti47PortType.class,
                 new QName(PDQV3_NS_URI, "PDSupplier_Binding_Soap12", "ihe"),
@@ -159,7 +158,7 @@ public class PixPdqV3TransactionConfigurations implements IheConfigurator {
                 "PRPA_IN201305UV02",
                 "PRPA_IN201306UV02"));
 
-        registry.registerConfiguration(PCC_1, new Hl7v3ContinuationAwareServiceInfo(
+        registry.register(PCC_1, clazz, new Hl7v3ContinuationAwareServiceInfo(
                 new QName(PCC_NS_URI, "ClinicalDataSource_Service", "qed"),
                 Pcc1PortType.class,
                 new QName(PCC_NS_URI, "ClinicalDataSource_Binding_Soap12", "qed"),

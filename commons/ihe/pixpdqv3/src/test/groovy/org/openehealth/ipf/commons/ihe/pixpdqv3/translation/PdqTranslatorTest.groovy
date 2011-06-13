@@ -22,7 +22,7 @@ import org.openehealth.ipf.commons.ihe.core.IpfInteractionId;
 
 /**
  * Unit test for PDQ translator.
- * @author Marek V�clav�k, Dmytro Rud
+ * @author Marek Václavík, Dmytro Rud
  */
 class PdqTranslatorTest extends Hl7TranslationTestContainer {
 
