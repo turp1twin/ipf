@@ -17,7 +17,7 @@ package org.openehealth.ipf.platform.camel.ihe.hl7v2.intercept;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.apache.commons.lang3.Validate;
+import org.openehealth.ipf.commons.ihe.core.chain.ChainableImpl;
 import org.openehealth.ipf.platform.camel.ihe.hl7v2.Hl7v2ConfigurationHolder;
 import org.openehealth.ipf.platform.camel.ihe.hl7v2.Hl7v2TransactionConfiguration;
 import org.openehealth.ipf.platform.camel.ihe.hl7v2.NakFactory;
@@ -25,34 +25,23 @@ import org.openehealth.ipf.platform.camel.ihe.hl7v2.NakFactory;
 import java.nio.charset.Charset;
 
 /**
- * Abstract Camel interceptor for Hl7v2-based transactions.
+ * Abstract interceptor for Hl7v2-based transactions.
  * @author Dmytro Rud
  */
-public abstract class AbstractHl7v2Interceptor implements Hl7v2Interceptor {
+abstract public class AbstractHl7v2Interceptor extends ChainableImpl implements Hl7v2Interceptor {
 
-    private final Hl7v2ConfigurationHolder configurationHolder;
-    private final Processor wrappedProcessor;
+    private Hl7v2ConfigurationHolder configurationHolder;
+    private Processor wrappedProcessor;
 
-    /**
-     * Constructor.
-     * @param configurationHolder
-     *      The Camel endpoint to which this interceptor belongs.
-     * @param wrappedProcessor
-     *      Original camel-mina processor.
-     */
-    public AbstractHl7v2Interceptor(
-            Hl7v2ConfigurationHolder configurationHolder,
-            Processor wrappedProcessor)
-    {
-        Validate.notNull(wrappedProcessor);
-        Validate.notNull(configurationHolder);
 
-        this.wrappedProcessor = wrappedProcessor;
-        this.configurationHolder = configurationHolder;
+    @Override
+    public Hl7v2ConfigurationHolder getConfigurationHolder() {
+        return configurationHolder;
     }
 
-    protected Hl7v2ConfigurationHolder getConfigurationHolder() {
-        return configurationHolder;
+    @Override
+    public void setConfigurationHolder(Hl7v2ConfigurationHolder configurationHolder) {
+        this.configurationHolder = configurationHolder;
     }
 
     @Override
@@ -61,11 +50,22 @@ public abstract class AbstractHl7v2Interceptor implements Hl7v2Interceptor {
     }
 
     @Override
+    public void setWrappedProcessor(Processor wrappedProcessor) {
+        this.wrappedProcessor = wrappedProcessor;
+    }
+
+    /**
+     * Shortcut to access HL7v2 transaction configuration.
+     * @return HL7v2 transaction configuration.
+     */
     public Hl7v2TransactionConfiguration getHl7v2TransactionConfiguration() {
         return configurationHolder.getHl7v2TransactionConfiguration();
     }
 
-    @Override
+    /**
+     * Shortcut to access HL7v2 NAK factory.
+     * @return HL7v2 NAK factory.
+     */
     public NakFactory getNakFactory() {
         return configurationHolder.getNakFactory();
     }

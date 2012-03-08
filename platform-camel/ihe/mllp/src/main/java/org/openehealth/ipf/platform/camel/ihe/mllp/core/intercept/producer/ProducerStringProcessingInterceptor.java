@@ -17,11 +17,10 @@ package org.openehealth.ipf.platform.camel.ihe.mllp.core.intercept.producer;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;
-import org.apache.camel.Producer;
 import org.openehealth.ipf.platform.camel.core.util.Exchanges;
 import org.openehealth.ipf.platform.camel.ihe.hl7v2.Hl7v2MarshalUtils;
 import org.openehealth.ipf.platform.camel.ihe.mllp.core.FragmentationUtils;
-import org.openehealth.ipf.platform.camel.ihe.mllp.core.MllpEndpoint;
+import org.openehealth.ipf.platform.camel.ihe.mllp.core.intercept.AbstractMllpInterceptor;
 
 
 /**
@@ -29,15 +28,11 @@ import org.openehealth.ipf.platform.camel.ihe.mllp.core.MllpEndpoint;
  * for the given endpoint, and handles segment fragmentation (\rADD|...).
  * @author Dmytro Rud
  */
-public class ProducerStringProcessingInterceptor extends AbstractMllpProducerInterceptor {
-
-    public ProducerStringProcessingInterceptor(MllpEndpoint endpoint, Producer wrappedProducer) {
-        super(endpoint, wrappedProducer);
-    }
+public class ProducerStringProcessingInterceptor extends AbstractMllpInterceptor {
 
     @Override
     public void process(Exchange exchange) throws Exception {
-        final String charsetName = getMllpEndpoint().getConfiguration().getCharsetName();
+        final String charsetName = getMllpEndpoint().getCharsetName();
         exchange.setProperty(Exchange.CHARSET_NAME, charsetName);
 
         boolean supportSegmentFragmentation = getMllpEndpoint().isSupportSegmentFragmentation();
@@ -54,7 +49,7 @@ public class ProducerStringProcessingInterceptor extends AbstractMllpProducerInt
         
         // run the route
         getWrappedProcessor().process(exchange);
-        
+
         // read in the response
         message = Exchanges.resultMessage(exchange);
         message.setBody(Hl7v2MarshalUtils.convertBodyToString(

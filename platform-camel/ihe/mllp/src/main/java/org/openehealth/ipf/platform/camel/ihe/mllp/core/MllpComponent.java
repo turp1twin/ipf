@@ -25,12 +25,15 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.mina.filter.codec.ProtocolCodecFactory;
 import org.openehealth.ipf.commons.ihe.core.ClientAuthType;
 import org.openehealth.ipf.platform.camel.ihe.hl7v2.Hl7v2ConfigurationHolder;
+import org.openehealth.ipf.platform.camel.ihe.hl7v2.intercept.Hl7v2Interceptor;
 import org.openehealth.ipf.platform.camel.ihe.hl7v2.intercept.consumer.ConsumerAdaptingInterceptor;
-import org.openehealth.ipf.platform.camel.ihe.mllp.core.intercept.MllpCustomInterceptor;
 
 import javax.net.ssl.SSLContext;
 import java.nio.charset.Charset;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -152,8 +155,8 @@ public abstract class MllpComponent extends MinaComponent implements Hl7v2Config
                 SSLContext.class,
                 SSLContext.getDefault()) : null;
 
-        List<MllpCustomInterceptor> customInterceptors = resolveAndRemoveReferenceListParameter(
-                parameters, "interceptors", MllpCustomInterceptor.class);
+        List<Hl7v2Interceptor> customInterceptors = resolveAndRemoveReferenceListParameter(
+                parameters, "interceptors", Hl7v2Interceptor.class);
 
         String[] sslProtocols = sslProtocolsString != null ? sslProtocolsString.split(",") : null;
         String[] sslCiphers = sslCiphersString != null ? sslCiphersString.split(",") : null;
@@ -182,6 +185,42 @@ public abstract class MllpComponent extends MinaComponent implements Hl7v2Config
 
     private static String extractBeanName(String originalBeanName) {
         return originalBeanName.startsWith("#") ? originalBeanName.substring(1) : originalBeanName;
+    }
+
+
+    /**
+     * @return
+     *      a list of component-specific (i.e. transaction-specific)
+     *      HL7v2 interceptors which will be integrated into the interceptor
+     *      chain of each consumer instance created by this component.
+     *      <p>
+     *      Per default returns an empty list.
+     *      <br>
+     *      When overwriting this method, please note:
+     *      <ul>
+     *          <li>Neither the returned list nor any element of it
+     *              are allowed to be <code>null</code>.
+     *          <li>Each invocation should return freshly created instances
+     *              of interceptors (like prototype-scope beans in Spring),
+     *              because interceptors cannot be reused by multiple endpoints.
+     *      </ul>
+     */
+    public List<Hl7v2Interceptor> getAdditionalConsumerInterceptors() {
+        return Collections.emptyList();
+    }
+
+
+    /**
+     * @return
+     *      a list of component-specific (i.e. transaction-specific)
+     *      HL7v2 interceptors which will be integrated into the interceptor
+     *      chain of each consumer instance created by this component.
+     *      <p>
+     *      Per default returns an empty list.
+     *      <code>null</code> return values are not allowed.
+     */
+    public List<Hl7v2Interceptor> getAdditionalProducerInterceptors() {
+        return Collections.emptyList();
     }
 
 
