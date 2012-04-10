@@ -54,7 +54,7 @@ public class FindDocumentsQueryTransformerTest {
         assertEquals(QueryType.FIND_DOCUMENTS.getId(), ebXML.getId());
         assertEquals("12.21.41", ebXML.getHome());
 
-        assertEquals(Arrays.asList("'id1^^^&1.2&ISO'"),
+        assertEquals(Arrays.asList("'id3^^^&1.3&ISO'"),
                 ebXML.getSlotValues(QueryParameter.DOC_ENTRY_PATIENT_ID.getSlotName()));
         
         assertEquals(Arrays.asList("('code1^^scheme1')", "('code2^^scheme2')"),
@@ -102,8 +102,11 @@ public class FindDocumentsQueryTransformerTest {
         
         assertEquals(Arrays.asList("('urn:oasis:names:tc:ebxml-regrep:StatusType:Approved')", "('urn:oasis:names:tc:ebxml-regrep:StatusType:Submitted')"),
                 ebXML.getSlotValues(QueryParameter.DOC_ENTRY_STATUS.getSlotName()));
-        
-        assertEquals(18, ebXML.getSlots().size());
+
+        assertEquals(Arrays.asList("('urn:uuid:7edca82f-054d-47f2-a032-9b2a5b5186c1')"),
+                ebXML.getSlotValues(QueryParameter.DOC_ENTRY_TYPE.getSlotName()));
+
+        assertEquals(19, ebXML.getSlots().size());
     }
     
     @Test

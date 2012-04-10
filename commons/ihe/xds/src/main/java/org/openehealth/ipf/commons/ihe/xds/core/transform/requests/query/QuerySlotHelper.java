@@ -23,6 +23,7 @@ import org.openehealth.ipf.commons.ihe.xds.core.hl7.HL7Delimiter;
 import org.openehealth.ipf.commons.ihe.xds.core.metadata.AssociationType;
 import org.openehealth.ipf.commons.ihe.xds.core.metadata.AvailabilityStatus;
 import org.openehealth.ipf.commons.ihe.xds.core.metadata.Code;
+import org.openehealth.ipf.commons.ihe.xds.core.metadata.DocumentEntryType;
 import org.openehealth.ipf.commons.ihe.xds.core.requests.query.QueryList;
 import org.openehealth.ipf.commons.ihe.xds.core.transform.requests.QueryParameter;
 
@@ -39,8 +40,12 @@ import java.util.regex.Pattern;
  * <p>
  * Note that this class is only used for ebXML 3.0! 
  * @author Jens Riemschneider
+ * @author Dmytro Rud
  */
 public class QuerySlotHelper {
+    private static final Pattern PATTERN =
+            Pattern.compile("\\s*,?\\s*'((?:[^']*(?:'')*[^']*)*)'(.*)", Pattern.DOTALL);
+
     private final EbXMLAdhocQueryRequest ebXML;
 
     /**
@@ -328,6 +333,31 @@ public class QuerySlotHelper {
         return associationTypes;
     }
 
+    public void fromDocumentEntryType(QueryParameter param, List<DocumentEntryType> documentEntryTypes) {
+        if (documentEntryTypes == null) {
+            return;
+        }
+
+        List<String> uuids = new ArrayList<String>(documentEntryTypes.size());
+        for (DocumentEntryType type : documentEntryTypes) {
+            uuids.add(DocumentEntryType.toUuid(type));
+        }
+        fromStringList(param, uuids);
+    }
+
+    public List<DocumentEntryType> toDocumentEntryType(QueryParameter param) {
+        List<String> uuids = toStringList(param);
+        if (uuids == null) {
+            return null;
+        }
+
+        ArrayList<DocumentEntryType> documentEntryTypes = new ArrayList<DocumentEntryType>();
+        for (String uuid : uuids) {
+            documentEntryTypes.add(DocumentEntryType.valueOfUuid(uuid));
+        }
+        return documentEntryTypes;
+    }
+
     private String fromCodeToHL7CE(Code code) {
         if (code == null) {
             return null;
@@ -399,13 +429,12 @@ public class QuerySlotHelper {
         
         List<String> values = new ArrayList<String>();
 
-        Pattern pattern = Pattern.compile("\\s*,?\\s*'((?:[^']*(?:'')*[^']*)*)'(.*)", Pattern.DOTALL);
-        Matcher matcher = pattern.matcher(list);
+        Matcher matcher = PATTERN.matcher(list);
         while (matcher.matches() && matcher.groupCount() == 2) {
             String value = matcher.group(1);
             value = value.replaceAll("''", "'");
             values.add(value);
-            matcher = pattern.matcher(matcher.group(2));            
+            matcher = PATTERN.matcher(matcher.group(2));
         }
         
         return values;

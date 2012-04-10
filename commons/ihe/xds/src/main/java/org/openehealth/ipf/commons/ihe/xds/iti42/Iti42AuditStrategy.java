@@ -15,7 +15,6 @@
  */
 package org.openehealth.ipf.commons.ihe.xds.iti42;
 
-import org.openehealth.ipf.commons.ihe.ws.cxf.audit.WsAuditDataset;
 import org.openehealth.ipf.commons.ihe.xds.core.audit.XdsAuditDataset;
 import org.openehealth.ipf.commons.ihe.xds.core.audit.XdsAuditStrategy;
 import org.openehealth.ipf.commons.ihe.xds.core.ebxml.EbXMLRegistryResponse;
@@ -30,7 +29,7 @@ import org.openhealthtools.ihe.atna.auditor.codes.rfc3881.RFC3881EventCodes.RFC3
  * Audit strategy for ITI-42.
  * @author Dmytro Rud
  */
-abstract class Iti42AuditStrategy extends XdsAuditStrategy {
+public abstract class Iti42AuditStrategy extends XdsAuditStrategy<XdsAuditDataset> {
 
     /**
      * Constructs the audit strategy.
@@ -40,16 +39,15 @@ abstract class Iti42AuditStrategy extends XdsAuditStrategy {
      *      whether this strategy should allow incomplete audit records
      *      (parameter initially configurable via endpoint URL).
      */
-    Iti42AuditStrategy(boolean serverSide, boolean allowIncompleteAudit) {
+    protected Iti42AuditStrategy(boolean serverSide, boolean allowIncompleteAudit) {
         super(serverSide, allowIncompleteAudit);
     }
 
     @Override
-    public void enrichDatasetFromRequest(Object pojo, WsAuditDataset auditDataset) {
-        XdsAuditDataset xdsAuditDataset = (XdsAuditDataset) auditDataset;
+    public void enrichDatasetFromRequest(Object pojo, XdsAuditDataset auditDataset) {
         SubmitObjectsRequest submitObjectsRequest = (SubmitObjectsRequest) pojo;
         EbXMLSubmitObjectsRequest ebXML = new EbXMLSubmitObjectsRequest30(submitObjectsRequest);
-        xdsAuditDataset.enrichDatasetFromSubmitObjectsRequest(ebXML);
+        auditDataset.enrichDatasetFromSubmitObjectsRequest(ebXML);
     }
 
     @Override
@@ -57,5 +55,10 @@ abstract class Iti42AuditStrategy extends XdsAuditStrategy {
         RegistryResponseType response = (RegistryResponseType) pojo;
         EbXMLRegistryResponse ebXML = new EbXMLRegistryResponse30(response); 
         return getEventOutcomeCodeFromRegistryResponse(ebXML);
+    }
+
+    @Override
+    public XdsAuditDataset createAuditDataset() {
+        return new XdsAuditDataset(isServerSide());
     }
 }

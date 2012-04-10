@@ -15,9 +15,6 @@
  */
 package org.openehealth.ipf.commons.ihe.xds.core.audit;
 
-import java.util.List;
-
-import org.openehealth.ipf.commons.ihe.ws.cxf.audit.WsAuditDataset;
 import org.openehealth.ipf.commons.ihe.ws.cxf.audit.WsAuditStrategy;
 import org.openehealth.ipf.commons.ihe.xds.core.ebxml.EbXMLRegistryError;
 import org.openehealth.ipf.commons.ihe.xds.core.ebxml.EbXMLRegistryResponse;
@@ -30,7 +27,7 @@ import org.openhealthtools.ihe.atna.auditor.codes.rfc3881.RFC3881EventCodes.RFC3
  * Basis for Strategy pattern implementation for ATNA Auditing in XDS transactions.
  * @author Dmytro Rud
  */
-public abstract class XdsAuditStrategy extends WsAuditStrategy {
+public abstract class XdsAuditStrategy<T extends XdsAuditDataset> extends WsAuditStrategy<T> {
 
     /**
      * Constructs an XDS audit strategy.
@@ -44,20 +41,8 @@ public abstract class XdsAuditStrategy extends WsAuditStrategy {
     public XdsAuditStrategy(boolean serverSide, boolean allowIncompleteAudit) {
         super(serverSide, allowIncompleteAudit);
     }
-    
 
-    /**
-     * Creates a new XDS audit dataset audit instance. 
-     * 
-     * @return
-     *      newly created audit dataset
-     */
-    @Override
-    public XdsAuditDataset createAuditDataset() {
-        return new XdsAuditDataset(isServerSide());
-    }
 
-    
     /**
      * A helper method that analyzes the given registry response and 
      * determines the corresponding RFC 3881 event outcome code.
@@ -66,33 +51,27 @@ public abstract class XdsAuditStrategy extends WsAuditStrategy {
      * @return outcome code.
      */
     public static RFC3881EventOutcomeCodes getEventOutcomeCodeFromRegistryResponse(EbXMLRegistryResponse response) {
-        if(response == null) {
-            return RFC3881EventOutcomeCodes.SERIOUS_FAILURE;
-        }
-        
-        if(response.getStatus() == Status.SUCCESS) {
-            return RFC3881EventOutcomeCodes.SUCCESS; 
-        }
-
-        List<EbXMLRegistryError> errors = response.getErrors();
-        
-        // error list is empty
-        if((errors == null) || errors.isEmpty()) {
-            return RFC3881EventOutcomeCodes.SERIOUS_FAILURE;
-        }
-        
-        // determine the highest severity 
-        for(EbXMLRegistryError error : errors) {
-            if(error.getSeverity() == Severity.ERROR) {
-                return RFC3881EventOutcomeCodes.SERIOUS_FAILURE;
+        try {
+            if (response.getStatus() == Status.SUCCESS) {
+                return RFC3881EventOutcomeCodes.SUCCESS;
             }
+
+            // determine the highest error severity
+            for (EbXMLRegistryError error : response.getErrors()) {
+                if (error.getSeverity() == Severity.ERROR) {
+                    return RFC3881EventOutcomeCodes.SERIOUS_FAILURE;
+                }
+            }
+
+            return RFC3881EventOutcomeCodes.MINOR_FAILURE;
+        } catch (Exception e) {
+            return RFC3881EventOutcomeCodes.SERIOUS_FAILURE;
         }
-        return RFC3881EventOutcomeCodes.MINOR_FAILURE;
     }
 
 
     @Override
-    public void enrichDatasetFromResponse(Object response, WsAuditDataset auditDataset) throws Exception {
+    public void enrichDatasetFromResponse(Object response, T auditDataset) throws Exception {
         auditDataset.setEventOutcomeCode(getEventOutcomeCode(response));
     }
 }

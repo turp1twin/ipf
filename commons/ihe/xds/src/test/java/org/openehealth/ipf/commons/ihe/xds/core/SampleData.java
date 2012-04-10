@@ -114,6 +114,8 @@ public abstract class SampleData {
         doc2.setRequestData(requestData2);
         doc2.setDataHandler(dataHandler2);
         doc2.setMimeType("application/test2");
+        doc2.setNewRepositoryUniqueId("repo2-new");
+        doc2.setNewDocumentUniqueId("doc2-new");
 
         RetrievedDocumentSet response = new RetrievedDocumentSet();
         response.getDocuments().add(doc1);
@@ -346,7 +348,7 @@ public abstract class SampleData {
         FindDocumentsQuery query = new FindDocumentsQuery();
         
         query.setHomeCommunityId("12.21.41");
-        query.setPatientId(new Identifiable("id1", new AssigningAuthority("1.2")));
+        query.setPatientId(new Identifiable("id3", new AssigningAuthority("1.3")));
         query.setClassCodes(Arrays.asList(new Code("code1", null, "scheme1"), new Code("code2", null, "scheme2")));
         query.setTypeCodes(Arrays.asList(new Code("codet1", null, "schemet1"), new Code("codet2", null, "schemet2")));
         query.setPracticeSettingCodes(Arrays.asList(new Code("code3", null, "scheme3"), new Code("code4", null, "scheme4")));
@@ -372,6 +374,7 @@ public abstract class SampleData {
         query.setAuthorPersons(Arrays.asList("per'son1", "person2"));
         query.setFormatCodes(Arrays.asList(new Code("code13", null, "scheme13"), new Code("code14", null, "scheme14")));
         query.setStatus(Arrays.asList(AvailabilityStatus.APPROVED, AvailabilityStatus.SUBMITTED));
+        query.setDocumentEntryTypes(Arrays.asList(DocumentEntryType.STABLE));
         
         return new QueryRegistry(query);
     }
@@ -407,7 +410,7 @@ public abstract class SampleData {
         query.setPatientId(new Identifiable("id1", new AssigningAuthority("1.2")));
         query.getSubmissionTime().setFrom("1980");
         query.getSubmissionTime().setTo("1981");
-        query.setAuthorPerson("person1");
+        query.setAuthorPerson("per'son1");
         query.setSourceIds(Arrays.asList("1.2.3", "3.2.1"));
         query.setContentTypeCodes(Arrays.asList(new Code("code1", null, "scheme1"), new Code("code2", null, "scheme2")));
         query.setStatus(Arrays.asList(AvailabilityStatus.APPROVED, AvailabilityStatus.SUBMITTED));
@@ -433,7 +436,8 @@ public abstract class SampleData {
         query.setStatusDocuments(Arrays.asList(AvailabilityStatus.APPROVED, AvailabilityStatus.SUBMITTED));
         query.setStatusFolders(Arrays.asList(AvailabilityStatus.APPROVED, AvailabilityStatus.SUBMITTED));
         query.setStatusSubmissionSets(Arrays.asList(AvailabilityStatus.APPROVED, AvailabilityStatus.SUBMITTED));
-        
+        query.setDocumentEntryTypes(Arrays.asList(DocumentEntryType.STABLE));
+
         return new QueryRegistry(query);
     }
 
@@ -478,6 +482,7 @@ public abstract class SampleData {
                 Arrays.asList(new Code("code12", null, "scheme12")));
         query.setConfidentialityCodes(confidentialityCodes);
         query.setFormatCodes(Arrays.asList(new Code("code13", null, "scheme13"), new Code("code14", null, "scheme14")));
+        query.setDocumentEntryTypes(Arrays.asList(DocumentEntryType.STABLE));
         
         return new QueryRegistry(query);
     }
@@ -523,6 +528,7 @@ public abstract class SampleData {
         query.setUuid("urn:uuid:1.2.3.4");
         query.setUniqueId("12.21.34");
         query.setAssociationTypes(Arrays.asList(AssociationType.APPEND, AssociationType.TRANSFORM));
+        query.setDocumentEntryTypes(Arrays.asList(DocumentEntryType.STABLE));
                 
         return new QueryRegistry(query);
     }
@@ -541,7 +547,8 @@ public abstract class SampleData {
                 Arrays.asList(new Code("code10", null, "scheme10"), new Code("code11", null, "scheme11")));
         confidentialityCodes.getOuterList().add(
                 Arrays.asList(new Code("code12", null, "scheme12")));
-                
+        query.setDocumentEntryTypes(Arrays.asList(DocumentEntryType.STABLE));
+
         return new QueryRegistry(query);
     }
 
@@ -556,5 +563,45 @@ public abstract class SampleData {
                 
         return new QueryRegistry(query);
     }
+
+    /**
+     * @return a sample stored query for find documents.
+     */
+    public static QueryRegistry createFetchQuery() {
+        FetchQuery query = new FetchQuery();
+
+        query.setHomeCommunityId("urn:oid:1.2.21.41");
+        query.setPatientId(new Identifiable("id3", new AssigningAuthority("1.3")));
+        query.setClassCodes(Arrays.asList(new Code("code1", null, "scheme1"), new Code("code2", null, "scheme2")));
+        query.setTypeCodes(Arrays.asList(new Code("codet1", null, "schemet1"), new Code("codet2", null, "schemet2")));
+        query.setPracticeSettingCodes(Arrays.asList(new Code("code3", null, "scheme3"), new Code("code4", null, "scheme4")));
+        query.getCreationTime().setFrom("1980");
+        query.getCreationTime().setTo("1981");
+        query.getServiceStartTime().setFrom("1982");
+        query.getServiceStartTime().setTo("1983");
+        query.getServiceStopTime().setFrom("1984");
+        query.getServiceStopTime().setTo("1985");
+        query.setHealthcareFacilityTypeCodes(Arrays.asList(new Code("code5", null, "scheme5"), new Code("code6", null, "scheme6")));
+        QueryList<Code> eventCodes = new QueryList<Code>();
+        eventCodes.getOuterList().add(
+                Arrays.asList(new Code("code7", null, "scheme7"), new Code("code8", null, "scheme8")));
+        eventCodes.getOuterList().add(
+                Arrays.asList(new Code("code9", null, "scheme9")));
+        query.setEventCodes(eventCodes);
+        QueryList<Code> confidentialityCodes = new QueryList<Code>();
+        confidentialityCodes.getOuterList().add(
+                Arrays.asList(new Code("code10", null, "scheme10"), new Code("code11", null, "scheme11")));
+        confidentialityCodes.getOuterList().add(
+                Arrays.asList(new Code("code12", null, "scheme12")));
+        query.setConfidentialityCodes(confidentialityCodes);
+        query.setAuthorPersons(Arrays.asList("per'son1", "person2"));
+        query.setFormatCodes(Arrays.asList(new Code("code13", null, "scheme13"), new Code("code14", null, "scheme14")));
+        query.setStatus(Arrays.asList(AvailabilityStatus.APPROVED, AvailabilityStatus.SUBMITTED));
+
+        QueryRegistry queryRegistry = new QueryRegistry(query);
+        queryRegistry.setReturnType(QueryReturnType.LEAF_CLASS_WITH_REPOSITORY_ITEM);
+        return queryRegistry;
+    }
+
 }
 

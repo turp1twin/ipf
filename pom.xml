@@ -70,16 +70,17 @@
         <geronimo-spec-servlet-api-30-version>1.0</geronimo-spec-servlet-api-30-version>
         <groovy-version>1.7.9</groovy-version>
         <hapi-version>1.2</hapi-version>
-        <hibernate-version>3.6.7.Final</hibernate-version>
+        <hibernate-version>3.5.6-Final</hibernate-version>
         <hibernate-commons-annotations-version>3.2.0.Final</hibernate-commons-annotations-version>
         <hibernate-javassist-version>3.9.0.GA</hibernate-javassist-version>
-        <hibernate-search-version>3.4.1.Final</hibernate-search-version>
+        <hibernate-search-version>3.1.0.GA</hibernate-search-version>
         <jasypt-version>1.7</jasypt-version>
         <jetty-version>7.5.4.v20111024</jetty-version>
         <joda-time-version>2.0</joda-time-version>
         <junit-version>4.10</junit-version>
         <junitperf-version>1.8</junitperf-version>
         <log4j-version>1.2.16</log4j-version>
+        <lombok-version>0.11.0</lombok-version>
         <mdht-version>0.7.0.201012100720</mdht-version>
         <metabuilder-version>1.1.6</metabuilder-version>
         <mina-version>1.1.7</mina-version>
@@ -531,11 +532,6 @@
             </dependency>
             <dependency>
                 <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-simple</artifactId>
-                <version>${slf4j-version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-log4j12</artifactId>
                 <version>${slf4j-version}</version>
             </dependency>
@@ -649,6 +645,17 @@
                 <artifactId>geronimo-servlet_3.0_spec</artifactId>
                 <version>${geronimo-spec-servlet-api-30-version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-annotations</artifactId>
+                <version>${hibernate-version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.hibernate.javax.persistence</groupId>
+                        <artifactId>hibernate-jpa-2.0-api</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>    
             <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-commons-annotations</artifactId>
@@ -816,6 +823,11 @@
                 <version>${xmlunit-version}</version>
                 <scope>test</scope>
             </dependency>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok-version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -824,6 +836,13 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <!-- scope "provided" is used here in the sense
+                "necessary for compilation, not necessary at runtime" -->
+            <scope>provided</scope>
         </dependency>
     </dependencies>
     

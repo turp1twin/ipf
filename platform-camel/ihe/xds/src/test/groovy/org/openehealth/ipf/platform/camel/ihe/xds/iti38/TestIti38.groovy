@@ -56,7 +56,7 @@ class TestIti38 extends StandardTestContainer {
      *   <li> sync and async requests are possible...
      *   <li> ...and not influence each other (they shouldn't),
      *   <li> async requests are really async (exchanges are InOnly and delays do not matter),
-     *   <li> SOAP headers (WSA ReplyTo + TTL) can be set and read,
+     *   <li> SOAP headers (WSA ReplyTo) can be set and read,
      *   <li> XSD and Schematron validations work...
      *   <li> ...and the messages are valid either,
      *   <li> ATNA auditing works.
@@ -85,9 +85,10 @@ class TestIti38 extends StandardTestContainer {
     
     
     private void send(
-    String endpointUri,
-    int n,
-    String responseEndpointUri = null) {
+            String endpointUri,
+            int n,
+            String responseEndpointUri = null)
+    {
         def requestExchange = new DefaultExchange(camelContext)
         requestExchange.in.body = REQUEST
         

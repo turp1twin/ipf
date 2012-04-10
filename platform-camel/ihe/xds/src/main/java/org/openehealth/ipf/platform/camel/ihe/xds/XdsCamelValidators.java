@@ -197,6 +197,59 @@ abstract public class XdsCamelValidators extends XdsACamelValidators {
         }
     };    
 
+    private static final Processor ITI_61_REQUEST_VALIDATOR = new Processor() {
+        @Override
+        public void process(Exchange exchange) throws Exception {
+            if (! validationEnabled(exchange)) {
+                return;
+            }
+            EbXMLSubmitObjectsRequest30 message =
+                new EbXMLSubmitObjectsRequest30(exchange.getIn().getBody(SubmitObjectsRequest.class));
+            ValidationProfile profile = new ValidationProfile(ITI_61);
+            new SubmitObjectsRequestValidator().validate(message, profile);
+        }
+    };
+
+    private static final Processor ITI_61_RESPONSE_VALIDATOR = new Processor() {
+        @Override
+        public void process(Exchange exchange) throws Exception {
+            if (! validationEnabled(exchange)) {
+                return;
+            }
+            EbXMLRegistryResponse30 message = new EbXMLRegistryResponse30(exchange.getIn().getBody(RegistryResponseType.class));
+            ValidationProfile profile = new ValidationProfile(ITI_61);
+            new RegistryResponseValidator().validate(message, profile);
+        }
+    };
+
+    private static final Processor ITI_63_REQUEST_VALIDATOR = new Processor() {
+        @Override
+        public void process(Exchange exchange) throws Exception {
+            if (! validationEnabled(exchange)) {
+                return;
+            }
+            EbXMLAdhocQueryRequest30 message =
+                new EbXMLAdhocQueryRequest30(exchange.getIn().getBody(AdhocQueryRequest.class));
+            ValidationProfile profile = new ValidationProfile(ITI_63);
+            new AdhocQueryRequestValidator().validate(message, profile);
+        }
+    };
+
+    private static final Processor ITI_63_RESPONSE_VALIDATOR = new Processor() {
+        @Override
+        public void process(Exchange exchange) throws Exception {
+            if (! validationEnabled(exchange)) {
+                return;
+            }
+            EbXMLQueryResponse30 message =
+                new EbXMLQueryResponse30(exchange.getIn().getBody(AdhocQueryResponse.class));
+            ValidationProfile profile = new ValidationProfile(ITI_63);
+            new QueryResponseValidator().validate(message, profile);
+        }
+    };
+
+
+
     /**
      * Returns a validating processor for ITI-18 request messages.
      */
@@ -279,6 +332,34 @@ abstract public class XdsCamelValidators extends XdsACamelValidators {
      */
     public static Processor iti43ResponseValidator() {
         return ITI_43_RESPONSE_VALIDATOR;
+    }
+
+    /**
+     * Returns a validating processor for ITI-61 request messages.
+     */
+    public static Processor iti61RequestValidator() {
+        return ITI_61_REQUEST_VALIDATOR;
+    }
+
+    /**
+     * Returns a validating processor for ITI-61 response messages.
+     */
+    public static Processor iti61ResponseValidator() {
+        return ITI_61_RESPONSE_VALIDATOR;
+    }
+
+    /**
+     * Returns a validating processor for ITI-63 request messages.
+     */
+    public static Processor iti63RequestValidator() {
+        return ITI_63_REQUEST_VALIDATOR;
+    }
+
+    /**
+     * Returns a validating processor for ITI-63 response messages.
+     */
+    public static Processor iti63ResponseValidator() {
+        return ITI_63_RESPONSE_VALIDATOR;
     }
 
 }
