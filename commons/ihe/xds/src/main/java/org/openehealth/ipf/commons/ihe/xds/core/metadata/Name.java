@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 the original author or authors.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
- *     
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,11 +15,14 @@
  */
 package org.openehealth.ipf.commons.ihe.xds.core.metadata;
 
-import javax.xml.bind.annotation.*;
-import java.io.Serializable;
-
+import ca.uhn.hl7v2.model.Composite;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  * This class represents a name.
@@ -31,142 +34,47 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * to HL7 this indicates that the values are empty. Trailing empty values are 
  * removed from the HL7 string.
  * @author Jens Riemschneider
+ * @author Dmytro Rud
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "Name", propOrder = {"prefix", "givenName", "secondAndFurtherGivenNames", "familyName", "suffix"})
-public class Name implements Serializable {
+@XmlAccessorType(XmlAccessType.PUBLIC_MEMBER)
+@XmlType(name = "Name", propOrder = {"prefix", "givenName", "secondAndFurtherGivenNames",
+        "familyName", "suffix", "degree"})
+abstract public class Name<T extends Composite> extends Hl7v2Based<T> {
     private static final long serialVersionUID = -3455779057944896901L;
 
+    protected Name(T hapiObject) {
+        super(hapiObject);
+    }
+
+
     @XmlElement(name = "family")
-    private String familyName;                  // XCN.2.1, XPN.1.1
+    abstract public String getFamilyName();                  // XCN.2.1, XPN.1.1
     @XmlElement(name = "given")
-    private String givenName;                   // XCN.3, XPN.2
+    abstract public String getGivenName();                   // XCN.3, XPN.2
     @XmlElement(name = "secondAndFurtherGiven")
-    private String secondAndFurtherGivenNames;  // XCN.4, XPN.3
-    private String suffix;                      // XCN.5, XPN.4
-    private String prefix;                      // XCN.6, XPN.5
+    abstract public String getSecondAndFurtherGivenNames();  // XCN.4, XPN.3
+    abstract public String getSuffix();                      // XCN.5, XPN.4
+    abstract public String getPrefix();                      // XCN.6, XPN.5
+    abstract public String getDegree();                      // XCN.7, XPN.6
 
-    /**
-     * Constructs a name.
-     */
-    public Name() {}
-    
-    /**
-     * Constructs a name.
-     * @param familyName
-     *          the family name (XCN.2.1/XPN.1.1).
-     */
-    public Name(String familyName) {
-        this.familyName = familyName;
-    }
+    abstract public void setFamilyName(String value);                  // XCN.2.1, XPN.1.1
+    abstract public void setGivenName(String value);                   // XCN.3, XPN.2
+    abstract public void setSecondAndFurtherGivenNames(String value);  // XCN.4, XPN.3
+    abstract public void setSuffix(String value);                      // XCN.5, XPN.4
+    abstract public void setPrefix(String value);                      // XCN.6, XPN.5
+    abstract public void setDegree(String value);                      // XCN.7, XPN.6
 
-    /**
-     * Constructs a name.
-     * @param familyName
-     *          the family name (XCN.2.1/XPN.1.1).
-     * @param givenName
-     *          the given name (XCN.3/XPN.2).
-     * @param secondAndFurtherGivenNames
-     *          the second and further names (XCN.4/XPN.3).
-     * @param suffix
-     *          the suffix (XCN.5/XPN.4).
-     * @param prefix
-     *          the prefix (XCN.6/XPN.5).
-     */
-    public Name(String familyName, String givenName, String secondAndFurtherGivenNames, String suffix, String prefix) {
-        this.familyName = familyName;
-        this.givenName = givenName;
-        this.secondAndFurtherGivenNames = secondAndFurtherGivenNames;
-        this.suffix = suffix;
-        this.prefix = prefix;
-    }
 
-    /**
-     * @return the family name (XCN.2.1/XPN.1.1).
-     */
-    public String getFamilyName() {
-        return familyName;
-    }
-    
-    /**
-     * @param familyName
-     *          the family name (XCN.2.1/XPN.1.1).
-     */
-    public void setFamilyName(String familyName) {
-        this.familyName = familyName;
-    }
-    
-    /**
-     * @return the given name (XCN.3/XPN.2).
-     */
-    public String getGivenName() {
-        return givenName;
-    }
-    
-    /**
-     * @param givenName
-     *          the given name (XCN.3/XPN.2).
-     */
-    public void setGivenName(String givenName) {
-        this.givenName = givenName;
-    }
-    
-    /**
-     * @return the second and further names (XCN.4/XPN.3).
-     */
-    public String getSecondAndFurtherGivenNames() {
-        return secondAndFurtherGivenNames;
-    }
-
-    /**
-     * @param secondAndFurtherGivenNames
-     *          the second and further names (XCN.4/XPN.3).
-     */
-    public void setSecondAndFurtherGivenNames(String secondAndFurtherGivenNames) {
-        this.secondAndFurtherGivenNames = secondAndFurtherGivenNames;
-    }
-
-    /**
-     * @return the suffix (XCN.5/XPN.4).
-     */
-    public String getSuffix() {
-        return suffix;
-    }
-    
-    /**
-     * @param suffix
-     *          the suffix (XCN.5/XPN.4).
-     */
-    public void setSuffix(String suffix) {
-        this.suffix = suffix;
-    }
-    
-    /**
-     * @return the prefix (XCN.6/XPN.5).
-     */
-    public String getPrefix() {
-        return prefix;
-    }
-
-    /**
-     * @param prefix
-     *          the prefix (XCN.6/XPN.5).
-     */
-    public void setPrefix(String prefix) {
-        this.prefix = prefix;
-    }
-
-    @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((familyName == null) ? 0 : familyName.hashCode());
-        result = prime * result + ((givenName == null) ? 0 : givenName.hashCode());
-        result = prime * result + ((prefix == null) ? 0 : prefix.hashCode());
+        result = prime * result + ((getFamilyName() == null) ? 0 : getFamilyName().hashCode());
+        result = prime * result + ((getGivenName() == null) ? 0 : getGivenName().hashCode());
+        result = prime * result + ((getPrefix() == null) ? 0 : getPrefix().hashCode());
         result = prime
                 * result
-                + ((secondAndFurtherGivenNames == null) ? 0 : secondAndFurtherGivenNames.hashCode());
-        result = prime * result + ((suffix == null) ? 0 : suffix.hashCode());
+                + ((getSecondAndFurtherGivenNames() == null) ? 0 : getSecondAndFurtherGivenNames().hashCode());
+        result = prime * result + ((getSuffix() == null) ? 0 : getSuffix().hashCode());
         return result;
     }
 
@@ -176,39 +84,51 @@ public class Name implements Serializable {
             return true;
         if (obj == null)
             return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (! (obj instanceof Name))
+           return false;
         Name other = (Name) obj;
-        if (familyName == null) {
-            if (other.familyName != null)
+        if (getFamilyName() == null) {
+            if (other.getFamilyName() != null)
                 return false;
-        } else if (!familyName.equals(other.familyName))
+        } else if (!getFamilyName().equals(other.getFamilyName()))
             return false;
-        if (givenName == null) {
-            if (other.givenName != null)
+        if (getGivenName() == null) {
+            if (other.getGivenName() != null)
                 return false;
-        } else if (!givenName.equals(other.givenName))
+        } else if (!getGivenName().equals(other.getGivenName()))
             return false;
-        if (prefix == null) {
-            if (other.prefix != null)
+        if (getPrefix() == null) {
+            if (other.getPrefix() != null)
                 return false;
-        } else if (!prefix.equals(other.prefix))
+        } else if (!getPrefix().equals(other.getPrefix()))
             return false;
-        if (secondAndFurtherGivenNames == null) {
-            if (other.secondAndFurtherGivenNames != null)
+        if (getSecondAndFurtherGivenNames() == null) {
+            if (other.getSecondAndFurtherGivenNames() != null)
                 return false;
-        } else if (!secondAndFurtherGivenNames.equals(other.secondAndFurtherGivenNames))
+        } else if (!getSecondAndFurtherGivenNames().equals(other.getSecondAndFurtherGivenNames()))
             return false;
-        if (suffix == null) {
-            if (other.suffix != null)
+        if (getSuffix() == null) {
+            if (other.getSuffix() != null)
                 return false;
-        } else if (!suffix.equals(other.suffix))
+        } else if (!getSuffix().equals(other.getSuffix()))
+            return false;
+        if (getDegree() == null) {
+            if (other.getDegree() != null)
+                return false;
+        } else if (!getDegree().equals(other.getDegree()))
             return false;
         return true;
     }
-    
+
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+        return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
+                .append("family", getFamilyName())
+                .append("given", getGivenName())
+                .append("secondAndFurtherGiven", getSecondAndFurtherGivenNames())
+                .append("suffix", getSuffix())
+                .append("prefix", getPrefix())
+                .append("degree", getDegree())
+                .toString();
     }
 }

@@ -33,18 +33,31 @@ import java.util.regex.Pattern;
  */
 public class CodeValidation implements QueryParameterValidation {
     private static final Pattern PATTERN =
-            Pattern.compile("\\(\\s*'.*'(\\s*,\\s*'.*')*\\s*\\)");
+            Pattern.compile("\\s*\\(\\s*'.*'(\\s*,\\s*'.*')*\\s*\\)\\s*");
 
     private final QueryParameter param;
+    private final boolean optional;
 
     /**
      * Constructs a validation object.
      * @param param
      *          parameter of the code to validate.
+     * @param optional
+     *          whether the code presence is optional.
      */
-    public CodeValidation(QueryParameter param) {
+    public CodeValidation(QueryParameter param, boolean optional) {
         notNull(param, "param cannot be null");
         this.param = param;
+        this.optional = optional;
+    }
+
+    /**
+     * Constructs a validation object.
+     * @param param
+     *          parameter of the optional code to validate.
+     */
+    public CodeValidation(QueryParameter param) {
+        this(param, true);
     }
 
     @Override
@@ -52,17 +65,21 @@ public class CodeValidation implements QueryParameterValidation {
         List<String> slotValues = request.getSlotValues(param.getSlotName());
         for (String slotValue : slotValues) {
             metaDataAssert(slotValue != null, MISSING_REQUIRED_QUERY_PARAMETER, param);
+            metaDataAssert(PATTERN.matcher(slotValue).matches(),
+                    PARAMETER_VALUE_NOT_STRING_LIST, param);
         }
 
         QuerySlotHelper slots = new QuerySlotHelper(request);
         List<Code> codes = slots.toCodeList(param);
-        
+
         if (codes != null) {
             for (Code code : codes) {
                 metaDataAssert(code != null, INVALID_QUERY_PARAMETER_VALUE, param);
                 metaDataAssert(code.getCode() != null, INVALID_QUERY_PARAMETER_VALUE, param);
                 metaDataAssert(code.getSchemeName() != null, INVALID_QUERY_PARAMETER_VALUE, param);
             }
+        } else {
+            metaDataAssert(optional, MISSING_REQUIRED_QUERY_PARAMETER, param);
         }
     }
 }

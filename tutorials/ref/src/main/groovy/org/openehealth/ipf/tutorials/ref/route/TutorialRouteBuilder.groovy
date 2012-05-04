@@ -15,8 +15,8 @@
  */
 package org.openehealth.ipf.tutorials.ref.route
 
-import org.apache.camel.ValidationException;
-import org.apache.camel.spring.SpringRouteBuilder
+import org.apache.camel.spring.SpringRouteBuilder
+
 /**
  * @author Martin Krasser
  */
@@ -28,7 +28,6 @@ class TutorialRouteBuilder extends SpringRouteBuilder {
     int httpPort
     
     void configure() {
-                
         // ------------------------------------------------------------
         //  Global error handling
         // ------------------------------------------------------------
@@ -53,7 +52,10 @@ class TutorialRouteBuilder extends SpringRouteBuilder {
         // ------------------------------------------------------------
         //  Validate order
         // ------------------------------------------------------------
-        
+            
+        //  The 'validation' DSL intercepts the route, and returns as output 
+        //  the output of the 'direct:validation' route.
+        //  More details in class ValidationDefinition
         from('direct:received')
             .convertBodyTo(String.class)
             .validation('direct:validation')
@@ -61,17 +63,21 @@ class TutorialRouteBuilder extends SpringRouteBuilder {
         
         from('direct:validation')
             .onException(ValidationException.class)
+                .handled(true)
                 .transform().exceptionMessage()
                 .responseCode().constant(400)
-                .to(appErrorUri).end()
+                .to(appErrorUri)
+                .end()
             .to('validator:order/order.xsd')
             .transmogrify {'message valid'}
+           
         
         // ------------------------------------------------------------
         //  Process order
         // ------------------------------------------------------------
         
         from('jms:queue:validated')
+            .setBody(constant())
             .unmarshal().gnode(false)
             .choice()
                 .when { it.in.body.category.text() == 'animals' }

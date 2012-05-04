@@ -25,6 +25,7 @@ public enum ValidationMessage {
     FOLDER_INVALID_AVAILABILITY_STATUS("Invalid availability status for a folder: %1s"),
     SUBMISSION_SET_INVALID_AVAILABILITY_STATUS("Invalid availability status for a submission set: %1s"),
     DOC_ENTRY_INVALID_AVAILABILITY_STATUS("Invalid availability status for a document entry: %1s"),
+    INVALID_AVAILABILITY_STATUS("Invalid availability status: %1s"),
     EXACTLY_ONE_SUBMISSION_SET_MUST_EXIST("Exactly one submission set must be specified"),
     INVALID_TITLE_ENCODING("Invalid encoding for document entry title: %1s"),
     TITLE_TOO_LONG("Document entry title too long: %1s"),
@@ -61,6 +62,8 @@ public enum ValidationMessage {
     RECIPIENT_EMPTY("Recipient list value should not be empty"),
     INVALID_RECIPIENT("Invalid format of recipient list element: %1s"),
     SLOT_VALUE_TOO_LONG("Slot value length exceeds ebXML limit in slot: %1s"),
+    MISSING_SLOT_NAME("Missing slot name"),
+    DUPLICATE_SLOT_NAME("Duplicate slot name: %1s"),
     WRONG_NUMBER_OF_SLOT_VALUES("Slot contains incorrect amount of values. Slot = %1s, allowed = [%2s-%3s], Was = %4s"),
     EMPTY_SLOT_VALUE("Slot value is undefined. Slot = %1s"),
     INVALID_TIME("Invalid time format: %1s"),
@@ -105,8 +108,7 @@ public enum ValidationMessage {
     DOC_CODE_NOT_ALLOWED_ON_HAS_MEMBER("HasMember association may not specify a relationship type"),
     RESULT_NOT_SINGLE_PATIENT("Query result contains entries for multiple patients", ErrorCode.RESULT_NOT_SINGLE_PATIENT),
     HOME_COMMUNITY_ID_MUST_BE_SPECIFIED("Home community ID is missing", ErrorCode.MISSING_HOME_COMMUNITY_ID),
-    UNKNOWN_HOME_COMMUNITY_ID("Unknown home community ID: %1", ErrorCode.UNKNOWN_COMMUNITY),
-    UNKNOWN_REPOSITORY_ID("Unknown repository ID: %1", ErrorCode.UNKNOWN_REPOSITORY_ID);
+    WRONG_QUERY_RETURN_TYPE("Wrong query return type: %s");
 
 
     private final String text;
