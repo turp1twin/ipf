@@ -16,21 +16,21 @@
 package org.openehealth.ipf.commons.ihe.xds.iti39;
 
 import org.openehealth.ipf.commons.ihe.core.atna.AuditorManager;
-import org.openehealth.ipf.commons.ihe.xds.iti43.Iti43AuditDataset;
-import org.openehealth.ipf.commons.ihe.xds.iti43.Iti43AuditStrategy;
+import org.openehealth.ipf.commons.ihe.xds.core.audit.XdsRetrieveAuditDataset;
+import org.openehealth.ipf.commons.ihe.xds.core.audit.XdsRetrieveAuditStrategy30;
 
 /**
  * Client audit strategy for ITI-39.
  * @author Dmytro Rud
  */
-public class Iti39ClientAuditStrategy extends Iti43AuditStrategy {
+public class Iti39ClientAuditStrategy extends XdsRetrieveAuditStrategy30 {
 
     private static final String[] NECESSARY_AUDIT_FIELDS = new String[] {
         "EventOutcomeCode",
         "ServiceEndpointUrl",
-        "DocumentUuids",
-        "RepositoryUuids",
-        "HomeCommunityUuids"};
+        "DocumentUniqueIds",
+        "RepositoryUniqueIds",
+        "HomeCommunityIds"};
 
 
     public Iti39ClientAuditStrategy(boolean allowIncompleteAudit) {
@@ -38,15 +38,15 @@ public class Iti39ClientAuditStrategy extends Iti43AuditStrategy {
     }
 
     @Override
-    public void doAudit(Iti43AuditDataset auditDataset) {
-        String[] homeCommunityIds = auditDataset.getHomeCommunityUuids();
+    public void doAudit(XdsRetrieveAuditDataset auditDataset) {
+        String[] homeCommunityIds = auditDataset.getHomeCommunityIds();
         AuditorManager.getXCAInitiatingGatewayAuditor().auditCrossGatewayRetrieveEvent(
                 auditDataset.getEventOutcomeCode(),
                 auditDataset.getServiceEndpointUrl(),
                 auditDataset.getUserId(),
                 auditDataset.getUserName(),
-                auditDataset.getDocumentUuids(),
-                auditDataset.getRepositoryUuids(),
+                auditDataset.getDocumentUniqueIds(),
+                auditDataset.getRepositoryUniqueIds(),
                 ((homeCommunityIds != null) && (homeCommunityIds.length != 0)) ? homeCommunityIds[0] : null);
     }
 

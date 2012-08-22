@@ -68,12 +68,29 @@ public class AdhocQueryRequestValidator implements Validator<EbXMLAdhocQueryRequ
                 DOC_ENTRY_FORMAT_CODE,
                 DOC_ENTRY_STATUS);
 
+        addAllowedMultipleSlots(FIND_DOCUMENTS_MPQ,
+                DOC_ENTRY_PATIENT_ID,
+                DOC_ENTRY_CLASS_CODE,
+                DOC_ENTRY_TYPE_CODE,
+                DOC_ENTRY_PRACTICE_SETTING_CODE,
+                DOC_ENTRY_HEALTHCARE_FACILITY_TYPE_CODE,
+                DOC_ENTRY_EVENT_CODE,
+                DOC_ENTRY_CONFIDENTIALITY_CODE,
+                DOC_ENTRY_AUTHOR_PERSON,
+                DOC_ENTRY_FORMAT_CODE,
+                DOC_ENTRY_STATUS);
+
         addAllowedMultipleSlots(FIND_SUBMISSION_SETS,
                 SUBMISSION_SET_SOURCE_ID,
                 SUBMISSION_SET_CONTENT_TYPE_CODE,
                 SUBMISSION_SET_STATUS);
 
         addAllowedMultipleSlots(FIND_FOLDERS,
+                FOLDER_CODES,
+                FOLDER_STATUS);
+
+        addAllowedMultipleSlots(FIND_FOLDERS_MPQ,
+                FOLDER_PATIENT_ID,
                 FOLDER_CODES,
                 FOLDER_STATUS);
 
@@ -152,6 +169,12 @@ public class AdhocQueryRequestValidator implements Validator<EbXMLAdhocQueryRequ
                         GET_RELATED_DOCUMENTS
                 ));
         ALLOWED_QUERY_TYPES.put(
+                Collections.<InteractionId> singletonList(ITI_51),
+                Arrays.asList(
+                        FIND_DOCUMENTS_MPQ,
+                        FIND_FOLDERS_MPQ
+                ));
+        ALLOWED_QUERY_TYPES.put(
                 Collections.<InteractionId> singletonList(ITI_63),
                 Collections.singletonList(FETCH));
     }
@@ -184,8 +207,14 @@ public class AdhocQueryRequestValidator implements Validator<EbXMLAdhocQueryRequ
                 };
 
             case FIND_DOCUMENTS:
+            case FIND_DOCUMENTS_MPQ:
                 return new QueryParameterValidation[] {
-                    new StringValidation(DOC_ENTRY_PATIENT_ID, cxValidator, false),
+                    // PatientId MUST BE supplied in  single patient query.
+                    // PatientId (list) MAY BE supplied in multi patient query.
+                    // The validators for the two cases are otherwise identical.
+                    queryType.equals(FIND_DOCUMENTS)
+                            ? new StringValidation(DOC_ENTRY_PATIENT_ID, cxValidator, false)
+                            : new StringListValidation(DOC_ENTRY_PATIENT_ID, cxValidator),
                     new CodeValidation(DOC_ENTRY_CLASS_CODE),
                     new CodeValidation(DOC_ENTRY_TYPE_CODE),
                     new CodeValidation(DOC_ENTRY_PRACTICE_SETTING_CODE),
@@ -217,8 +246,12 @@ public class AdhocQueryRequestValidator implements Validator<EbXMLAdhocQueryRequ
                 };
 
             case FIND_FOLDERS:
+            case FIND_FOLDERS_MPQ:
                 return new QueryParameterValidation[] {
-                    new StringValidation(FOLDER_PATIENT_ID, cxValidator, false),
+                    // PatientId MUST BE supplied in  single patient query.
+                    // PatientId (list) MAY BE supplied in multi patient query.
+                    // The validators for the two cases are otherwise identical.
+                    queryType.equals(FIND_FOLDERS) ? new StringValidation(FOLDER_PATIENT_ID, cxValidator, false):new StringListValidation(FOLDER_PATIENT_ID, cxValidator),
                     new NumberValidation(FOLDER_LAST_UPDATE_TIME_FROM, timeValidator),
                     new NumberValidation(FOLDER_LAST_UPDATE_TIME_TO, timeValidator),
                     new QueryListCodeValidation(FOLDER_CODES, FOLDER_CODES_SCHEME),
@@ -337,6 +370,15 @@ public class AdhocQueryRequestValidator implements Validator<EbXMLAdhocQueryRequ
                     ALLOWED_MULTIPLE_SLOTS.get(queryType));
             for (QueryParameterValidation validation : getValidators(queryType, profile)) {
                 validation.validate(request);
+            }
+
+            if (queryType == FIND_DOCUMENTS_MPQ) {
+                metaDataAssert(
+                        (! request.getSlotValues(DOC_ENTRY_CLASS_CODE.getSlotName()).isEmpty()) ||
+                        (! request.getSlotValues(DOC_ENTRY_EVENT_CODE.getSlotName()).isEmpty()) ||
+                        (! request.getSlotValues(DOC_ENTRY_HEALTHCARE_FACILITY_TYPE_CODE.getSlotName()).isEmpty()),
+                        ValidationMessage.MISSING_REQUIRED_QUERY_PARAMETER,
+                        "at least one of $XDSDocumentEntryClassCode, $XDSDocumentEntryEventCodeList, $XDSDocumentEntryHealthcareFacilityTypeCode");
             }
         }
     }

@@ -9,15 +9,13 @@
     <parent>
         <groupId>org.openehealth.ipf</groupId>
         <artifactId>ipf</artifactId>
-        <version>2.4-SNAPSHOT</version>
+        <version>2.5-SNAPSHOT</version>
     </parent>
 
     <modules>
         <module>test</module>
         <module>core</module>
         <module>flow</module>
-        <module>lbs</module>
-        <module>event</module>
         <module>ihe</module>
         <module>xml</module>
         <module>map</module>

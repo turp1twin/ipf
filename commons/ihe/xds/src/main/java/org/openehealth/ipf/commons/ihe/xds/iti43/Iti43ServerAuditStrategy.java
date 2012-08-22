@@ -16,20 +16,21 @@
 package org.openehealth.ipf.commons.ihe.xds.iti43;
 
 import org.openehealth.ipf.commons.ihe.core.atna.AuditorManager;
+import org.openehealth.ipf.commons.ihe.xds.core.audit.XdsRetrieveAuditDataset;
+import org.openehealth.ipf.commons.ihe.xds.core.audit.XdsRetrieveAuditStrategy30;
 
 /**
  * Server audit strategy for ITI-43.
  * @author Dmytro Rud
  */
-public class Iti43ServerAuditStrategy extends Iti43AuditStrategy {
+public class Iti43ServerAuditStrategy extends XdsRetrieveAuditStrategy30 {
 
     private static final String[] NECESSARY_AUDIT_FIELDS = new String[] {
         "EventOutcomeCode",
         "ClientIpAddress",
         "ServiceEndpointUrl",
-        "DocumentUuids",
-        "RepositoryUuids",
-        "HomeCommunityUuids"};
+        "DocumentUniqueIds",
+        "RepositoryUniqueIds"};
 
     
     public Iti43ServerAuditStrategy(boolean allowIncompleteAudit) {
@@ -37,16 +38,16 @@ public class Iti43ServerAuditStrategy extends Iti43AuditStrategy {
     }
 
     @Override
-    public void doAudit(Iti43AuditDataset auditDataset) {
+    public void doAudit(XdsRetrieveAuditDataset auditDataset) {
         AuditorManager.getRepositoryAuditor().auditRetrieveDocumentSetEvent(
                 auditDataset.getEventOutcomeCode(),
                 auditDataset.getUserId(),
                 auditDataset.getUserName(),
                 auditDataset.getClientIpAddress(),
                 auditDataset.getServiceEndpointUrl(),
-                auditDataset.getDocumentUuids(),
-                auditDataset.getRepositoryUuids(),
-                auditDataset.getHomeCommunityUuids());
+                auditDataset.getDocumentUniqueIds(),
+                auditDataset.getRepositoryUniqueIds(),
+                auditDataset.getHomeCommunityIds());
     }
 
     @Override

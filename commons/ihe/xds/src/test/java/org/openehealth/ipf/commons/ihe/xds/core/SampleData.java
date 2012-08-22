@@ -22,8 +22,10 @@ import org.openehealth.ipf.commons.ihe.xds.core.requests.query.*;
 import org.openehealth.ipf.commons.ihe.xds.core.responses.*;
 
 import javax.activation.DataHandler;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * Utility class to create sample data used in tests.
@@ -326,6 +328,33 @@ public abstract class SampleData {
     }
     
     /**
+     * @return a sample request to retrieve an imaging document set.
+     */
+    public static RetrieveImagingDocumentSet createRetrieveImagingDocumentSet() {
+        RetrieveImagingDocumentSet request = new RetrieveImagingDocumentSet();
+
+        List<RetrieveDocument> retrieveDocuments = new ArrayList<RetrieveDocument>();
+        RetrieveDocument retrieveDocument1 = new RetrieveDocument("repo1", "doc1", "urn:oid:1.2.3");
+        retrieveDocuments.add(retrieveDocument1);
+        RetrieveDocument retrieveDocument2 = new RetrieveDocument("repo2", "doc2", "urn:oid:1.2.4");
+        retrieveDocuments.add(retrieveDocument2);
+
+        List<RetrieveSeries> retrieveSerieses = new ArrayList<RetrieveSeries>();
+        RetrieveSeries retrieveSeries1 = new RetrieveSeries("urn:oid:1.2.1", retrieveDocuments);
+        retrieveSerieses.add(retrieveSeries1);
+        RetrieveSeries retrieveSeries2 = new RetrieveSeries("urn:oid:1.2.2", retrieveDocuments);
+        retrieveSerieses.add(retrieveSeries2);
+
+        List<RetrieveStudy> retrieveStudies = request.getRetrieveStudies();
+        RetrieveStudy retrieveStudy1 = new RetrieveStudy("urn:oid:1.1.1", retrieveSerieses);
+        retrieveStudies.add(retrieveStudy1);
+        RetrieveStudy retrieveStudy2 = new RetrieveStudy("urn:oid:1.1.2", retrieveSerieses);
+        retrieveStudies.add(retrieveStudy2);
+
+        return request;
+    }
+
+    /**
      * @return a sample sql query.
      */
     public static QueryRegistry createSqlQuery() {
@@ -350,9 +379,17 @@ public abstract class SampleData {
      */
     public static QueryRegistry createFindDocumentsQuery() {
         FindDocumentsQuery query = new FindDocumentsQuery();
+        populateDocumentsQuery(query);
+        query.setPatientId(new Identifiable("id3", new AssigningAuthority("1.3")));
+        query.setStatus(Arrays.asList(AvailabilityStatus.APPROVED, AvailabilityStatus.SUBMITTED));
+        query.setDocumentEntryTypes(Arrays.asList(DocumentEntryType.STABLE));
+        return new QueryRegistry(query);
+    }
+
+    private static void populateDocumentsQuery(DocumentsQuery query) {
         
         query.setHomeCommunityId("12.21.41");
-        query.setPatientId(new Identifiable("id3", new AssigningAuthority("1.3")));
+
         query.setClassCodes(Arrays.asList(new Code("code1", null, "scheme1"), new Code("code2", null, "scheme2")));
         query.setTypeCodes(Arrays.asList(new Code("codet1", null, "schemet1"), new Code("codet2", null, "schemet2")));
         query.setPracticeSettingCodes(Arrays.asList(new Code("code3", null, "scheme3"), new Code("code4", null, "scheme4")));
@@ -377,11 +414,25 @@ public abstract class SampleData {
         query.setConfidentialityCodes(confidentialityCodes);
         query.setAuthorPersons(Arrays.asList("per'son1", "person2"));
         query.setFormatCodes(Arrays.asList(new Code("code13", null, "scheme13"), new Code("code14", null, "scheme14")));
+
+        
+
+    }
+
+    /**
+     * @return a sample stored query for find documents (Multi Patient).
+     */
+    public static QueryRegistry createFindDocumentsForMultiplePatientsQuery() {
+        FindDocumentsForMultiplePatientsQuery query = new FindDocumentsForMultiplePatientsQuery();
+        populateDocumentsQuery(query);
+        query.setPatientIds(Arrays.asList(
+                new Identifiable("id3", new AssigningAuthority("1.3")),
+                new Identifiable("id4", new AssigningAuthority("1.4"))));
         query.setStatus(Arrays.asList(AvailabilityStatus.APPROVED, AvailabilityStatus.SUBMITTED));
         query.setDocumentEntryTypes(Arrays.asList(DocumentEntryType.STABLE));
-        
         return new QueryRegistry(query);
     }
+
 
     /**
      * @return a sample stored query for find folders.
@@ -401,6 +452,28 @@ public abstract class SampleData {
         query.setCodes(codes);
         query.setStatus(Arrays.asList(AvailabilityStatus.APPROVED, AvailabilityStatus.SUBMITTED));
         
+        return new QueryRegistry(query);
+    }
+
+
+    /**
+     * @return a sample stored query for find folders.
+     */
+    public static QueryRegistry createFindFoldersForMultiplePatientsQuery() {
+        FindFoldersForMultiplePatientsQuery query = new FindFoldersForMultiplePatientsQuery();
+
+        query.setHomeCommunityId("12.21.41");
+        query.setPatientIds(Arrays.asList(new Identifiable("id1", new AssigningAuthority("1.2")), new Identifiable("id2", new AssigningAuthority("1.2"))));
+        query.getLastUpdateTime().setFrom("1980");
+        query.getLastUpdateTime().setTo("1981");
+        QueryList<Code> codes = new QueryList<Code>();
+        codes.getOuterList().add(
+                Arrays.asList(new Code("code7", null, "scheme7"), new Code("code8", null, "scheme8")));
+        codes.getOuterList().add(
+                Arrays.asList(new Code("code9", null, "scheme9")));
+        query.setCodes(codes);
+        query.setStatus(Arrays.asList(AvailabilityStatus.APPROVED, AvailabilityStatus.SUBMITTED));
+
         return new QueryRegistry(query);
     }
 

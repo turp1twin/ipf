@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.openehealth.ipf</groupId>
     <artifactId>ipf</artifactId>
-    <version>2.4-SNAPSHOT</version>
+    <version>2.5-SNAPSHOT</version>
     <name>ipf</name>
     <packaging>pom</packaging>
 
@@ -41,7 +41,7 @@
         <bundle-plugin-version>2.0.1</bundle-plugin-version>
         <eclipse-plugin-version>2.8</eclipse-plugin-version>
         <enforcer-plugin-version>1.0-beta-1</enforcer-plugin-version>
-        <gmaven-version>1.2</gmaven-version>
+        <gmaven-version>1.4</gmaven-version>
         <jar-plugin-version>2.3.1</jar-plugin-version>
         <javadoc-plugin-version>2.8</javadoc-plugin-version>
         <jaxb-schemagen-plugin-version>1.2</jaxb-schemagen-plugin-version>
@@ -49,15 +49,15 @@
         <resources-plugin-version>2.4.3</resources-plugin-version>
         
         <!-- Dependency version properties -->
-        <activemq-version>5.5.1</activemq-version>
+        <activemq-version>5.6.0</activemq-version>
         <aspectj-version>1.6.2</aspectj-version>
         <camel-version>2.9.2</camel-version>
-        <commons-codec-version>1.5</commons-codec-version>
+        <commons-codec-version>1.6</commons-codec-version>
         <commons-collections-version>3.2.1</commons-collections-version>
         <commons-dbcp-version>1.4</commons-dbcp-version>
         <commons-fileupload-version>1.2.2</commons-fileupload-version>        
         <commons-httpclient-version>3.1</commons-httpclient-version>
-        <commons-io-version>2.3</commons-io-version>
+        <commons-io-version>2.4</commons-io-version>
         <commons-lang-version>3.1</commons-lang-version>
         <commons-logging-version>1.1.1</commons-logging-version>
         <commons-math-version>2.2</commons-math-version>
@@ -69,7 +69,7 @@
         <geronimo-spec-activation-11-version>1.1</geronimo-spec-activation-11-version>
         <geronimo-spec-jta-version>1.0.1B-rc4</geronimo-spec-jta-version>
         <geronimo-spec-servlet-api-30-version>1.0</geronimo-spec-servlet-api-30-version>
-        <groovy-version>1.7.9</groovy-version>
+        <groovy-version>2.0.1</groovy-version>
         <hapi-version>1.2</hapi-version>
         <hibernate-version>3.5.6-Final</hibernate-version>
         <hibernate-commons-annotations-version>3.2.0.Final</hibernate-commons-annotations-version>
@@ -82,12 +82,12 @@
         <junit-version>4.10</junit-version>
         <junitperf-version>1.8</junitperf-version>
         <log4j-version>1.2.17</log4j-version>
-        <lombok-version>0.11.0</lombok-version>
-        <mdht-version>0.7.0.201012100720</mdht-version>
-        <metabuilder-version>1.1.6</metabuilder-version>
+        <lombok-version>0.11.2</lombok-version>
+        <mdht-version>0.7.0.201012100720-p1</mdht-version>
+        <metabuilder-version>1.1.6-p2</metabuilder-version>
         <mina-version>1.1.7</mina-version>
-        <oht-atna-version>2.0-v20111211</oht-atna-version>
-        <oht-cdar-version>1.1.0</oht-cdar-version>
+        <oht-atna-version>2.0-v20120807</oht-atna-version>
+        <oht-cdar-version>1.1.0-p2</oht-cdar-version>
         <osgi-api-version>1.4.0</osgi-api-version>
         <quartz-version>1.8.6</quartz-version>
         <saxon-version>9.1.0.8</saxon-version>
@@ -145,7 +145,7 @@
         <developer>
             <id>mkolev</id>
             <name>Mitko Kolev</name>
-            <email>mitko.kolev@icw.de</email>
+            <email>me2stk@gmail.com</email>
             <organization>InterComponentWare AG</organization>
             <organizationUrl>http://www.icw-global.com/</organizationUrl>
             <roles>
@@ -340,8 +340,24 @@
             </dependency>
             <dependency>
                 <groupId>org.codehaus.groovy</groupId>
-                <artifactId>groovy-all</artifactId>
+                <artifactId>groovy</artifactId>
                 <version>${groovy-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.groovy</groupId>
+                <artifactId>groovy-templates</artifactId>
+                <version>${groovy-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.groovy</groupId>
+                <artifactId>groovy-xml</artifactId>
+                <version>${groovy-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.groovy</groupId>
+                <artifactId>groovy-test</artifactId>
+                <version>${groovy-version}</version>
+                <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.codehaus.groovy</groupId>
@@ -929,12 +945,12 @@
                     <artifactId>gmaven-plugin</artifactId>
                     <version>${gmaven-version}</version>
                     <configuration>
-                        <providerSelection>1.7</providerSelection>
+                        <providerSelection>2.0</providerSelection>
                     </configuration>
                     <dependencies>
                         <dependency>
                             <groupId>org.codehaus.gmaven.runtime</groupId>
-                            <artifactId>gmaven-runtime-1.7</artifactId>
+                            <artifactId>gmaven-runtime-2.0</artifactId>
                             <version>${gmaven-version}</version>
                             <exclusions>
                                 <exclusion>
@@ -945,7 +961,7 @@
                         </dependency>
                         <dependency>
                             <groupId>org.codehaus.groovy</groupId>
-                            <artifactId>groovy-all</artifactId>
+                            <artifactId>groovy</artifactId>
                             <version>${groovy-version}</version>
                         </dependency>
                     </dependencies>

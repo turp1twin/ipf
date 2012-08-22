@@ -47,7 +47,7 @@ public class Iti63AsyncResponseComponent extends AbstractWsComponent<WsTransacti
     @SuppressWarnings("unchecked") // Required because of base class
     @Override
     protected Endpoint createEndpoint(String uri, String remaining, Map parameters) throws Exception {
-        return new XdsAsyncResponseEndpoint(uri, remaining, this, getCustomInterceptors(parameters));
+        return new XdsAsyncResponseEndpoint(uri, remaining, this, getCustomInterceptors(parameters), getFeatures(parameters));
     }
 
     @Override
@@ -62,7 +62,7 @@ public class Iti63AsyncResponseComponent extends AbstractWsComponent<WsTransacti
 
     @Override
     public WsAuditStrategy getServerAuditStrategy(boolean allowIncompleteAudit) {
-        return new Iti63AuditStrategy(true, allowIncompleteAudit);
+        return new Iti63AuditStrategy(false, allowIncompleteAudit);
     }
 
     @Override

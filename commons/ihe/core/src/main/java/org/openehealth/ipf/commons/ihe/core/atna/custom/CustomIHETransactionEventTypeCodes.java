@@ -23,6 +23,12 @@ import org.openhealthtools.ihe.atna.auditor.models.rfc3881.CodedValueType;
  */
 public abstract class CustomIHETransactionEventTypeCodes extends CodedValueType {
 
+    public static final class MultiPatientQuery extends IHETransactionEventTypeCodes {
+        public MultiPatientQuery() {
+            super("ITI-51", "Multi-Patient Query");
+        }
+    }
+
     public static final class PatientLocationQuery extends IHETransactionEventTypeCodes {
         public PatientLocationQuery() {
             super("ITI-56", "Patient Location Query");
@@ -50,6 +56,18 @@ public abstract class CustomIHETransactionEventTypeCodes extends CodedValueType 
     public static final class NotifyXadPidLinkChange extends IHETransactionEventTypeCodes {
         public NotifyXadPidLinkChange() {
             super("ITI-64", "Notify XAD-PID Link Change");
+        }
+    }
+
+    public static final class RetrieveImagingDocumentSet extends IHETransactionEventTypeCodes {
+        public RetrieveImagingDocumentSet() {
+            super("RAD-69", "Retrieve Imaging Document Set");
+        }
+    }
+
+    public static final class CrossGatewayRetrieveImagingDocumentSet extends IHETransactionEventTypeCodes {
+        public CrossGatewayRetrieveImagingDocumentSet() {
+            super("RAD-75", "Cross Gateway Retrieve Imaging Document Set");
         }
     }
 

@@ -193,6 +193,45 @@ public class QuerySlotHelper {
         return values;
     }
 
+
+    /**
+     * Stores a list of patientIds into a slot.
+     * @param param
+     *          the parameter.
+     * @param values
+     *          the patientId list.
+     */
+    public void fromPatientIdList(QueryParameter param, List<Identifiable> values) {
+        if (values == null) {
+            return;
+        }
+
+        List<String> slotValues = new ArrayList<String>();
+        for (Identifiable value : values) {
+            slotValues.add(encodeAsStringList(Hl7v2Based.render(value)));
+        }
+        ebXML.addSlot(param.getSlotName(), slotValues.toArray(new String[slotValues.size()]));
+    }
+
+    /**
+     * Retrieves a list of strings from a slot.
+     * @param param
+     *          the parameter.
+     * @return the string list.
+     */
+    public List<Identifiable> toPatientIdList(QueryParameter param) {
+        List<String> values = toStringList(param);
+        if (values == null) {
+            return null;
+        }
+
+        List<Identifiable> patientIds = new ArrayList<Identifiable>();
+        for (String value : values) {
+            patientIds.add(Hl7v2Based.parse(value, Identifiable.class));
+        }
+        return patientIds;
+    }
+
     /**
      * Retrieves a list of codes from a slot.
      * @param param
@@ -357,7 +396,7 @@ public class QuerySlotHelper {
         return documentEntryTypes;
     }
 
-    private List<Code> toCode(List<String> slotValues) {
+    public static List<Code> toCode(List<String> slotValues) {
         if (slotValues.isEmpty()) {
             return null;
         }
@@ -375,14 +414,14 @@ public class QuerySlotHelper {
         return codes;
     }
     
-    private String encodeAsString(String value) {
+    public static String encodeAsString(String value) {
         if (value == null) {
             return null;
         }
         return "'" + value.replace("'", "''") + "'";
     }
 
-    private String decodeString(String value) {
+    public static String decodeString(String value) {
         if (value == null) {
             return null;
         }
@@ -393,14 +432,14 @@ public class QuerySlotHelper {
         return value.replaceAll("''", "'");
     }
 
-    private String encodeAsStringList(String value) {
+    public static String encodeAsStringList(String value) {
         if (value == null) {
             return null;
         }
         return "('" + value.replace("'", "''") + "')";
     }
 
-    private List<String> decodeStringList(String list) {
+    public static List<String> decodeStringList(String list) {
         if (list == null) {
             return null;
         }
