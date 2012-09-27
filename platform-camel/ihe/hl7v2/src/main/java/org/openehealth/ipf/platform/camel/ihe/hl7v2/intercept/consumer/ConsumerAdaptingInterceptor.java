@@ -17,6 +17,7 @@ package org.openehealth.ipf.platform.camel.ihe.hl7v2.intercept.consumer;
 
 import ca.uhn.hl7v2.model.Message;
 import org.apache.camel.Exchange;
+import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openehealth.ipf.modules.hl7.AckTypeCode;
@@ -79,8 +80,11 @@ public class ConsumerAdaptingInterceptor extends AbstractHl7v2Interceptor {
         // run the route
         try {
             getWrappedProcessor().process(exchange);
-            checkExchangeFailed(exchange, originalMessage);
-        } catch(Exception e) {
+            Exception exception = Exchanges.extractException(exchange);
+            if (exception != null) {
+                throw exception;
+            }
+        } catch (Exception e) {
             LOG.error("Message processing failed", e);
             resultMessage(exchange).setBody(getNakFactory().createNak(originalMessage, e));
         }
@@ -110,9 +114,9 @@ public class ConsumerAdaptingInterceptor extends AbstractHl7v2Interceptor {
 
         // unable to create a MessageAdaper :-(
         if(msg == null) {
-            String className = (body == null) ? "null" : body.getClass().getName();
             throw new Hl7v2AdaptingException("Cannot create HL7v2 message from " +
-                    className + " returned from the route");
+                    ClassUtils.getSimpleName(body, "<null>") +
+                    " returned from the route");
         }
         
         m.setBody(msg);
@@ -146,27 +150,5 @@ public class ConsumerAdaptingInterceptor extends AbstractHl7v2Interceptor {
         }
         return new MessageAdapter(ack);
     }
-    
-    
-    /**
-     * Checks whether the given exchange has failed.  
-     * If yes, substitutes the exception object with a HL7 NAK  
-     * and marks the exchange as successful. 
-     */
-    private void checkExchangeFailed(Exchange exchange, Message original) {
-        if (exchange.isFailed()) {
-            Throwable t; 
-            if(exchange.getException() != null) {
-                t = exchange.getException();
-                exchange.setException(null);
-            } else {
-                org.apache.camel.Message m = resultMessage(exchange);
-                t = m.getBody(Throwable.class);
-                m.setBody(null);
-            }
-            LOG.error("Message processing failed", t);
-            resultMessage(exchange).setBody(getNakFactory().createNak(original, t));
-        }
-    }
-    
+
 }
